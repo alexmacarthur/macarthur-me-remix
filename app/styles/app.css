@@ -1,0 +1,46 @@
+@import "./fonts.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gradient-angle: -5deg;
+}
+
+p,
+span,
+li,
+ol,
+ul,
+i,
+blockquote,
+h1,
+h2,
+h3,
+h4,
+h5 {
+  @apply text-gray-700 tracking-tight;
+  font-family: 'Public Sans', sans-serif;
+}
+
+.gradient-text {
+  padding-bottom: 1rem;
+  transition: background .15s ease-in-out;
+  background: linear-gradient(var(--gradient-angle), theme('colors.gray.500') 50%, theme('colors.gray.800') 50%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+
+  a {
+    @apply bg-purple-400;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    padding: 1px;
+
+    &:hover {
+      @apply bg-purple-500;
+    }
+  }
+}
