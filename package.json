@@ -8,7 +8,7 @@
     "build:remix": "remix build",
     "dev": "run-p dev:*",
     "dev:css": "npm run generate:css -- --watch",
-    "dev:remix": "cross-env NODE_ENV=development binode --require ./mocks -- @remix-run/dev:remix dev",
+    "dev:remix": "cross-env NODE_ENV=development binode -- @remix-run/dev:remix dev",
     "format": "prettier --write .",
     "generate:css": "tailwindcss -w -i ./app/styles/app.css -o ./app/styles/style.css",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
@@ -32,9 +32,17 @@
     "@remix-run/server-runtime": "^1.6.0",
     "bcryptjs": "^2.4.3",
     "bezier-easing": "^2.1.0",
+    "countup.js": "^2.2.0",
+    "glob": "^8.0.3",
+    "gray-matter": "^4.0.3",
+    "markdown-it": "^13.0.1",
+    "markdown-it-anchor": "^8.6.4",
+    "markdown-it-prism": "^2.2.4",
     "postcss-import": "^14.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "remark": "^14.0.2",
+    "strip-markdown": "^5.0.0",
     "tiny-invariant": "^1.2.0"
   },
   "devDependencies": {
@@ -56,7 +64,6 @@
     "binode": "^1.0.5",
     "c8": "^7.11.3",
     "cross-env": "^7.0.3",
-    "cypress": "^10.0.3",
     "eslint": "^8.17.0",
     "eslint-config-prettier": "^8.5.0",
     "happy-dom": "^5.2.0",
@@ -76,7 +83,7 @@
     "vitest": "^0.14.1"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=17"
   },
   "prisma": {
     "seed": "node --require tsconfig-paths/register prisma/seed.js"
