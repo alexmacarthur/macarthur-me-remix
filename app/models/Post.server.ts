@@ -14,7 +14,6 @@ interface PostContent {
   externalDomain: string,
   ogImage: string
 }
-
 class Post {
   filePath: string;
 
