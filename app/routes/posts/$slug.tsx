@@ -1,39 +1,27 @@
 import { json } from "@remix-run/node"; // or "@remix-run/cloudflare"
 import { useLoaderData } from "@remix-run/react";
+import { processMarkdown } from "~/markdown.server";
 import PageLayout from "../../components/PageLayout";
 import CMS from "../../services/cms.server";
 
 export const loader = async ({ params }) => {
   const { slug } = params;
-  const posts = await CMS.getPosts();
+  const { post, markdown } = await CMS.getPost(slug);
 
-  console.log(posts);
+  const markup = processMarkdown(markdown);
 
-  return json({ slug, posts });
-
-  // const files = findFiles(`*${slug}`).filter((file) => {
-  //   return file.endsWith(slug) || file.endsWith("index.md");
-  // });
-
-  // if (!files.length) {
-  //   throw new Error("404!");
-  // }
-
-  // const file = findRootFile(files[0]);
-  // const post = new Post(file);
-
-  // return json({ slug, file, content: post.getContent() });
+  return json({ slug, markup, post });
 };
 
 export default () => {
   const data = useLoaderData();
 
-  // const { content, date, title, subTitle, lastUpdated } = data.content;
+  const { markup, post } = data;
+  const { openGraphImage } = post;
 
   return (
     <PageLayout>
-
-      { JSON.stringify(data)}
+      here: {openGraphImage}
       <>
         {/* <Title
           date={date}
@@ -49,6 +37,11 @@ export default () => {
           className="post-content prose md:prose-lg mx-auto max-w-none"
           dangerouslySetInnerHTML={{ __html: content }}
         ></div> */}
+
+         <div
+          className="post-content prose md:prose-lg mx-auto max-w-none"
+          dangerouslySetInnerHTML={{ __html: markup }}
+        ></div>
       </>
     </PageLayout>
   );

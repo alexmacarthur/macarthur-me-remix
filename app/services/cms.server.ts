@@ -1,16 +1,29 @@
 import { Client } from "@notionhq/client";
-import {NotionToMarkdown} from "notion-to-md";
+import { NotionToMarkdown } from "notion-to-md";
 
 interface BlogPost {
-
+  id: string,
+  title: string,
+  date: string,
+  lastUpdate?: string,
+  externalUrl?: string,
+  slug: string
+  openGraphImage?: string
 }
 
-interface Post {
+interface Post {}
 
+type PropertyTypes = `title` | `rich_text` | `date`;
+
+interface NotionProperties {
+  [k: string]: {
+    property: any,
+    type: PropertyTypes
+  }
 }
 
 class NotionService {
-  client: Client
+  client: Client;
   n2m: NotionToMarkdown;
 
   constructor() {
@@ -19,99 +32,149 @@ class NotionService {
   }
 
   async getSingleBlogPost(slug: string): Promise<Post> {
-    let post, markdown
+    let post, markdown;
 
-    const database = process.env.NOTION_DATABASE_ID ?? '';
+    const database = process.env.NOTION_DATABASE_ID ?? "";
 
     const response = await this.client.databases.query({
-        database_id: database,
-        filter: {
-          property: 'Slug',
-          rich_text: {
-            equals: slug
-          }
+      database_id: database,
+      filter: {
+        property: "Slug",
+        rich_text: {
+          equals: slug,
         },
-        // sorts: [
-        //   {
-        //     property: 'Updated',
-        //     direction: 'descending'
-        //   }
-        // ]
+      },
+      sorts: [
+        {
+          property: "Date",
+          direction: "descending",
+        },
+      ],
     });
 
-    console.log(response)
-
     if (!response.results[0]) {
-        throw 'No results available'
+      throw "Post not found!";
     }
 
-    // grab page from notion
     const page = response.results[0];
-
-    const mdBlocks = await this.n2m.pageToMarkdown(page.id)
+    const mdBlocks = await this.n2m.pageToMarkdown(page.id);
     markdown = this.n2m.toMarkdownString(mdBlocks);
-    post = NotionService.pageToPostTransformer(page);
+    post = await this.pageToPostTransformer(page);
 
     return {
-        post,
-        markdown
-    }
+      post,
+      markdown,
+    };
   }
 
   async getPublishedBlogPosts(): Promise<BlogPost[]> {
-    const database = process.env.NOTION_DATABASE_ID ?? '';
+    const database = process.env.NOTION_DATABASE_ID ?? "";
 
     const response = await this.client.databases.query({
-        database_id: database,
-        filter: {
-            property: 'Published',
-            checkbox: {
-              equals: true
-            }
+      database_id: database,
+      filter: {
+        property: "Published",
+        checkbox: {
+          equals: true,
         },
-        // sorts: [
-        //     {
-        //         property: 'Updated',
-        //         direction: 'descending'
-        //     }
-        // ]
+      },
+      sorts: [
+        {
+          property: "Date",
+          direction: "descending",
+        },
+      ],
     });
 
-    return response.results.map(res => {
-        return NotionService.pageToPostTransformer(res);
-    })
+    const posts = response.results.map((res) => this.pageToPostTransformer(res));
+
+    return Promise.all(posts);
   }
 
-    private static pageToPostTransformer(page: any): BlogPost {
-      let cover = page.cover;
-      switch (cover) {
-          case 'file':
-              cover = page.cover.file
-              break;
-          case 'external':
-              cover = page.cover.external.url;
-              break;
-          default:
-              cover = ''
-      }
+  private async pageToPostTransformer(page: any): Promise<BlogPost> {
+    let cover = page.cover;
+    switch (cover.type) {
+      case "file":
+        cover = page.cover.file;
+        break;
+      case "external":
+        cover = page.cover.external.url;
+        break;
+      default:
+        cover = "";
+    }
 
-      return {
-          id: page.id,
-          // cover: cover,
-          // title: page.properties.Name.title[0].plain_text,
-          // tags: page.properties.Tags.multi_select,
-          // description: page.properties.Description.rich_text[0].plain_text,
-          // date: page.properties.Updated.last_edited_time,
-          // slug: page.properties.Slug.formula.string
+    const properties: NotionProperties = {
+      title: {
+        property: page.properties.Name,
+        type: 'title'
+      },
+      date: {
+        property: page.properties.Date,
+        type: 'date'
+      },
+      lastUpdated: {
+        property: page.properties['Last Updated'],
+        type: 'date',
+      },
+      externalUrl: {
+        property: page.properties['External URL'],
+        type: 'rich_text'
+      },
+      slug: {
+        property: page.properties.Slug,
+        type: 'rich_text'
       }
+    };
+
+    const postProperties = {
+      title: "",
+      date: "",
+      lastUpdate: "",
+      externalUr: "",
+      slug: ""
+    }
+
+    const promises = Object.entries(properties).map(async ([name, value]) => {
+      const { property, type } = value;
+
+      return new Promise(async (resolve): Promise<any> => {
+        const response = await this.client.pages.properties.retrieve({ page_id: page.id, property_id:  property.id });
+
+        if(response.type === "date") {
+          postProperties[name] = response.date?.start;
+          return resolve(properties[name]);
+        }
+
+        const result = response['results'][0];
+        postProperties[name] = result?.[type]?.plain_text;
+        return resolve(postProperties[name]);
+      });
+    });
+
+    await Promise.all(promises);
+
+    return {
+      id: page.id,
+      openGraphImage: cover,
+      ...postProperties
+    };
   }
 }
 
 class CMS {
-  getPosts() {
-    const notionService = new NotionService();
+  provider;
 
-    return notionService.getSingleBlogPost("test-post");
+  constructor() {
+    this.provider = new NotionService();
+  }
+
+  getPosts() {
+    return this.provider.getSingleBlogPost("test-post");
+  }
+
+  getPost(slug: string) {
+    return this.provider.getSingleBlogPost(slug);
   }
 }
 

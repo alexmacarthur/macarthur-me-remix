@@ -88,7 +88,7 @@ const markdown = markdownIt({
 //   });
 // };
 
-export function processMarkdown(rawMarkdown: string, slug: string) {
+export function processMarkdown(rawMarkdown: string) {
   // const markdownObj = customizeMarkdown(
   //   markdown.use(markdownPrism).use(markdownAnchor),
   //   slug
