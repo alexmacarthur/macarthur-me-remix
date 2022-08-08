@@ -50,7 +50,6 @@ const Logo = ({
   short = false,
   children = null,
 }: LogoProps): ReactElement => {
-  // const router = useRouter();
   const defaultLogoText: string = short ? "AM" : "Alex MacArthur";
 
   useEffect(() => {
@@ -59,7 +58,7 @@ const Logo = ({
     }
 
     let rafId: number = 0;
-    let startTime: number = null;
+    let startTime: number | null = null;
     const startingAngle = getCurrentAngle();
     const range = selectRange(startingAngle);
     let destinationAngle: number = randomInRange(range[0], range[1]);

@@ -4,24 +4,26 @@ import { processMarkdown } from "~/markdown.server";
 import PageLayout from "../../components/PageLayout";
 import CMS from "../../services/cms.server";
 
-export const loader = async ({ params }) => {
+export const loader = async ({ params, request}) => {
   const { slug } = params;
+
   const { post, markdown } = await CMS.getPost(slug);
 
   const markup = processMarkdown(markdown);
 
-  return json({ slug, markup, post });
+  return json({ slug, markup, post, url: request.url });
 };
 
 export default () => {
   const data = useLoaderData();
 
-  const { markup, post } = data;
+  const { markup, post, slug, url } = data;
   const { openGraphImage } = post;
 
   return (
     <PageLayout>
       here: {openGraphImage}
+      page: {slug}
       <>
         {/* <Title
           date={date}
