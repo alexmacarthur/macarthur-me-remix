@@ -1,5 +1,6 @@
 import { Client } from "@notionhq/client";
 import { NotionToMarkdown } from "notion-to-md";
+import { POSTS_PER_PAGE } from "~/constants";
 
 class NotionService {
   client: Client;
@@ -10,13 +11,17 @@ class NotionService {
     this.n2m = new NotionToMarkdown({ notionClient: this.client });
   }
 
-  async getSingleBlogPost(slug: string): Promise<BlogPost> {
+  async getSingleBlogPost(slug: string): Promise<{
+    post: BlogPost,
+    markdown: string
+  }> {
     let post, markdown;
 
     const database = process.env.NOTION_DATABASE_ID ?? "";
 
     const response = await this.client.databases.query({
       database_id: database,
+      page_size: 1,
       filter: {
         property: "Slug",
         rich_text: {
@@ -46,11 +51,16 @@ class NotionService {
     };
   }
 
-  async getPublishedBlogPosts(): Promise<BlogPost[]> {
+  async getPublishedBlogPosts(start_cursor?: string): Promise<{
+    posts: BlogPost[],
+    next_cursor: string | null
+  }> {
     const database = process.env.NOTION_DATABASE_ID ?? "";
 
     const response = await this.client.databases.query({
       database_id: database,
+      page_size: POSTS_PER_PAGE,
+      start_cursor,
       filter: {
         property: "Published",
         checkbox: {
@@ -65,14 +75,19 @@ class NotionService {
       ],
     });
 
-    const posts = response.results.map((res) => this.pageToPostTransformer(res));
+    const { next_cursor } = response;
+    const posts = await Promise.all(response.results.map((res) => this.pageToPostTransformer(res)));
 
-    return Promise.all(posts);
+    return {
+      posts,
+      next_cursor,
+    }
   }
 
   private async pageToPostTransformer(page: any): Promise<BlogPost> {
     let cover = page.cover;
-    switch (cover.type) {
+
+    switch (cover?.type) {
       case "file":
         cover = page.cover.file;
         break;
