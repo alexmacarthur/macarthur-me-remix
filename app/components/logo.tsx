@@ -1,6 +1,7 @@
 import { ReactElement, useEffect } from "react";
 import BezierEasing from "bezier-easing";
 import { prefersReducedMotion, randomInRange } from "~/utils";
+import { Link } from "@remix-run/react";
 
 /**
  * Get the current custom property value for the gradient angle.
@@ -113,18 +114,9 @@ const Logo = ({
   );
 
   const constructedLogo = asLink ? (
-    <a
-      href={"/"}
-      className="outline-none"
-      onClick={(e) => {
-        e.preventDefault();
-
-        console.log("click");
-        // router.push("/");
-      }}
-    >
+    <Link to="/" className="outline-none">
       {styledChildren}
-    </a>
+    </Link>
   ) : (
     styledChildren
   );

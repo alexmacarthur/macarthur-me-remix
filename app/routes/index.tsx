@@ -1,12 +1,12 @@
-import { Link } from "@remix-run/react";
-import Logo from "../components/logo";
-
-import { useOptionalUser } from "~/utils";
+// import { Link } from "@remix-run/react";
+import Nav from "~/components/Nav";
+import Logo from "../components/Logo";
 
 export default function Index() {
-  const user = useOptionalUser();
-
   return (
+    <>
+    <Nav />
+
     <main className="flex w-screen justify-center p-4 md:p-6">
       <div className="text-white">
         <div className="mb-4 flex max-w-5xl flex-col justify-center pt-12 pb-8 lg:pt-20 lg:pb-10">
@@ -21,12 +21,12 @@ export default function Index() {
             {/* <SocialLinks /> */}
           </div>
         </div>
-
+{/*
         <div className="mb-10 max-w-5xl">
           <h2 className="mb-6 text-2xl font-bold">Featured Blog Posts</h2>
 
           <ul className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {/* {featuredPosts.map((post) => {
+            {featuredPosts.map((post) => {
               const { title, views, date, slug } = post;
               const postPath = `/posts/${slug}`;
 
@@ -58,11 +58,11 @@ export default function Index() {
                   </div>
                 </li>
               );
-            })} */}
+            })}
           </ul>
 
           <div className="mt-4 flex justify-end">
-            {/* <Button
+            <Button
               naked={true}
               small={true}
               href="/posts"
@@ -70,10 +70,11 @@ export default function Index() {
               inheritColor={true}
             >
               View All
-            </Button> */}
+            </Button>
           </div>
-        </div>
+        </div> */}
       </div>
     </main>
+    </>
   );
 }

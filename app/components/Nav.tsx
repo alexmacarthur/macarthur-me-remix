@@ -1,7 +1,8 @@
 import Logo from "./Logo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MenuToggle from "./MenuToggle";
-import { Link, useLoaderData, useMatches } from "@remix-run/react";
+import { Link, useLocation, } from "@remix-run/react";
+import { useRequestPath } from "~/utils";
 
 const navItems = [
   {
@@ -27,29 +28,16 @@ const navItems = [
 ];
 
 const Nav = ({ isAbsolute = false }) => {
-  const { url } = useLoaderData();
+  const requestPath = useRequestPath();
+  const location = useLocation();
 
-  const matches = useMatches();
-
-  console.log(matches);
-
-  // const router = useRouter();
   const [shouldHideLogo, setShouldHideLogo] = useState(() => {
-    return true;
-    // return router.route === "/";
+    return location.pathname === "/";
   });
 
-  // useEffect(() => {
-  //   const handleRouteChange = (url) => {
-  //     setShouldHideLogo(url === "/");
-  //   };
-
-  //   router.events.on("routeChangeComplete", handleRouteChange);
-
-  //   return () => {
-  //     router.events.off("routeChangeComplete", handleRouteChange);
-  //   };
-  // }, []);
+  useEffect(() => {
+    setShouldHideLogo(location.pathname === "/");
+  }, [requestPath]);
 
   const positionClass = isAbsolute ? "absolute" : "relative";
 
@@ -57,7 +45,6 @@ const Nav = ({ isAbsolute = false }) => {
     <nav
       className={`z-10 py-10 px-4 md:px-8 w-full font-bold flex items-center justify-between nav ${positionClass}`}
     >
-      {url}
       <input
         type="checkbox"
         id="menuToggle"
@@ -132,10 +119,8 @@ const Nav = ({ isAbsolute = false }) => {
                   className="text-6xl lg:text-xl font-bold lg:font-light text-white lg:text-gray-500 hover:text-white lg:hover:text-gray-900 lg:font-200"
                   key={item.link}
                 >
-                  <Link to={item.link}>
-                    <a className="py-2 border-b-4 border-transparent hover:border-gray-200">
-                      {item.name}
-                    </a>
+                  <Link to={item.link} className="py-2 border-b-4 border-transparent hover:border-gray-200">
+                    {item.name}
                   </Link>
                 </li>
               );

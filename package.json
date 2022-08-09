@@ -10,7 +10,7 @@
     "dev:css": "npm run generate:css -- --watch",
     "dev:remix": "cross-env NODE_ENV=development binode -- @remix-run/dev:remix dev",
     "format": "prettier --write .",
-    "generate:css": "tailwindcss -w -i ./app/styles/app.css -o ./app/styles/style.css",
+    "generate:css": "tailwindcss -w -i ./app/styles/app.css -o ./app/styles/style.css --postcss",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "setup": "prisma migrate dev && prisma db seed",
     "start": "remix-serve build",

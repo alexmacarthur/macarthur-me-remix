@@ -1249,20 +1249,47 @@ h5 {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
-  a {
-    --tw-bg-opacity: 1;
-    background-color: rgb(192 132 252 / var(--tw-bg-opacity));
-  }
-  a {
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    -webkit-background-clip: text;
-    padding: 1px;
-    &:hover {
-      --tw-bg-opacity: 1;
-      background-color: rgb(168 85 247 / var(--tw-bg-opacity));
-    }
-  }
+}
+
+.gradient-text a {
+  --tw-bg-opacity: 1;
+  background-color: rgb(192 132 252 / var(--tw-bg-opacity));
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  padding: 1px;
+}
+
+.gradient-text a:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(168 85 247 / var(--tw-bg-opacity));
+}
+
+.nav input:checked ~ .nav-menu-wrapper .nav-menu-items {
+  visibility: visible;
+  opacity: 1;
+}
+
+.nav input:checked ~ .nav-menu-wrapper .nav-menu-items ul {
+  --tw-translate-x: 0px;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.nav input:checked ~ .nav-menu-wrapper .nav-menu-label .menu-bar {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.nav input:checked ~ .nav-menu-wrapper .nav-menu-label .menu-bar-1 {
+  transform: translate3d(0, 1rem, 0) rotate(-45deg);
+}
+
+.nav input:checked ~ .nav-menu-wrapper .nav-menu-label .menu-bar-2 {
+  opacity: 0;
+}
+
+.nav input:checked ~ .nav-menu-wrapper .nav-menu-label .menu-bar-3 {
+  transform: translate3d(0, -1rem, 0) rotate(45deg);
 }
 
 .hover\:border-gray-200:hover {
