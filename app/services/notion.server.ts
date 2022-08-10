@@ -53,14 +53,15 @@ class NotionService {
 
   async getPublishedBlogPosts(start_cursor?: string): Promise<{
     posts: BlogPost[],
-    next_cursor: string | null
+    nextCursor: string | null
+    hasMore,
   }> {
     const database = process.env.NOTION_DATABASE_ID ?? "";
 
     const response = await this.client.databases.query({
       database_id: database,
       page_size: POSTS_PER_PAGE,
-      start_cursor,
+      start_cursor: start_cursor || undefined,
       filter: {
         property: "Published",
         checkbox: {
@@ -75,12 +76,13 @@ class NotionService {
       ],
     });
 
-    const { next_cursor } = response;
+    const { next_cursor, has_more } = response;
     const posts = await Promise.all(response.results.map((res) => this.pageToPostTransformer(res)));
 
     return {
       posts,
-      next_cursor,
+      nextCursor: next_cursor,
+      hasMore: has_more
     }
   }
 

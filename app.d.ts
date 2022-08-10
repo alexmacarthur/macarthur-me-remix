@@ -16,3 +16,10 @@ interface NotionProperties {
     type: PropertyTypes
   }
 }
+interface PaginationProps {
+  hasMore: boolean,
+  hasPrevious: boolean,
+  nextPage: number,
+  previousPage: number,
+  currentPage: number
+}

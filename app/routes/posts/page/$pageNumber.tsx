@@ -1,29 +1,16 @@
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import CMS from "../../../services/cms.server"
+import { redirect, TypedResponse } from "@remix-run/node";
+import PostList from "~/components/PostList";
+import usePaginatedPosts, { LoaderProps } from "~/hooks/usePaginatedPosts";
 
-export const loader = async ({ params }) => {
-  const { pageNumber } = params;
+export const loader = async ({ params }): Promise<TypedResponse<LoaderProps>> => {
+  const pageNumber = Number(params.pageNumber);
 
-  return json({
-    posts: await CMS.getPosts(pageNumber)
-  })
-};
+  if(pageNumber === 1) {
+    // For the first page, don't bother showing any pagination.
+    return redirect("/posts");
+  }
 
-export default () => {
-  const { posts } = useLoaderData();
-
-  return (
-    <div>
-      hello?
-
-      {posts.map(post => {
-        return <li>
-
-          { post.title }
-
-        </li>
-      })}
-    </div>
-  )
+  return usePaginatedPosts({ params });
 }
+
+export default PostList;
