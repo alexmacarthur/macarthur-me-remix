@@ -2,9 +2,12 @@ interface BlogPost {
   id: string,
   title: string,
   date: string,
-  lastUpdate?: string,
+  lastUpdated?: string,
   externalUrl?: string,
-  slug: string
+  externalHost?: string,
+  slug: string,
+  excerpt: string,
+  views: string,
   openGraphImage?: string
 }
 

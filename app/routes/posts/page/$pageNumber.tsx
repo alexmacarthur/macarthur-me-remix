@@ -1,8 +1,8 @@
 import { redirect, TypedResponse } from "@remix-run/node";
 import PostList from "~/components/PostList";
-import usePaginatedPosts, { LoaderProps } from "~/hooks/usePaginatedPosts";
+import usePaginatedPosts, { PaginatedLoaderProps } from "~/hooks/usePaginatedPosts";
 
-export const loader = async ({ params }): Promise<TypedResponse<LoaderProps>> => {
+export const loader = async ({ params }): Promise<TypedResponse<PaginatedLoaderProps>> => {
   const pageNumber = Number(params.pageNumber);
 
   if(pageNumber === 1) {

@@ -1,4 +1,3 @@
-// import Link from "next/link";
 import { Link } from "@remix-run/react";
 import { forwardRef } from "react";
 import Arrow from "./IconArrow";
@@ -6,7 +5,7 @@ import ExternalIcon from "./IconExternal";
 
 const Button = ({
   children,
-  href = "",
+  to = "",
   small = false,
   classes = "",
   pointLeft = false,
@@ -34,10 +33,10 @@ const Button = ({
 
   const ButtonLink = forwardRef(() => {
     return (
-      <a
+      <Link
         {...otherProps}
         className={defaultClasses + buttonColors + buttonPadding + classes}
-        href={href}
+        to={to}
       >
         {children}
 
@@ -48,18 +47,9 @@ const Button = ({
             className={`block ${iconMargin} ${iconDimensions} ${iconRotation}`}
           />
         )}
-      </a>
-    );
-  });
-
-  // Wrap in special, magic link component.
-  if (internal) {
-    return (
-      <Link to={href}>
-        <ButtonLink />
       </Link>
     );
-  }
+  });
 
   return <ButtonLink />;
 };
