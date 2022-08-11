@@ -41,14 +41,18 @@ class NotionService {
     }
 
     const page = response.results[0];
-    const mdBlocks = await this.n2m.pageToMarkdown(page.id);
-    markdown = this.n2m.toMarkdownString(mdBlocks);
     post = await this.pageToPostTransformer(page);
 
     return {
       post,
-      markdown,
+      markdown: await this.getMarkdown(page.id),
     };
+  }
+
+  async getMarkdown(pageId: string) {
+    const mdBlocks = await this.n2m.pageToMarkdown(pageId);
+
+    return this.n2m.toMarkdownString(mdBlocks);
   }
 
   async getPublishedBlogPosts(start_cursor?: string): Promise<{
@@ -152,6 +156,9 @@ class NotionService {
 
     return {
       id: page.id,
+      excerpt: "",
+      markdown: await this.getMarkdown(page.id),
+      views: "",
       openGraphImage: cover,
       ...postProperties
     };

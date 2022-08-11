@@ -8,6 +8,7 @@ interface BlogPost {
   slug: string,
   excerpt: string,
   views: string,
+  markdown: string;
   openGraphImage?: string
 }
 

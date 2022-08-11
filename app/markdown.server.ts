@@ -1,6 +1,5 @@
 import { remark } from "remark";
 import strip from "strip-markdown";
-// import allImageData from "./image-data.json";
 import markdownPrism from "markdown-it-prism";
 import markdownAnchor from "markdown-it-anchor";
 import markdownIt from "markdown-it";
@@ -89,11 +88,6 @@ const markdown = markdownIt({
 // };
 
 export function processMarkdown(rawMarkdown: string) {
-  // const markdownObj = customizeMarkdown(
-  //   markdown.use(markdownPrism).use(markdownAnchor),
-  //   slug
-  // );
-
   return markdown.use(markdownPrism).use(markdownAnchor).render(rawMarkdown);
 }
 

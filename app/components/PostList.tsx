@@ -1,7 +1,9 @@
 import { Link, useLoaderData } from "@remix-run/react";
 import { PaginatedLoaderProps } from "~/hooks/usePaginatedPosts";
 import Button from "./Button";
+import Container from "./Container";
 import DateFormatter from "./DateFormatter";
+import PageLayout from "./PageLayout";
 import Pagination from "./Pagination";
 import ViewCount from "./ViewCount";
 
@@ -9,7 +11,7 @@ export default () => {
   const { posts, hasMore, previousPage, nextPage, currentPage, hasPrevious } = useLoaderData<PaginatedLoaderProps>();
 
   return (
-      <div>
+    <PageLayout narrow={true}>
         <ul className="space-y-10">
           {posts.map((post) => {
             const { externalUrl, externalHost } = post;
@@ -73,6 +75,6 @@ export default () => {
           previousPage={previousPage}
           currentPage={currentPage}
         />
-      </div>
+      </PageLayout>
     );
 }
