@@ -1,6 +1,6 @@
 ---
 title: Writing a Regular Expression to Target Images Without a Class
-ogImage: 'https://images.unsplash.com/photo-1497796742626-fe30f204ec54?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1200&q=100'
+ogImage: "https://images.unsplash.com/photo-1497796742626-fe30f204ec54?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1200&q=100"
 ---
 
 A while back, [I wrote about](https://macarthur.me/posts/build-your-own-simple-lazy-loading-functionality-in-wordpress) building your own lazy loading functionality into WordPress. In that post, I use a regular expression to add a `lazy-load` class to image tags that don't already have _any_ class.
@@ -9,7 +9,7 @@ It failed. Rather than adding it to images with no preexisting class, it was add
 
 ```html
 <!--- This is bad. --->
-<img class="lazy-load" class="my-class" src="/img/path.jpg">
+<img class="lazy-load" class="my-class" src="/img/path.jpg" />
 ```
 
 Thankfully, a couple of readers caught the issue, sending me back to the regex drawing board, and causing me to feel a little deserved shame for blindly borrowing that initial expression from deep within the crevices of the internet.
@@ -33,13 +33,12 @@ Let's toy with my initial expression. Take note of the first matching group: `(.
 Here's my string:
 
 ```html
-<img class="my-class" src="/img/path.jpg">
+<img class="my-class" src="/img/path.jpg" />
 ```
 
 To start, the pattern matches the point immediately following `<img` in any image tag, since the next immediate character is _not_ the initial boundary for the word "class," but instead a space. Remember, the `(.*?)` group doesn't require a match to have any length, so we get something like this:
 
 ![The resulting match set of my expression.](./screen1.jpg)
-
 
 ![For each matching group in my expression, I find in a match in my string.](./screen2.jpg)
 
@@ -50,7 +49,7 @@ And because of this result, here's how the string is processed by `preg_replace(
 <img [MATCH\][/MATCH] class="my-class" src="/img/path.jpg">
 
 <!-- After: TWO class attributes!= -->
-<img class="lazy-load" class="my-class" src="/img/path.jpg">
+<img class="lazy-load" class="my-class" src="/img/path.jpg" />
 ```
 
 Swapping attributes makes no difference -- there will always be a zero-length match after `<img`, since a space (and not a the beginning of the word "class") always follows it. The `lazy-load` is always going to be added to that match, even when we don't want it.
@@ -60,7 +59,7 @@ Swapping attributes makes no difference -- there will always be a zero-length ma
 <img\[MATCH\][/MATCH] src="/img/path.jpg" class="my-class">
 
 <!-- After -->
-<img class="lazy-load" src="/img/path.jpg" class="my-class">
+<img class="lazy-load" src="/img/path.jpg" class="my-class" />
 ```
 
 Unfortunately, adding an explicit space after `<img` to our pattern does nothing, because there's guaranteed to always be at least one point at least zero characters long that meets the conditions of the expression.
@@ -78,7 +77,7 @@ $content = preg_replace(
 <img \[MATCH\][/MATCH]src="/img/path.jpg" class="my-class">
 
 <!-- After: FAIL -->
-<img class="lazy-load"src="/img/path.jpg" class="my-class">
+<img class="lazy-load" src="/img/path.jpg" class="my-class" />
 ```
 
 Or, with attributes reversed:
@@ -88,7 +87,7 @@ Or, with attributes reversed:
 <img [MATCH]c[/MATCH]lass="my-class" src="/img/path.jpg">
 
 <!-- After: FAIL -->
-<img cclass="lazy-load"lass="my-class" src="/img/path.jpg">
+<img cclass="lazy-load" lass="my-class" src="/img/path.jpg" />
 ```
 
 This is where it made sense to experiment with the `+` quantifier, which, unlike the `*` quantifier, requires a match of _at least one character_. But yet again, that doesn't help us much, because a match is nearly guaranteed to be found when progressing through each individual character of a string.
@@ -108,7 +107,7 @@ Similar markup, but shaken up attributes:
 <img[MATCH]s[/MATCH]rc="/img/path.jpg" class="my-class">
 
 <!-- After: FAIL -->
-<imgs sclass="lazy-load"rc="/img/path.jpg" class="my-class">
+<imgs sclass="lazy-load" rc="/img/path.jpg" class="my-class"></imgs>
 ```
 
 #### What Worked
@@ -123,12 +122,12 @@ Let's take this real slow and piece it together from scratch.
 
 First, I knew I wanted to target `img` tags, which have an opening `<img`, followed by attributes and stuff (like a `src`, duh), and a closing bracket with an optional slash. Here are the components I started with:
 
-Part | What It Matches
------- | -----------------------------------
-`<img` | opening of the image tag
-`(.*)` | any set of characters at any length
-`\/?`  | an optional slash closing the tag
-`>`    | a closing bracket
+| Part   | What It Matches                     |
+| ------ | ----------------------------------- |
+| `<img` | opening of the image tag            |
+| `(.*)` | any set of characters at any length |
+| `\/?`  | an optional slash closing the tag   |
+| `>`    | a closing bracket                   |
 
 ```
 /<img(.*)\/?>/
@@ -146,12 +145,12 @@ And I know that within that shell, I'm just fine with matching anything -- UNLES
 
 Here are our updated components:
 
-part   | what it matches
------- | -----------------------------------
-`<img` | opening of the image tag
-`((.(?!class=))*)` | any set of characters at any length that are NOT followed by `class=`
-`\/?`  | an optional slash closing the tag
-`>`    | a closing bracket
+| part               | what it matches                                                       |
+| ------------------ | --------------------------------------------------------------------- |
+| `<img`             | opening of the image tag                                              |
+| `((.(?!class=))*)` | any set of characters at any length that are NOT followed by `class=` |
+| `\/?`              | an optional slash closing the tag                                     |
+| `>`                | a closing bracket                                                     |
 
 Here's what we get for matches when we run it against our string:
 

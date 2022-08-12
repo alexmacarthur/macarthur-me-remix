@@ -4,9 +4,6 @@ import Logo from "../components/Logo";
 
 export default function Index() {
   return (
-    <>
-    <Nav />
-
     <main className="flex w-screen justify-center p-4 md:p-6">
       <div className="text-white">
         <div className="mb-4 flex max-w-5xl flex-col justify-center pt-12 pb-8 lg:pt-20 lg:pb-10">
@@ -17,11 +14,9 @@ export default function Index() {
             A web developer who's prone to solving problems with JavaScript,
             PHP, and Ruby.
           </span>
-          <div className="mt-4 mb-20">
-            {/* <SocialLinks /> */}
-          </div>
+          <div className="mt-4 mb-20">{/* <SocialLinks /> */}</div>
         </div>
-{/*
+        {/*
         <div className="mb-10 max-w-5xl">
           <h2 className="mb-6 text-2xl font-bold">Featured Blog Posts</h2>
 
@@ -75,6 +70,5 @@ export default function Index() {
         </div> */}
       </div>
     </main>
-    </>
   );
 }

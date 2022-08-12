@@ -1,94 +1,39 @@
 import { remark } from "remark";
+import { bundleMDX } from "mdx-bundler";
 import strip from "strip-markdown";
-import markdownPrism from "markdown-it-prism";
-import markdownAnchor from "markdown-it-anchor";
-import markdownIt from "markdown-it";
+import path from "path";
+import { getMarkdownPlugins } from "~/shared";
 
-const markdown = markdownIt({
-  html: true,
-});
+if (process.platform === "win32") {
+  process.env.ESBUILD_BINARY_PATH = path.join(
+    process.cwd(),
+    "node_modules",
+    "esbuild",
+    "esbuild.exe"
+  );
+} else {
+  process.env.ESBUILD_BINARY_PATH = path.join(
+    process.cwd(),
+    "node_modules",
+    "esbuild",
+    "bin",
+    "esbuild"
+  );
+}
 
-// const customizeMarkdown = (markdownObj, slug) => {
-//   const postImageData = allImageData[slug];
+export async function processMarkdown(rawMarkdown: string): Promise<{
+  code: string;
+  frontmatter: any;
+}> {
+  const [remarkPlugins, rehypePlugins] = await getMarkdownPlugins();
 
-//   return markdownObj.use((md, config) => {
-
-//     md.renderer.rules.image = function (tokens, idx, options, env, slf) {
-//       config = config || {};
-//       const token = tokens[idx];
-
-//       // Copied from the source in order to ensure alt tags are rendered.
-//       // https://github.com/markdown-it/markdown-it/blob/e07a9ddeee192ad099ed1dd7e6d1960fd5aa8d05/lib/renderer.js#L93
-//       token.attrs[token.attrIndex("alt")][1] = slf.renderInlineAsText(
-//         token.children,
-//         options,
-//         env
-//       );
-
-//       const attributesToRender = token.attrs.filter((a) => a[0] !== "src");
-//       const imageSourceIndex = token.attrIndex("src");
-//       let src = token.attrs[imageSourceIndex][1];
-//       let height, width;
-//       const absoluteRegex = new RegExp("^(http(s?)://)");
-
-//       if (!src.match(absoluteRegex)) {
-//         const cleanedSrc = src.replace(/^\.\//, "");
-
-//         const { width: imgWidth, height: imgHeight } =
-//           postImageData[cleanedSrc];
-
-//         width = imgWidth;
-//         height = imgHeight;
-//         src = `/post-images/${slug}/${cleanedSrc}`;
-//       }
-
-//       return `<img
-//         data-lazy-src="${src}"
-//         width="${width}"
-//         height="${height}"
-//         ${attributesToRender.reduce((acc, [name, value]) => {
-//           return acc + `${name}="${value}"`;
-//         }, "")}
-//         class="transition-all mx-auto block opacity-0" />`;
-//     };
-
-//     // Make headings anchorable:
-//     md.renderer.rules.heading_open = function (tokens, idx) {
-//       const token = tokens[idx];
-//       const idIndex = token.attrIndex("id");
-//       const id = token.attrs[idIndex][1];
-//       return `<${token.tag}><a href="#${id}">`;
-//     };
-
-//     md.renderer.rules.heading_close = function (tokens, idx) {
-//       const token = tokens[idx];
-//       return `</a></${token.tag}>`;
-//     };
-
-//     // Open links in new tab:
-
-//     const defaultRender =
-//       md.renderer.rules.link_open ||
-//       function (tokens, idx, options, env, self) {
-//         return self.renderToken(tokens, idx, options);
-//       };
-
-//     md.renderer.rules.link_open = function (tokens, idx, options, env, self) {
-//       const aIndex = tokens[idx].attrIndex("target");
-
-//       if (aIndex < 0) {
-//         tokens[idx].attrPush(["target", "_blank"]);
-//       } else {
-//         tokens[idx].attrs[aIndex][1] = "_blank";
-//       }
-
-//       return defaultRender(tokens, idx, options, env, self);
-//     };
-//   });
-// };
-
-export function processMarkdown(rawMarkdown: string) {
-  return markdown.use(markdownPrism).use(markdownAnchor).render(rawMarkdown);
+  return await bundleMDX({
+    source: rawMarkdown,
+    mdxOptions: (options) => ({
+      remarkPlugins: [...(options.remarkPlugins ?? []), ...remarkPlugins],
+      rehypePlugins: [...(options.rehypePlugins ?? []), ...rehypePlugins],
+    }),
+  });
 }
 
 export function stripMarkdown(markdown: string) {

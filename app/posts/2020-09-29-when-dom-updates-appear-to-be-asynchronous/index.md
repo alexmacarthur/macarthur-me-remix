@@ -1,25 +1,23 @@
 ---
 title: When DOM Updates Appear to Be Asynchronous
 subtitle: A bit of exploration into JavaScript's event loop, the browser's repaint cycle, and how we can reliably navigate the mix.
-ogImage: 'https://images.pexels.com/photos/552598/pexels-photo-552598.jpeg?cs=srgb&h=1200&w=1200'
+ogImage: "https://images.pexels.com/photos/552598/pexels-photo-552598.jpeg?cs=srgb&h=1200&w=1200"
 ---
 
 Imagine we have some JavaScript on a page that updates an element's contents and immediately logs those contents out:
 
-``` html
-<span id="element">
-  original text
-</span>
+```html
+<span id="element"> original text </span>
 
 <script>
-  document.getElementById('element').innerHTML = "updated text";
+  document.getElementById("element").innerHTML = "updated text";
   console.log(element.innerHTML);
 </script>
 ```
 
 After loading the page, you'd correctly expect that "updated text" will be displayed on the screen. And when it's exposed via that `console.log()`, you'll see the same value there too.
 
-The fact that `console.log()` yields this result isn't surprising because a DOM update is a *synchronous* event. When the properties of the DOM object are modified, that change is thrown onto the call stack, and no proceeding event can execute until the stack is empty again. This is how JavaScript's event loop does it's thing — first in, first out — even though many of those events simply kick off asynchronous work handled by browser APIs (like `setTimeout()`, for example).
+The fact that `console.log()` yields this result isn't surprising because a DOM update is a _synchronous_ event. When the properties of the DOM object are modified, that change is thrown onto the call stack, and no proceeding event can execute until the stack is empty again. This is how JavaScript's event loop does it's thing — first in, first out — even though many of those events simply kick off asynchronous work handled by browser APIs (like `setTimeout()`, for example).
 
 ## Same Thread; Different Pace
 
@@ -42,8 +40,8 @@ Let's explore one of these circumstances. To do so, I'm using a simple local Nod
 
 This time around, instead of logging out the modified DOM value, let's expose it with an `alert()`. When that action is thrown onto the call stack, it'll freeze the main thread, including any outstanding repaints.
 
-``` js
-const element = document.getElementById('element');
+```js
+const element = document.getElementById("element");
 element.innerHTML = "updated text";
 alert(element.innerHTML);
 ```
@@ -52,7 +50,7 @@ After refreshing the page this time, you'll see the "updated text" correctly rev
 
 ![DOM and browser out of sync](out-of-sync.png)
 
-The modification to the DOM object is complete, **but the respective *repaint* has not yet been able to occur** (remember — the event loop is turning over much faster than the browser's refresh rate). The instant that the `alert()` is dismissed, repaints are allowed to proceed, and our text is updated.
+The modification to the DOM object is complete, **but the respective _repaint_ has not yet been able to occur** (remember — the event loop is turning over much faster than the browser's refresh rate). The instant that the `alert()` is dismissed, repaints are allowed to proceed, and our text is updated.
 
 ## Making Things Unfold More Predictably
 
@@ -62,25 +60,25 @@ Again, this quirk is unlikely to trip-up any real-world work, but since we're he
 
 By wrapping our `alert()` in a `setTimeout()`, we can wait long enough for any outstanding repaints to occur, and successfully fire it after the updated text has been rendered.
 
-``` jsx
-const element = document.getElementById('element');
+```jsx
+const element = document.getElementById("element");
 element.innerHTML = "updated text";
 
 setTimeout(() => {
-	alert(element.innerHTML);
+  alert(element.innerHTML);
 }, 20); // <-- arbitrary number greater than refresh rate
 ```
 
 This "works," but it isn't the most elegant solution, mainly because we're making an educated guess as to when the repaint cycle will have turned over. We don't want to wait too long, causing an unnecessary delay for the `alert()`. But if we cut it close and the timeout fires sooner than that delay, we're not guaranteed to see the correct text on the screen when it's frozen, because the browser didn't have a chance to paint outstanding DOM changes.
 
-We can illustrate this by setting the timeout's delay to something less than the refresh rate and reload the page a few times. Much of the time, the text will still correctly render. But sooner or later, the rendered text will *not* have updated like we want.
+We can illustrate this by setting the timeout's delay to something less than the refresh rate and reload the page a few times. Much of the time, the text will still correctly render. But sooner or later, the rendered text will _not_ have updated like we want.
 
-``` jsx
-const element = document.getElementById('element');
+```jsx
+const element = document.getElementById("element");
 element.innerHTML = "updated text";
 
 setTimeout(() => {
-	alert(element.innerHTML);
+  alert(element.innerHTML);
 }, 5); // <-- risky, since the delay is less than the browser's refresh rate
 ```
 
@@ -90,30 +88,30 @@ Since we can't undoubtedly predict the refresh rate of the browser (especially c
 
 The browser's `requestAnimationFrame` API lets us [fire a callback before the browser's next repaint](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame), allowing us to avoid any guessing games in our objective. To use it for our purposes, it's tempting to fire our `alert()` in one of its callbacks and call it good:
 
-``` jsx
+```jsx
 const element = document.getElementById("element");
 element.innerHTML = "updated text";
 
 requestAnimationFrame(() => {
-	alert(element.innerHTML);
+  alert(element.innerHTML);
 });
 ```
 
-**But that won't work.** Firing *before* the next repaint is pointless. Instead, we want it to happen *after*, since this is when the DOM update will have been painted to the screen. To accomplish this, we just need to nest things a bit:
+**But that won't work.** Firing _before_ the next repaint is pointless. Instead, we want it to happen _after_, since this is when the DOM update will have been painted to the screen. To accomplish this, we just need to nest things a bit:
 
-``` jsx
-const element = document.getElementById('element');
+```jsx
+const element = document.getElementById("element");
 element.innerHTML = "updated text";
 
 requestAnimationFrame(() => {
-	// fires before next repaint
+  // fires before next repaint
 
-	requestAnimationFrame(() => {
-		// fires before the _next_ next repaint
-		// ...which is effectively _after_ the next repaint
+  requestAnimationFrame(() => {
+    // fires before the _next_ next repaint
+    // ...which is effectively _after_ the next repaint
 
-		alert(element.innerHTML);
-	});
+    alert(element.innerHTML);
+  });
 });
 ```
 

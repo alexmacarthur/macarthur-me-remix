@@ -3,15 +3,15 @@ title: Programmatically Create a Static Page in WordPress
 ogImage: https://images.pexels.com/photos/681335/pexels-photo-681335.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1200
 ---
 
-It's surprisingly a big pain to create a route and render a static template in WordPress *without* messing with the database. For example, let's say you'd like to create a static "/error" page, and there's no desire to have any of the content editable. You just want a particular template to render at that route every time.
+It's surprisingly a big pain to create a route and render a static template in WordPress _without_ messing with the database. For example, let's say you'd like to create a static "/error" page, and there's no desire to have any of the content editable. You just want a particular template to render at that route every time.
 
-If you give this sort of thing a Google search, you'll find a lot of results on setting up a [“static” front page](https://wordpress.org/support/article/creating-a-static-front-page/) (requiring a setting to be toggled in the WP admin), or using `page-*.php` [templates for specific pages](https://developer.wordpress.org/themes/template-files-section/page-template-files/), which also require the pages to first exist in the database. 
+If you give this sort of thing a Google search, you'll find a lot of results on setting up a [“static” front page](https://wordpress.org/support/article/creating-a-static-front-page/) (requiring a setting to be toggled in the WP admin), or using `page-*.php` [templates for specific pages](https://developer.wordpress.org/themes/template-files-section/page-template-files/), which also require the pages to first exist in the database.
 
 **But what if you want to create and render content for a route entirely in PHP — 100% programmatically?** It’s not straightforward (WordPress simply doesn’t lend itself best to registering routes in this way), but it’s not as complicated as you might think.
 
 ## Programmatically Registering a Route
 
-For this breakdown, we’re going to register a route at `/a-static-page` , and have it render `YOUR_THEME_DIRECTORY/static-templates/a-static-template.php`. If I navigate to that page on my local “sandbox” instance of WordPress (I’m using the [twentynineteen](https://wordpress.org/themes/twentynineteen/) theme, by the way), I’ll expectedly get a 404: 
+For this breakdown, we’re going to register a route at `/a-static-page` , and have it render `YOUR_THEME_DIRECTORY/static-templates/a-static-template.php`. If I navigate to that page on my local “sandbox” instance of WordPress (I’m using the [twentynineteen](https://wordpress.org/themes/twentynineteen/) theme, by the way), I’ll expectedly get a 404:
 
 ![404 Page](404.png)
 
@@ -19,7 +19,7 @@ In order to pull this off, we’ll rely on three distinct WordPress hooks. At th
 
 ### Create a Rewrite Rule
 
-First, let’s create a rewrite rule that’ll attempt to match against a particular request path, and then *rewrite* that path into one that WordPress will use to parse and render a page. Let’s start with this:
+First, let’s create a rewrite rule that’ll attempt to match against a particular request path, and then _rewrite_ that path into one that WordPress will use to parse and render a page. Let’s start with this:
 
 ```php
 add_action('init', function () {
@@ -30,7 +30,7 @@ add_action('init', function () {
 });
 ```
 
-When a request comes in with a path that resembles “/a-static-page,” we’re rewriting the path to include a `static_template` query variable, whose value is the particular page template we want to render — `a-static-template.php`. Right now, however, **that new query variable is useless**. It’ll get filtered out as the request is parsed later on, unless we deliberate whitelist it. 
+When a request comes in with a path that resembles “/a-static-page,” we’re rewriting the path to include a `static_template` query variable, whose value is the particular page template we want to render — `a-static-template.php`. Right now, however, **that new query variable is useless**. It’ll get filtered out as the request is parsed later on, unless we deliberate whitelist it.
 
 ### Whitelist the Custom Query Var
 

@@ -34,21 +34,21 @@ Dare I say it, there _is_ a JavaScript approach to explore:
 
 ```html
 <script>
-    var MODERN_BUNDLE = "assets/dist/js/scripts.modern.min.js";
-    var LEGACY_BUNDLE = "assets/dist/js/scripts.min.js";
+  var MODERN_BUNDLE = "assets/dist/js/scripts.modern.min.js";
+  var LEGACY_BUNDLE = "assets/dist/js/scripts.min.js";
 
-    function isModern() {
-      try {
-        new Function('import("")');
-        return true;
-      } catch (err) {
-        return false;
-      }
+  function isModern() {
+    try {
+      new Function('import("")');
+      return true;
+    } catch (err) {
+      return false;
     }
+  }
 
-    var scriptTag = document.createElement("script");
-    scriptTag.setAttribute("src", isModern() ? MODERN_BUNDLE : LEGACY_BUNDLE);
-    document.body.appendChild(scriptTag);
+  var scriptTag = document.createElement("script");
+  scriptTag.setAttribute("src", isModern() ? MODERN_BUNDLE : LEGACY_BUNDLE);
+  document.body.appendChild(scriptTag);
 </script>
 ```
 
@@ -66,11 +66,11 @@ I ran through some scenarios loading a **~300kb transpiled file** and a **~50kb 
 
 **Modern via JS:** loading the slim version after feature detection with JS.
 
-Approach   | Queued At | Download Time | Ready to Use
------- | ------ | ------ | ------
-Standard | 20ms | 35ms | 55ms
-Modern via HTML | 20ms | 15ms | 35ms
-Modern via JS | 120ms | 15ms | 135ms
+| Approach        | Queued At | Download Time | Ready to Use |
+| --------------- | --------- | ------------- | ------------ |
+| Standard        | 20ms      | 35ms          | 55ms         |
+| Modern via HTML | 20ms      | 15ms          | 35ms         |
+| Modern via JS   | 120ms     | 15ms          | 135ms        |
 
 To no surprise, the slimmer file takes less time to download, but when it's loaded via JS, it gets queued to download _far_ later on. The embedded and JS approaches end up comparing something like this:
 

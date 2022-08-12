@@ -3,9 +3,9 @@ title: Conditionally Rendering ERB Templates from Different Directories with Rub
 ogImage: https://images.pexels.com/photos/1831113/pexels-photo-1831113.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1200
 ---
 
-A while back, I was working in a Ruby on Rails project in which we wanted to test out different versions of features within our application, most of which were housed in separate ERB partials. 
+A while back, I was working in a Ruby on Rails project in which we wanted to test out different versions of features within our application, most of which were housed in separate ERB partials.
 
-For each feature, there'd be a default "experience", but when a certain condition was met, we'd render an alternative, which might've contained slightly different markup, styles, or something else. To pull it off, we needed a way to maintain these different variants, as well as a means of reliably serving them whenever a particular experience was activated. 
+For each feature, there'd be a default "experience", but when a certain condition was met, we'd render an alternative, which might've contained slightly different markup, styles, or something else. To pull it off, we needed a way to maintain these different variants, as well as a means of reliably serving them whenever a particular experience was activated.
 
 This scenario led me down the path of exploring conditional template rendering with the two most popular approaches to handling ERB templates Rails — the [Action View module](https://doc.bccnsoft.com/docs/rails-guides-4.2.1-en/action_view_overview.html), and the [View Component gem](https://viewcomponent.org/). Under more typical circumstances, we'd be able to leverage the "variants" feature offered by both solutions. But this was complicated by the fact that we wanted our variant templates to live in a different directory from our defaults (they wouldn't be siblings). This post is mostly just a recap of how I prototyped this somewhat unusual need with both of these tools.
 
@@ -15,7 +15,7 @@ Out of the two approaches I explored, Action View definitely requires the least 
 
 ### Template File Structure
 
-First, a quick overview of the template organization scheme with which I started. The default feature template would live in the standard `views` directory), and then for each variant, a template by the same name would reside in a directory housed under `views/experiences`. For example, consider an application with a `ProductController` and a single `index` action: 
+First, a quick overview of the template organization scheme with which I started. The default feature template would live in the standard `views` directory), and then for each variant, a template by the same name would reside in a directory housed under `views/experiences`. For example, consider an application with a `ProductController` and a single `index` action:
 
 ```ruby
 class ProductController < ApplicationController
@@ -31,7 +31,7 @@ And within the associated `app/views/product/index.html.erb` file, a `_compariso
 <%= render "comparison-table" %>
 ```
 
-When navigating to that route in the browser, some sort of "default" experience would be rendered: 
+When navigating to that route in the browser, some sort of "default" experience would be rendered:
 
 ![""](./default-experience.jpg)
 
@@ -43,7 +43,7 @@ Now, imagine that "minimalist" and "maximalist" experiences were introduced for 
         |-- experiences/
             |-- minimalist/
                 |-- product
-                    |-- _comparison-table.html.erb	
+                    |-- _comparison-table.html.erb
                     |-- index.html.erb
             |-- maximalist/
                 |-- product
@@ -60,19 +60,19 @@ While arguably a little more complicated than dealing strictly with sibling temp
 
 At the start of this, I assumed we'd now need to build out some sort of abstraction on top of Rails' standard `render` method in order determine which template to show. But shortly after digging in, I ran into the `prepend_view_path` method within the `ActionView` module.
 
-This method is responsible for [prepending paths in which Rails searches for templates to render](https://api.rubyonrails.org/classes/ActionView/ViewPaths/ClassMethods.html#method-i-prepend_view_path). By default, that list of paths only contains `app/views`, but if you'd like Rails to look in another location first, you can configure that in a `before_action` hook. The following, for example, would tell any controller in an application to *first* look in the `app/views/experiences/minimalist` directory.
+This method is responsible for [prepending paths in which Rails searches for templates to render](https://api.rubyonrails.org/classes/ActionView/ViewPaths/ClassMethods.html#method-i-prepend_view_path). By default, that list of paths only contains `app/views`, but if you'd like Rails to look in another location first, you can configure that in a `before_action` hook. The following, for example, would tell any controller in an application to _first_ look in the `app/views/experiences/minimalist` directory.
 
 ```ruby
 class ApplicationController < ActionController::Base
 	before_action :prepend_experience_path
-    
+
 	def prepend_experience_path
 		prepend_view_path "app/views/experiences/minimalist"
 	end
 end
 ```
 
-Then, whenever the `render` method is used in an ERB template, the "minimalist" template would be pulled — no other special implementation or custom code necessary: 
+Then, whenever the `render` method is used in an ERB template, the "minimalist" template would be pulled — no other special implementation or custom code necessary:
 
 ```html
 <!-- 
@@ -82,7 +82,7 @@ Then, whenever the `render` method is used in an ERB template, the "minimalist" 
 <%= render "comparison-table" %>
 ```
 
-Plus, this feature includes the *implicit* use of `render` directly within a controller action:
+Plus, this feature includes the _implicit_ use of `render` directly within a controller action:
 
 ```ruby
 class ProductController < ApplicationController
@@ -115,21 +115,21 @@ private
 end
 ```
 
-On each request, the specified experience is pulled from the `params` object with our `experience` method. Then, I'm prepending that particular experience's path. Following the earlier example, if I were to navigate to the same page with the experience set in the URL, the page would now render something like this: 
+On each request, the specified experience is pulled from the `params` object with our `experience` method. Then, I'm prepending that particular experience's path. Following the earlier example, if I were to navigate to the same page with the experience set in the URL, the page would now render something like this:
 
 ![](./minimalist-experience.jpg)
 
 Easy conditional template rendering... by just leveraging what Rails gives us anyway!
 
-## Conditional Rendering  w/ ViewComponents
+## Conditional Rendering w/ ViewComponents
 
-If you're not that familiar with GitHub's [view_component](https://github.com/github/view_component) gem, check it out. It toutes some pretty sick advantages — performance, testability, and encapsulation, to mention a few. 
+If you're not that familiar with GitHub's [view_component](https://github.com/github/view_component) gem, check it out. It toutes some pretty sick advantages — performance, testability, and encapsulation, to mention a few.
 
 Unfortunately, conditionally rendering different templates with ViewComponents is a little more complicated than with Action View. As far as my digging through the code & documentation went, there's neither (yet) a public API for controlling where `.erb` templates are searched, nor a blessed means of dictating which template should be rendered for a given component. Regardless, it's possible to pull off for my specific use case. Here's the approach I took:
 
 ### An Example Component
 
-I used a simple "ProductCard" component for trying this out, which comes with a `ProducCardComponent` class that accepts `title`, `price`, and `experience` (which we'll use to determine the rendered template) parameters: 
+I used a simple "ProductCard" component for trying this out, which comes with a `ProducCardComponent` class that accepts `title`, `price`, and `experience` (which we'll use to determine the rendered template) parameters:
 
 ```ruby
 # /app/components/product_card_component.rb
@@ -149,10 +149,10 @@ And then there's the ERB template itself:
 <!-- /app/components/product_card_component.html.erb -->
 
 <div>
-    <h4>Default Card</h4>
-    Title: <%= @title %>
-    <br />
-    Price: $<%= @price %>
+  <h4>Default Card</h4>
+  Title: <%= @title %>
+  <br />
+  Price: $<%= @price %>
 </div>
 ```
 
@@ -161,7 +161,8 @@ Inside an ERB template, that's instantiated like so:
 ```html
 <!-- app/views/index.html.erb -->
 
-<%= render(ProductCardComponent.new(title: "A Product", price: 49, experience: experience)) %>
+<%= render(ProductCardComponent.new(title: "A Product", price: 49, experience:
+experience)) %>
 ```
 
 Which ends up looking like this:
@@ -183,12 +184,12 @@ class ProductCardComponent < ViewComponent::Base
 +   # Grab a template's contents and turn it into HTML.
 +   def call
 +   	template_contents = File.read(template_path)
-+          
++
 +       ERB.new(template_contents).result(binding).html_safe
 +   end
-+   
++
 +private
-+   
++
 +   # Use the same template path ViewComponet uses by default.
 +   def template_path
 +       @template_path ||= "#{Rails.root}/app/components/#{self.class.name.underscore}.html.erb"
@@ -196,9 +197,9 @@ class ProductCardComponent < ViewComponent::Base
 end
 ```
 
-With this change, I'm manually compiling our own ERB templates using the included `ERB` renderer (note: that `.result(binding)` piece is important — it'll allow access to instance variables from within the template). That template is being targeted by transforming the name of the current class into the same format expected by ViewComponent. 
+With this change, I'm manually compiling our own ERB templates using the included `ERB` renderer (note: that `.result(binding)` piece is important — it'll allow access to instance variables from within the template). That template is being targeted by transforming the name of the current class into the same format expected by ViewComponent.
 
-If you're following along on your own and refresh the page at this point, you'd get an error. That's because, out of the box, ViewComponent [does not permit you to have both](https://github.com/github/view_component/blob/main/lib/view_component/compiler.rb#L121) a template in your `app/components` directory, *and* a `call` method on your class. To get around this hurdle and allow the component's templates to remain in the standard `app/components` directory, I did a little meta-programming (and no, I did not feel spectacular about it): 
+If you're following along on your own and refresh the page at this point, you'd get an error. That's because, out of the box, ViewComponent [does not permit you to have both](https://github.com/github/view_component/blob/main/lib/view_component/compiler.rb#L121) a template in your `app/components` directory, _and_ a `call` method on your class. To get around this hurdle and allow the component's templates to remain in the standard `app/components` directory, I did a little meta-programming (and no, I did not feel spectacular about it):
 
 ```diff
 class ProductCardComponent < ViewComponent::Base
@@ -212,12 +213,12 @@ class ProductCardComponent < ViewComponent::Base
 
 	def call
 		template_contents = File.read(template_path)
-        
+
         ERB.new(template_contents).result(binding).html_safe
     end
- 
+
 private
- 
+
     def template_path
         @template_path ||= "#{Rails.root}/app/components/#{self.class.name.underscore}.html.erb"
     end
@@ -237,10 +238,10 @@ With this in place, each time the component is instantiated, the static `_sideca
 
 ### Conditionally Rendering Templates
 
-Next up, I needed to introduce the logic for choosing a different template when a certain experience is active. To do that, I modified the `template_path` method and include two more: 
+Next up, I needed to introduce the logic for choosing a different template when a certain experience is active. To do that, I modified the `template_path` method and include two more:
 
 ```ruby
-def template_path 
+def template_path
     @template_path ||= File.exist?(experience_template_path) ? experience_template_path : standard_template_path
 end
 
@@ -267,13 +268,13 @@ class ExperienceableComponent < ViewComponent::Base
 
     def call
         template_contents = File.read(template_path)
-        
+
         ERB.new(template_contents).result(binding).html_safe
     end
 
-private 
+private
 
-    def template_path 
+    def template_path
         @template_path ||= File.exist?(experience_template_path) ? experience_template_path : standard_template_path
     end
 
@@ -295,7 +296,7 @@ private
 end
 ```
 
-After that abstraction, the actual component class can look a lot simpler: 
+After that abstraction, the actual component class can look a lot simpler:
 
 ```ruby
 class ProductCardComponent < ExperienceableComponent
@@ -309,14 +310,14 @@ class ProductCardComponent < ExperienceableComponent
 end
 ```
 
-With things feeling a little tidier, navigating to the same page with `?experience=minimalist` in the URL renders exactly what I wanted: 
+With things feeling a little tidier, navigating to the same page with `?experience=minimalist` in the URL renders exactly what I wanted:
 
 ![](./minimalist-card.jpg)
 
-And there you go. Despite the slight hackiness, we got it running! 
+And there you go. Despite the slight hackiness, we got it running!
 
 ## Rails Developers are Smart
 
-If there's anything I really came to realize during all of this exploration, it's that there's a *ton* of considerations the Action View & ViewComponent contributors have balanced with excellence as they built (and continue to build) out these UI-rendering solutions. I can't imagine building out a package of such scale that satisfies so many different use cases, including my own. But they did it. So, a brief message to those contributors: You're a lot smarter than I am. But I'mma catch you.
+If there's anything I really came to realize during all of this exploration, it's that there's a _ton_ of considerations the Action View & ViewComponent contributors have balanced with excellence as they built (and continue to build) out these UI-rendering solutions. I can't imagine building out a package of such scale that satisfies so many different use cases, including my own. But they did it. So, a brief message to those contributors: You're a lot smarter than I am. But I'mma catch you.
 
 Thanks for tagging along!

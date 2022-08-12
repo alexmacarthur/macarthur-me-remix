@@ -1,80 +1,83 @@
 import { Link, useLoaderData } from "@remix-run/react";
 import { PaginatedLoaderProps } from "~/hooks/usePaginatedPosts";
 import Button from "./Button";
-import Container from "./Container";
 import DateFormatter from "./DateFormatter";
 import PageLayout from "./PageLayout";
 import Pagination from "./Pagination";
+import Title from "./Title";
 import ViewCount from "./ViewCount";
 
 export default () => {
-  const { posts, hasMore, previousPage, nextPage, currentPage, hasPrevious } = useLoaderData<PaginatedLoaderProps>();
+  const { posts, hasMore, previousPage, nextPage, currentPage, hasPrevious } =
+    useLoaderData<PaginatedLoaderProps>();
 
   return (
     <PageLayout narrow={true}>
-        <ul className="space-y-10">
-          {posts.map((post) => {
-            const { externalUrl, externalHost } = post;
-            const linkProps = {
-              to: externalUrl || `/posts/${post.slug}`,
-              target: externalUrl ? "_blank" : "_self",
-            };
+      <Title>Posts</Title>
 
-            return (
-              <li key={post.slug}>
-                <article>
-                  <h2 className="text-2xl font-bold">
-                    <Link {...linkProps}>
-                      {post.title}
-                    </Link>
-                  </h2>
+      <ul className="space-y-10">
+        {posts.map((post) => {
+          const { externalUrl, externalHost } = post;
+          const linkProps = {
+            to: externalUrl || `/posts/${post.slug}`,
+            target: externalUrl ? "_blank" : "_self",
+          };
 
-                  <div className="flex items-center mb-3 gap-3 text-base">
-                    {post.lastUpdated && (
-                      <>
-                        <DateFormatter
-                          date={post.lastUpdated}
-                          className="inline-block"
-                        >
-                          Updated on
-                        </DateFormatter>
+          return (
+            <li key={post.slug}>
+              <article>
+                <h2 className="text-2xl font-bold">
+                  <Link {...linkProps}>{post.title}</Link>
+                </h2>
 
-                        <small>/</small>
-                      </>
-                    )}
+                <div className="mb-3 flex items-center gap-3 text-base">
+                  {post.lastUpdated && (
+                    <>
+                      <DateFormatter
+                        date={post.lastUpdated}
+                        className="inline-block"
+                      >
+                        Updated on
+                      </DateFormatter>
 
-                    <DateFormatter date={post.date} className="inline-block">
-                      {post.lastUpdated && "Originally posted on"}
-                    </DateFormatter>
+                      <small>/</small>
+                    </>
+                  )}
 
-                    {!externalUrl && (
-                      <ViewCount count={post.views} disableAnimation={true} />
-                    )}
-                  </div>
+                  <DateFormatter date={post.date} className="inline-block">
+                    {post.lastUpdated && "Originally posted on"}
+                  </DateFormatter>
 
-                  <small className="block text-gray-500 mb-2">{post.excerpt}</small>
+                  {!externalUrl && (
+                    <ViewCount count={post.views} disableAnimation={true} />
+                  )}
+                </div>
 
-                  <Button
-                    naked={true}
-                    small={true}
-                    internal={!externalUrl}
-                    {...linkProps}
-                  >
-                    Read It {externalHost && <>({externalHost})</>}
-                  </Button>
-                </article>
-              </li>
-            );
-          })}
-        </ul>
+                <small className="mb-2 block text-gray-500">
+                  {post.excerpt}
+                </small>
 
-        <Pagination
-          hasMore={hasMore}
-          hasPrevious={hasPrevious}
-          nextPage={nextPage}
-          previousPage={previousPage}
-          currentPage={currentPage}
-        />
-      </PageLayout>
-    );
-}
+                <Button
+                  naked={true}
+                  small={true}
+                  internal={!externalUrl}
+                  {...linkProps}
+                >
+                  Read It {externalHost && <>({externalHost})</>}
+                </Button>
+              </article>
+            </li>
+          );
+        })}
+      </ul>
+
+      <Pagination
+        hasMore={hasMore}
+        hasPrevious={hasPrevious}
+        nextPage={nextPage}
+        previousPage={previousPage}
+        currentPage={currentPage}
+      />
+    </PageLayout>
+  );
+};

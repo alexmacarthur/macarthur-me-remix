@@ -57,31 +57,31 @@ I experienced some of this pain when building [TypeIt's site](https://typeitjs.c
 ```jsx
 <div
   className={`
-            lg:flex
-            justify-center
+            translate-left
+            lg:translate-none
             fixed
-            lg:relative
             top-0
             left-0
             h-full
             w-full
-            bg-white
-            translate-left
-            lg:translate-none
+            justify-center
             overflow-scroll
-            lg:overflow-visible
+            bg-white
             pt-8
             md:p-0
+            lg:relative
+            lg:flex
+            lg:overflow-visible
             ${menuIsOpen ? "translate-none" : ""}
           `}
 >
-  <ul className="self-start mx-auto lg:-mx-3 lg:mt-0 block lg:flex mb-8 lg:mb-0">
+  <ul className="mx-auto mb-8 block self-start lg:-mx-3 lg:mt-0 lg:mb-0 lg:flex">
     {links.map((link) => {
       return (
         <li
           key={link.path}
           ref={navItemRef}
-          className={`siteNavListItem flex px-5 flex-col lg:flex-row items-center font-light justify-center mb-5 lg:mb-0 relative`}
+          className={`siteNavListItem relative mb-5 flex flex-col items-center justify-center px-5 font-light lg:mb-0 lg:flex-row`}
         >
           {/* link content... */}
         </li>

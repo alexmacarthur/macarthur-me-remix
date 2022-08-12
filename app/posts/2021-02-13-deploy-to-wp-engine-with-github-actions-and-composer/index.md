@@ -169,7 +169,6 @@ EOF
 
 This is where we'll navigate to the directory in which our project lives, install Composer and our dependencies, and do a little clean-up:
 
-
 ```shell
 ssh $WPE_SITE_NAME@$WPE_SSH_HOST -i $SSH_PRIVATE_ACCOUNT_KEY_PATH -o UserKnownHostsFile=$KNOWN_HOSTS_PATH << EOF
     # Navigate to where our site lives.
@@ -212,9 +211,9 @@ jobs:
 
 If you're unfamiliar with these workflow files, this basic template translates as:
 
-* When a commit is pushed to the `main` branch,
-* checkout the repository with the `actions/checkout` action,
-* and run our script to push to WP Engine and install Composer dependencies.
+- When a commit is pushed to the `main` branch,
+- checkout the repository with the `actions/checkout` action,
+- and run our script to push to WP Engine and install Composer dependencies.
 
 The final piece of this is to paste in our finalized script. But before we do, we'll need to make a subtle change to our environment variables. In order to pull the correct secrets from GitHub, they'll need to be formatted as `${{ secrets.VARIABLE_NAME }}`. Here's our completed workflow, organized & annotated a bit following all of our previous work.
 

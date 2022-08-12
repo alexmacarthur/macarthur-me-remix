@@ -13,7 +13,7 @@ export default function Container({
 }: ContainerProps) {
   return (
     <div
-      className={`mx-auto px-3 md:px-5 text-xl ${
+      className={`mx-auto px-3 text-xl md:px-5 ${
         narrow ? "max-w-prose" : "max-w-6xl"
       } ${classes}`}
     >

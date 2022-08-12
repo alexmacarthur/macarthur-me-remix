@@ -1,8 +1,4 @@
-import type {
-  LinksFunction,
-  MetaFunction,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -11,6 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import { DESCRIPTION, TITLE } from "./constants";
 
 import styles from "./styles/style.css";
 
@@ -19,14 +16,15 @@ export const links: LinksFunction = () => {
 };
 
 export const meta: MetaFunction = () => ({
+  title: TITLE,
+  description: DESCRIPTION,
   charset: "utf-8",
-  title: "Alex MacArthur | Nashville Web Developer",
   viewport: "width=device-width,initial-scale=1",
 });
 
 export default function App() {
   return (
-    <html lang="en" className="h-full" suppressHydrationWarning={true}>
+    <html lang="en" className="h-full">
       <head>
         <Meta />
         <Links />

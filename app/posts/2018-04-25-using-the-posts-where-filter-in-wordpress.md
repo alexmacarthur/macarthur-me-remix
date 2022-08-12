@@ -42,7 +42,7 @@ We _could_ do something like get all the posts, and then loop over each retrieve
 
 ### Better option: Use the 'posts_where' filter to modify the 'where' clause in your WP_Query.
 
-By modifying the SQL query underlying our WP_Query, the work can be efficiently offloaded to where it _should_ be done, rather than dealing with it elsewhere, like in template logic.
+By modifying the SQL query underlying our WP*Query, the work can be efficiently offloaded to where it \_should* be done, rather than dealing with it elsewhere, like in template logic.
 
 **First, create a WP_Query object querying for all of our posts.**
 
@@ -99,7 +99,7 @@ add_filter('posts_where', function ($where, $query) {
 }, 10, 2);
 ```
 
-Now, our WP_Query object will return exactly what we defined in our arguments, but within the scope of how we filtered our `where` clause. All _without_ needing to be clever with any other PHP.
+Now, our WP*Query object will return exactly what we defined in our arguments, but within the scope of how we filtered our `where` clause. All \_without* needing to be clever with any other PHP.
 
 ### "When am I ever going to need this?"
 

@@ -27,7 +27,7 @@ export function safeRedirect(
 }
 
 export function useRequestPath(): string {
-  return useMatchesData('root')?.REQUEST_PATH as string || "";
+  return (useMatchesData("root")?.REQUEST_PATH as string) || "";
 }
 
 /**

@@ -17,6 +17,7 @@ I'll be using some pretty bare bones here, but you can implement the function wi
 Letz do dis.
 
 ## Setting Up Our Function
+
 I'm going to assume you have a basic JAMStack project already set up & ready to go, including a `package.json` file. After that groundwork is laid, walk through these steps:
 
 **Create directories to store your Lambda code.** One of these will contain your pre-compiled source code, and the other will be where Netlify puts the production-ready code. Locally, we'll only be serving out of the `lambda-src` directory, and so creating that `lambda` directory is technically unnecessary (later, when we deploy, Netlify will create that directory automatically), but we'll go ahead and do it here for better clarity in what's going on.
@@ -103,9 +104,9 @@ Kick off our function's code by initializing `dotenv` and authenticating with St
 ```js
 // purchase.js
 
-require('dotenv').config();
+require("dotenv").config();
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 ```
 
 **Now, let's set appropriate headers.** We'll want to make sure we're allowing access to our function via AJAX, and also ensure that we can pass data successfully. For now, I'm just going to open it up to requests from any domain, but you'll want to change that when you deploy. Because I want to later leverage JavaScript's enhanced object literals, I also saved a default status code:
@@ -113,14 +114,14 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 ```js
 // purchase.js
 
-require('dotenv').config();
+require("dotenv").config();
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const statusCode = 200;
 const headers = {
-  "Access-Control-Allow-Origin" : "*",
-  "Access-Control-Allow-Headers": "Content-Type"
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "Content-Type",
 };
 ```
 
@@ -129,13 +130,13 @@ const headers = {
 ```js
 // purchase.js
 
-exports.handler = async function(event) {
+exports.handler = async function (event) {
   return {
     statusCode,
     headers,
-    body: 'Let there be light!'
+    body: "Let there be light!",
   };
-}
+};
 ```
 
 Quick thing: I'm using an `async` function for my Lambda. This is because we'll later be doing some asynchronous work, and I prefer the cleaner syntax. But if you prefer to write something a little more verbose, you'll need to return a `callback` method to return your response, which would look like this:
@@ -143,13 +144,13 @@ Quick thing: I'm using an `async` function for my Lambda. This is because we'll 
 ```js
 // purchase.js
 
-exports.handler = function(event, context, callback) {
+exports.handler = function (event, context, callback) {
   return callback(null, {
     statusCode,
     headers,
-    body: 'Let there be light!'
+    body: "Let there be light!",
   });
-}
+};
 ```
 
 Now, if we run `npm run lambda-serve` and head to `http://localhost:9000/purchase`, we should see 'Let there be light!' in the browser. Good sign!
@@ -159,15 +160,15 @@ Now, if we run `npm run lambda-serve` and head to `http://localhost:9000/purchas
 ```js
 // purchase.js
 
-exports.handler = async function(event) {
+exports.handler = async function (event) {
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 200, // <-- Important!
       headers,
-      body: "This was not a POST request!"
+      body: "This was not a POST request!",
     };
   }
-}
+};
 ```
 
 Here, it's especially important to make sure you're returning a valid `200` status code. If you don't, that preflight request will fail, and a CORS-related error will be thrown.
@@ -177,14 +178,13 @@ Here, it's especially important to make sure you're returning a valid `200` stat
 ```js
 // purchase.js
 
-exports.handler = async function(event) {
-
+exports.handler = async function (event) {
   // We only care to do anything if this is our POST request.
   if (event.httpMethod !== "POST") {
     return {
       statusCode,
       headers,
-      body: "This was not a POST request!"
+      body: "This was not a POST request!",
     };
   }
 
@@ -202,8 +202,8 @@ exports.handler = async function(event) {
       headers,
       body: JSON.stringify({
         status: "failed",
-        message
-      })
+        message,
+      }),
     };
   }
 };
@@ -231,10 +231,10 @@ try {
       amount: data.amount,
       source: data.token.id,
       receipt_email: data.token.email,
-      description: `charge for a widget`
+      description: `charge for a widget`,
     },
     {
-      idempotency_key: data.idempotency_key
+      idempotency_key: data.idempotency_key,
     }
   );
 } catch (e) {
@@ -247,20 +247,21 @@ try {
     headers,
     body: JSON.stringify({
       status: "failed",
-      message
-    })
+      message,
+    }),
   };
 }
 
-const status = (charge === null || charge.status !== "succeeded") ? "failed" : charge.status;
+const status =
+  charge === null || charge.status !== "succeeded" ? "failed" : charge.status;
 
 return {
   statusCode,
   headers,
   body: JSON.stringify({
     status,
-    message: "Charge successfully created!"
-  })
+    message: "Charge successfully created!",
+  }),
 };
 ```
 
@@ -271,9 +272,7 @@ At this point, we're ready to start work on the front end, which will consist of
 **Add the Stripe Checkout script to the bottom of the body in your `index.html` file, and add a button that'll be used to open the checkout form.**
 
 ```html
-<button>
-  Click to Buy! <strong>$10</strong>
-</button>
+<button>Click to Buy! <strong>$10</strong></button>
 ```
 
 ```js
@@ -285,13 +284,13 @@ At this point, we're ready to start work on the front end, which will consist of
 ```js
 // front-end.js
 
-require('dotenv').config();
+require("dotenv").config();
 
-const webpack = require('webpack');
+const webpack = require("webpack");
 
 module.exports = {
   // webpack configuration...
-}
+};
 ```
 
 Same as before, we're letting `dotenv` fill in the `process.env` gaps if a particular variable isn't already defined. Below that, we expose those variables to our JavaScript using webpack's `DefinePlugin`.
@@ -300,18 +299,20 @@ Same as before, we're letting `dotenv` fill in the `process.env` gaps if a parti
 // webpack.config.js
 
 module.exports = {
-  entry: './src/front-end.js',
+  entry: "./src/front-end.js",
   output: {
-    path: __dirname + '/src',
-    filename: 'bundle.js'
+    path: __dirname + "/src",
+    filename: "bundle.js",
   },
   plugins: [
     new webpack.DefinePlugin({
       LAMBDA_ENDPOINT: JSON.stringify(process.env.LAMBDA_ENDPOINT),
-      STRIPE_PUBLISHABLE_KEY: JSON.stringify(process.env.STRIPE_PUBLISHABLE_KEY),
-    })
-  ]
-}
+      STRIPE_PUBLISHABLE_KEY: JSON.stringify(
+        process.env.STRIPE_PUBLISHABLE_KEY
+      ),
+    }),
+  ],
+};
 ```
 
 **Now, let's create a Stripe Checkout handler in our front-end.js file, and include that bundled `bundle.js` file at the bottom of `index.html`.**
@@ -323,11 +324,10 @@ const handler = StripeCheckout.configure({
   key: STRIPE_PUBLISHABLE_KEY,
   image: "https://stripe.com/img/documentation/checkout/marketplace.png",
   locale: "auto",
-  token: token => {
+  token: (token) => {
     // We'll fill this out in a second.
-  }
+  },
 });
-
 ```
 
 **Let's open our checkout form when someone clicks the button.**
@@ -338,11 +338,11 @@ const handler = StripeCheckout.configure({
 // Stripe handles pricing in cents, so this is actually $10.00.
 const amount = 1000;
 
-document.querySelector("button").addEventListener("click", function() {
+document.querySelector("button").addEventListener("click", function () {
   handler.open({
     amount,
     name: "Test Shop",
-    description: "A Fantastic New Widget"
+    description: "A Fantastic New Widget",
   });
 });
 ```
@@ -385,12 +385,12 @@ To generate our `idempotency_key`, I'm using the [uuid](https://www.npmjs.com/pa
 ```js
 // front-end.js
 
-import uuid from 'uuid/v4';
+import uuid from "uuid/v4";
 ```
 
 Great, we've thrown a bunch of code together. Now...
 
-**Let's spin it up locally!** If you recall the actions we set up, using `npm run dev` will spin up a webpack dev server, as well as trigger `netlify-lambda` to serve our function. Run that command, and our application should be available at `http://localhost:8080`. Click the button, enter your payment information (use `4242424242424242` for the card number in development mode), and you *should* see a successful response in the console. Of course, this is web development we're doing here, where very little goes right the first time, so have some patience as you work out any issues you have standing it up.
+**Let's spin it up locally!** If you recall the actions we set up, using `npm run dev` will spin up a webpack dev server, as well as trigger `netlify-lambda` to serve our function. Run that command, and our application should be available at `http://localhost:8080`. Click the button, enter your payment information (use `4242424242424242` for the card number in development mode), and you _should_ see a successful response in the console. Of course, this is web development we're doing here, where very little goes right the first time, so have some patience as you work out any issues you have standing it up.
 
 ## Time to Deploy!
 

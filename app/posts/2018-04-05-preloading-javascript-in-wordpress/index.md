@@ -12,13 +12,13 @@ Preloading is most useful for fetching resources that are discovered late within
 
 ```html
 <html>
-	<head>
-		<link rel="preload" href="https://my-script.js" as="script" />
-	</head>
-	<body>
-		<!-- a bunch o' content -->
-		<script src="https://my-script.js"></script>
-	</body>
+  <head>
+    <link rel="preload" href="https://my-script.js" as="script" />
+  </head>
+  <body>
+    <!-- a bunch o' content -->
+    <script src="https://my-script.js"></script>
+  </body>
 </html>
 ```
 
@@ -92,13 +92,13 @@ add_action('wp_head', function () {
 Open the source on your page. You should see tags for each one of your footer-enqueued JavaScript files that look like this in your header:
 
 ```html
-<link rel='preload' href='https://whatever-source.js?v=123' as='script'/>
+<link rel="preload" href="https://whatever-source.js?v=123" as="script" />
 ```
 
 Now, look for the `script` tag in your footer that loads each respective file, and verify that the sources match exactly.
 
 ```html
-<script src='https://whatever-source.js?v=123'></script>
+<script src="https://whatever-source.js?v=123"></script>
 ```
 
 Next, if you're using Chrome, go into your developer tools, select the "Network" tab and refresh your page. Filter by JS files only, and you should see something like this:

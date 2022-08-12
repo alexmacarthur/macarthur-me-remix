@@ -1,5 +1,5 @@
 ---
-title: 'Creating a .map() Method for Objects, Strings, Sets, and Maps'
+title: "Creating a .map() Method for Objects, Strings, Sets, and Maps"
 ogImage: https://images.pexels.com/photos/1078850/pexels-photo-1078850.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2&h=750&w=1260
 ---
 
@@ -27,7 +27,7 @@ That works, but it’s rough around the edges. We need to declare an empty `some
 
 ```javascript
 let someNumz = [2, 3, 5, 4, 5];
-let someTripledNumz = someNumz.map(item => item * 3);
+let someTripledNumz = someNumz.map((item) => item * 3);
 
 console.log(someNumz); //-- [2, 3, 5, 4, 5]
 console.log(someTripledNumz); //-- [6, 9, 15, 12, 15]
@@ -41,10 +41,10 @@ As it stands, you can’t. There’s no `.map()` method that exists on any objec
 let oldObject = {
   first: 1,
   second: 2,
-  third: 3
+  third: 3,
 };
 
-let newObject = oldObject.map(function(item, index, thing) {
+let newObject = oldObject.map(function (item, index, thing) {
   return item * 2;
 });
 
@@ -58,7 +58,7 @@ console.log(newObject);
 First, let's add an empty `.map()` method to the `Object` prototype. That method will accept a single argument: the callback method we’d like to fire on each of the values.
 
 ```javascript
-Object.prototype.map = function (func) {}
+Object.prototype.map = function (func) {};
 ```
 
 Next up, let’s pull all of our values out of the object we we’d like to map (it’ll be available within the `this` object), and actually `map()` over them like any other array, firing our function on each item.
@@ -72,7 +72,7 @@ Object.prototype.map = function (func) {
   let newValues = oldValues.map((item, index) => {
     return func.call(null, item, index, this);
   });
-}
+};
 ```
 
 Notice that when we fire that method, we’re also passing in the `index` and the original object itself as parameters. This is to keep our method as close to the actual [specification](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map#Syntax) as reasonably possible.
@@ -92,11 +92,11 @@ Object.prototype.map = function (func) {
   // Reconstruct our object with each modified value.
   let mappedObject = {};
   Object.keys(this).forEach(function (key, index) {
-      mappedObject[key] = newValues[index];
+    mappedObject[key] = newValues[index];
   });
 
   return mappedObject;
-}
+};
 ```
 
 We did it! But if you’re like me, you’re hungry for more. So, let’s:
@@ -110,7 +110,7 @@ Sidebar: It was _really_ difficult to commit to using that meme. So overused. So
 This one’s a bit simpler than our `Object` map. Turn the target string into an array, `map()` over it as per usual, and turn it back into a string:
 
 ```javascript
-String.prototype.map = function(func) {
+String.prototype.map = function (func) {
   let stringArray = this.split("");
 
   let newStringArray = stringArray.map((item, index) => {
@@ -138,7 +138,7 @@ console.log(newString);
 Since it’s array-like, mapping over a Set is also relatively straightforward. Make it into an array, do the things, turn it back into a set. Thanks to the syntax of modern JavaScript, it looks pretty clean.
 
 ```javascript
-Set.prototype.map = function(func) {
+Set.prototype.map = function (func) {
   let setArray = [...this];
 
   let newSetArray = setArray.map((item, index) => {
@@ -167,8 +167,8 @@ This is where things get a wee bit nuttier. As we did before, the first thing we
 
 ```javascript
 let myMap = new Map();
-myMap.set('item 1', 'value 1');
-myMap.set('item 2', 'value 2');
+myMap.set("item 1", "value 1");
+myMap.set("item 2", "value 2");
 
 console.log([...myMap]);
 
@@ -178,7 +178,7 @@ console.log([...myMap]);
 So, our prototype method beings like this:
 
 ```javascript
-Map.prototype.map = function(func) {
+Map.prototype.map = function (func) {
   let mapAsArray = [...this];
 };
 ```
@@ -186,7 +186,7 @@ Map.prototype.map = function(func) {
 And then, we’ll map over each item, handing if off to our callback method to do its thing.
 
 ```javascript
-Map.prototype.map = function(func) {
+Map.prototype.map = function (func) {
   let mapAsArray = [...this];
 
   let newMapAsArray = mapAsArray.map((item, index) => {
@@ -198,7 +198,7 @@ Map.prototype.map = function(func) {
 And finally, piece that sucker back together by creating a new Map and adding values it it from our `newMapAsArray`.
 
 ```javascript
-Map.prototype.map = function(func) {
+Map.prototype.map = function (func) {
   let mapAsArray = [...this];
 
   let newMapAsArray = mapAsArray.map((item, index) => {
@@ -207,7 +207,7 @@ Map.prototype.map = function(func) {
 
   // Construct a new Map() with our modified values.
   let newMap = new Map();
-  newMapAsArray.forEach(item => {
+  newMapAsArray.forEach((item) => {
     // Remember, each item contains the [key, value] for our Map item.
     newMap.set(item[0], item[1]);
   });
@@ -220,7 +220,7 @@ Let’s try it out. If you weren’t aware, the keys or values don’t _have_ to
 
 ```javascript
 let myMap = new Map();
-myMap.set('my first item', 1);
+myMap.set("my first item", 1);
 myMap.set({}, 2);
 
 let newMap = myMap.map(function (item, index, thing) {

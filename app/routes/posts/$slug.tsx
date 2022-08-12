@@ -1,24 +1,28 @@
 import { json } from "@remix-run/node"; // or "@remix-run/cloudflare"
 import { useLoaderData } from "@remix-run/react";
+import Copy from "~/components/Copy";
 import { processMarkdown } from "~/markdown.server";
 import PageLayout from "../../components/PageLayout";
 import CMS from "../../services/cms.server";
+import { getMDXComponent } from "mdx-bundler/client";
+import { useMemo } from "react";
 
-export const loader = async ({ params, request}) => {
+export const loader = async ({ params, request }) => {
   const { slug } = params;
-
   const { post, markdown } = await CMS.getPost(slug);
+  const { code } = await processMarkdown(markdown);
 
-  const markup = processMarkdown(markdown);
-
-  return json({ slug, markup, post, url: request.url });
+  return json({ slug, code, post, url: request.url });
 };
 
 export default () => {
   const data = useLoaderData();
 
-  const { markup, post, slug, url } = data;
+  const { code, post, slug } = data;
+
   const { openGraphImage } = post;
+
+  const MarkupComponent = useMemo(() => getMDXComponent(code), [code]);
 
   return (
     <PageLayout>
@@ -40,10 +44,9 @@ export default () => {
           dangerouslySetInnerHTML={{ __html: content }}
         ></div> */}
 
-         <div
-          className="post-content prose md:prose-lg mx-auto max-w-none"
-          dangerouslySetInnerHTML={{ __html: markup }}
-        ></div>
+        <MarkupComponent />
+
+        {/* <Copy markup={markup} /> */}
       </>
     </PageLayout>
   );

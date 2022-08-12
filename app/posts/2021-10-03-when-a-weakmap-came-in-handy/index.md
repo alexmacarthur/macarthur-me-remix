@@ -40,10 +40,10 @@ I was momentarily taken aback after first publishing this post, however, when [a
 
 <script>
   const someObj = {
-    [document.getElementById('el1')]: 'some value'
+    [document.getElementById("el1")]: "some value",
   };
 
-  console.log(someObj[document.getElementById('el1')]);
+  console.log(someObj[document.getElementById("el1")]);
   // 'some value'
 </script>
 ```
@@ -58,10 +58,10 @@ console.log(Object.keys(someObj));
 And that means any of the following would access the same value as well:
 
 ```js
-console.log(someObj[document.getElementById('el2')]);
+console.log(someObj[document.getElementById("el2")]);
 // 'some value'
 
-console.log(someObj[document.createElement('span')]);
+console.log(someObj[document.createElement("span")]);
 // 'some value'
 ```
 
@@ -71,13 +71,13 @@ While that didn't flesh out, there was another option: **a set of new-ish native
 <span id="thing" class="thing">a thing.</span>
 
 <script>
-const myWeakMap = new WeakMap();
+  const myWeakMap = new WeakMap();
 
-// Set a value to a specific node reference.
-myWeakMap.set(document.getElementById('thing'), 'some value');
+  // Set a value to a specific node reference.
+  myWeakMap.set(document.getElementById('thing'), 'some value');
 
-// Access that value by passing the same reference.
-console.log(myWeakMap.get(document.querySelector('.thing')); // 'some value'
+  // Access that value by passing the same reference.
+  console.log(myWeakMap.get(document.querySelector('.thing')); // 'some value'
 </script>
 ```
 
@@ -96,7 +96,7 @@ window.seCache = window.seCache || WeakMap.new();
 
 function getExpandedHeight() {
   // We already have the calculated height.
-  if(window.seCache.get(element)) {
+  if (window.seCache.get(element)) {
     return window.seCache.get(element);
   }
 

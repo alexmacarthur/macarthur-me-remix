@@ -1,7 +1,7 @@
 import Logo from "./Logo";
 import { useEffect, useState } from "react";
 import MenuToggle from "./MenuToggle";
-import { Link, useLocation, } from "@remix-run/react";
+import { Link, useLocation } from "@remix-run/react";
 import { useRequestPath } from "~/utils";
 
 const navItems = [
@@ -43,26 +43,26 @@ const Nav = ({ isAbsolute = false }) => {
 
   return (
     <nav
-      className={`z-10 py-10 px-4 md:px-8 w-full font-bold flex items-center justify-between nav ${positionClass}`}
+      className={`nav z-10 flex w-full items-center justify-between py-10 px-4 font-bold md:px-8 ${positionClass}`}
     >
       <input
         type="checkbox"
         id="menuToggle"
-        className="absolute opacity-0 lg:hidden -z-10"
+        className="absolute -z-10 opacity-0 lg:hidden"
         aria-labelledby="menuToggleLabel"
       />
 
       <span
-        className={`flex-none font-bold text-2xl lg:text-3xl ${
-          shouldHideLogo ? "opacity-0 pointer-events-none" : ""
+        className={`flex-none text-2xl font-bold lg:text-3xl ${
+          shouldHideLogo ? "pointer-events-none opacity-0" : ""
         }`}
       >
         <Logo asLink={true} short={true} />
       </span>
 
-      <div className="nav-menu-wrapper w-full left-0 top-0 h-0 lg:relative lg:h-auto lg:l-0">
+      <div className="nav-menu-wrapper lg:l-0 left-0 top-0 h-0 w-full lg:relative lg:h-auto">
         <label
-          className="cursor-pointer z-20 lg:hidden nav-menu-label absolute right-3"
+          className="nav-menu-label absolute right-3 z-20 cursor-pointer lg:hidden"
           htmlFor="menuToggle"
           style={{
             top: "2.25rem",
@@ -74,52 +74,55 @@ const Nav = ({ isAbsolute = false }) => {
 
         <div
           className="
-          invisible
           nav-menu-items
-          bg-gray-700
+          invisible
+          absolute
           top-0
           left-0
-          absolute
-          lg:relative
-          transition-all
-          opacity-0
-          p-6
           flex
-          flex-col
-          justify-center
           h-screen
           w-screen
-          lg:p-0
+          flex-col
+          justify-center
+          bg-gray-700
+          p-6
+          opacity-0
+          transition-all
           lg:visible
+          lg:relative
           lg:top-auto
-          lg:opacity-100
-          lg:bg-transparent
+          lg:block
           lg:h-auto
           lg:w-auto
-          lg:block
+          lg:bg-transparent
+          lg:p-0
+          lg:opacity-100
         "
         >
           <ul
             className="
-            transition-all
             flex
-            flex-col
-            lg:flex-row
-            space-y-4
-            lg:space-x-6
-            lg:space-y-0
-            lg:translate-x-0
-            justify-end transform
             -translate-x-full
+            transform
+            flex-col
+            justify-end
+            space-y-4
+            transition-all
+            lg:translate-x-0
+            lg:flex-row lg:space-x-6
+            lg:space-y-0
             "
           >
             {navItems.map((item) => {
               return (
                 <li
-                  className="text-6xl lg:text-xl font-bold lg:font-light text-white lg:text-gray-500 hover:text-white lg:hover:text-gray-900 lg:font-200"
+                  className="lg:font-200 text-6xl font-bold text-white hover:text-white lg:text-xl lg:font-light lg:text-gray-500 lg:hover:text-gray-900"
                   key={item.link}
                 >
-                  <Link to={item.link} className="py-2 border-b-4 border-transparent hover:border-gray-200">
+                  <Link
+                    to={item.link}
+                    className="border-b-4 border-transparent py-2 hover:border-gray-200"
+                  >
                     {item.name}
                   </Link>
                 </li>

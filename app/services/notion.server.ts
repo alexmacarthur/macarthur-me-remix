@@ -12,8 +12,8 @@ class NotionService {
   }
 
   async getSingleBlogPost(slug: string): Promise<{
-    post: BlogPost,
-    markdown: string
+    post: BlogPost;
+    markdown: string;
   }> {
     let post, markdown;
 
@@ -56,9 +56,9 @@ class NotionService {
   }
 
   async getPublishedBlogPosts(start_cursor?: string): Promise<{
-    posts: BlogPost[],
-    nextCursor: string | null
-    hasMore,
+    posts: BlogPost[];
+    nextCursor: string | null;
+    hasMore;
   }> {
     const database = process.env.NOTION_DATABASE_ID ?? "";
 
@@ -81,13 +81,15 @@ class NotionService {
     });
 
     const { next_cursor, has_more } = response;
-    const posts = await Promise.all(response.results.map((res) => this.pageToPostTransformer(res)));
+    const posts = await Promise.all(
+      response.results.map((res) => this.pageToPostTransformer(res))
+    );
 
     return {
       posts,
       nextCursor: next_cursor,
-      hasMore: has_more
-    }
+      hasMore: has_more,
+    };
   }
 
   private async pageToPostTransformer(page: any): Promise<BlogPost> {
@@ -107,24 +109,24 @@ class NotionService {
     const properties: NotionProperties = {
       title: {
         property: page.properties.Name,
-        type: 'title'
+        type: "title",
       },
       date: {
         property: page.properties.Date,
-        type: 'date'
+        type: "date",
       },
       lastUpdated: {
-        property: page.properties['Last Updated'],
-        type: 'date',
+        property: page.properties["Last Updated"],
+        type: "date",
       },
       externalUrl: {
-        property: page.properties['External URL'],
-        type: 'rich_text'
+        property: page.properties["External URL"],
+        type: "rich_text",
       },
       slug: {
         property: page.properties.Slug,
-        type: 'rich_text'
-      }
+        type: "rich_text",
+      },
     };
 
     const postProperties = {
@@ -132,21 +134,24 @@ class NotionService {
       date: "",
       lastUpdate: "",
       externalUr: "",
-      slug: ""
-    }
+      slug: "",
+    };
 
     const promises = Object.entries(properties).map(async ([name, value]) => {
       const { property, type } = value;
 
       return new Promise(async (resolve): Promise<any> => {
-        const response = await this.client.pages.properties.retrieve({ page_id: page.id, property_id:  property.id });
+        const response = await this.client.pages.properties.retrieve({
+          page_id: page.id,
+          property_id: property.id,
+        });
 
-        if(response.type === "date") {
+        if (response.type === "date") {
           postProperties[name] = response.date?.start;
           return resolve(properties[name]);
         }
 
-        const result = response['results'][0];
+        const result = response["results"][0];
         postProperties[name] = result?.[type]?.plain_text;
         return resolve(postProperties[name]);
       });
@@ -160,7 +165,7 @@ class NotionService {
       markdown: await this.getMarkdown(page.id),
       views: "",
       openGraphImage: cover,
-      ...postProperties
+      ...postProperties,
     };
   }
 }

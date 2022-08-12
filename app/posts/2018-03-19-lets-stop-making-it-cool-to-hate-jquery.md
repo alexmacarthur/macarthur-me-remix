@@ -30,10 +30,10 @@ While a lot of the dismissal of jQuery often just sounds like "because jQuery," 
 
 That 'good enough' level drops even further when you consider how willing we are to throw in other modern packages of similar file size without a second thought. Often, the same people who want to violently kill jQuery are the same ones who are completely fine loading React + friends onto a marketing page for a lead form. But if those people also claim to so adamantly prioritize performance, the math isn't exactly in their favor. Using [Bundlephobia](https://bundlephobia.com/), here's how the sizes of each library line up:
 
-| Library     | Minified + Gzipped |
-| --------------- | ------------------- |
-| [React](https://bundlephobia.com/package/react@17.0.2) + [React DOM](https://bundlephobia.com/package/react-dom@17.0.2) (17.0.2) | 42.2kb       |
-| [jQuery (v3.6.0)](https://bundlephobia.com/package/jquery@3.6.0) | 30.4kb             |
+| Library                                                                                                                          | Minified + Gzipped |
+| -------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| [React](https://bundlephobia.com/package/react@17.0.2) + [React DOM](https://bundlephobia.com/package/react-dom@17.0.2) (17.0.2) | 42.2kb             |
+| [jQuery (v3.6.0)](https://bundlephobia.com/package/jquery@3.6.0)                                                                 | 30.4kb             |
 
 Without fail, bringing up these numbers raises the tantential objection that a comparison like this isn't black & white: "_for specific use cases, React's bundle size is permissible due to its specific strengths_." To which I would agree, and then engage in a hearty dialogue over whether React is the only library that can claim such an exception. But even so, at this point, the goalposts have moved. We're no longer arguing about whether a library's size should preclude you from using it, but rather, how specific characteristics of that it may or may not warrant it.
 

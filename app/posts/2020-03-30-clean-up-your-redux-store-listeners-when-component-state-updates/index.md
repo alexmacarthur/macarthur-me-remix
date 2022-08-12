@@ -53,7 +53,6 @@ It took a bit, but the solution to this problem arose after remembering how Reac
 
 But my `subscribe` listener wasn't respecting that. It was being activated _once_ after the component mounted, and so it was only aware of the version of the props it had at that specific time. I could call `setAttributes` all I wanted, but that specific listener instance would behave as if nothing happened at all.
 
-
 ```javascript
 useEffect(() => {
   subscribe(() => {
@@ -68,7 +67,7 @@ In order to perform future store comparisons after my local state was updated, *
 
 1. **Extract the `unsubscribe` method** returned [when a subscribe listener is created](https://redux.js.org/api/store#subscribelistener).
 2. **Unsubscribe immediately before the `setAttributes` method fires.** Since `setAttributes` triggers a global store change, this unplugs the listener to prevent it from firing before the local state is technically updated.
-1. **Instead of setting up a single listener on `mount`, do so _every time_ the block is updated.** To avoid listeners becoming stacked upon listeners, I'm using the [cleanup mechanism](https://reactjs.org/docs/hooks-effect.html#example-using-hooks-1) built into the `useEffect` hook by returning from the hook with an `unsubscribe()` method call. Even though I'm already unsubscribing every time I call `setAttributes`, this will cover my butt any time a different state change occurs, totally unrelated to these settings. The objective is to never have more than one store listener active in the component at once, and this helps guarantee that.
+3. **Instead of setting up a single listener on `mount`, do so _every time_ the block is updated.** To avoid listeners becoming stacked upon listeners, I'm using the [cleanup mechanism](https://reactjs.org/docs/hooks-effect.html#example-using-hooks-1) built into the `useEffect` hook by returning from the hook with an `unsubscribe()` method call. Even though I'm already unsubscribing every time I call `setAttributes`, this will cover my butt any time a different state change occurs, totally unrelated to these settings. The objective is to never have more than one store listener active in the component at once, and this helps guarantee that.
 
 In all, those changes look like this:
 

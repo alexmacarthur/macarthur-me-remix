@@ -1,3 +1,5 @@
+const { getMarkdownPlugins } = require("./app/shared");
+
 /**
  * @type {import('@remix-run/dev').AppConfig}
  */
@@ -6,8 +8,7 @@ module.exports = {
   ignoredRouteFiles: ["**/.*", "**/*.css", "**/*.test.{js,jsx,ts,tsx}"],
   serverDependenciesToBundle: [
     /^strip-markdown.*/,
-    /^mdast-util-to-markdown*/,
-    /^mdast-util-from-markdown*/,
+    /^mdast-*/,
     /^mdast-util-to-string*/,
     /^micromark*/,
     /^unist-util-stringify-position*/,
@@ -18,6 +19,7 @@ module.exports = {
     /^decode-named-character-reference*/,
     /^unist-util-stringify-position*/,
     /^unified*/,
+    /^fault*/,
     /^zwitch*/,
     /^is-plain-obj*/,
     /^unist-util-visit*/,
@@ -28,5 +30,15 @@ module.exports = {
     /^trough*/,
     /^unist-util-is*/,
     /^bail*/,
+    /^mdx-bundler*/,
+    /^ccount*/,
   ],
+  mdx: async (filename) => {
+    const [remarkPlugins, rehypePlugins] = await getMarkdownPlugins();
+
+    return {
+      remarkPlugins: [remarkPlugins],
+      rehypePlugins: [rehypePlugins],
+    };
+  },
 };

@@ -4,7 +4,7 @@ subTitle: Guidelines for Pushing the Technological Envelope While Validating New
 ogImage: https://images.unsplash.com/photo-1483494970302-fffedd90fee4?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1200&q=100
 ---
 
-In his book *Great by Choice*, Jim Collins describes how launching new initiatives is best done by first firing [bullets, then cannonballs](https://www.jimcollins.com/concepts/fire-bullets-then-cannonballs.html). That is, performing small, inexpensive experiments helps companies "calibrate their line of sight," increasing the chance of success when the more substantial cannonballs are finally launched.
+In his book _Great by Choice_, Jim Collins describes how launching new initiatives is best done by first firing [bullets, then cannonballs](https://www.jimcollins.com/concepts/fire-bullets-then-cannonballs.html). That is, performing small, inexpensive experiments helps companies "calibrate their line of sight," increasing the chance of success when the more substantial cannonballs are finally launched.
 
 It's hard not to get excited by an approach that helps to reduce risk and make the most of your resources in such an illustrative way. And that excitement can be contagious, overflowing into areas peripheral to the business initiative you're interested in launching. As a developer, one of those areas is (obviously) technology.
 
@@ -16,7 +16,7 @@ It can be a hard sell getting organizations on board with adopting a modern tool
 - **It would take time away from working on proven systems,** and there's hesitancy around shifting resources onto something not guaranteed to yield a return.
 - **The potential advantages are ambiguous or indirect,** and the there's resistance to investing time into anything without clear-cut, understood benefits to how the business works today.
 
-But when you're just shooting bullets, the spirit of the game is different. Your work is inexpensive and confined to a small territory. The same risks don't exist here — at least in the same capacity. And as a digital product team, this spirit can be leveraged to push the digital envelope with little risk to a business's revenue streams, while *still* calibrating those larger ventures.
+But when you're just shooting bullets, the spirit of the game is different. Your work is inexpensive and confined to a small territory. The same risks don't exist here — at least in the same capacity. And as a digital product team, this spirit can be leveraged to push the digital envelope with little risk to a business's revenue streams, while _still_ calibrating those larger ventures.
 
 ## Some Real-World Context
 
@@ -36,7 +36,7 @@ When reading through these, keep this in mind: these are the result of me review
 
 ### 1. It should gracefully degrade.
 
-Calibrating your line of site doesn't require you to shoot at every ship in the sea. Similarly, toying with a modern technology doesn't mean every user *needs* to experience it. But at the same time, you don't want to worsen the experience for the portion of customers being excluded. If you're gonna try a new tool, it should fall back with users having little to no awareness that they're missing out on something.
+Calibrating your line of site doesn't require you to shoot at every ship in the sea. Similarly, toying with a modern technology doesn't mean every user _needs_ to experience it. But at the same time, you don't want to worsen the experience for the portion of customers being excluded. If you're gonna try a new tool, it should fall back with users having little to no awareness that they're missing out on something.
 
 For a web component, this is straightforward to control. For the most part, the bucket of users who can't use web components are the same whose browsers don't support ES modules. So, to prevent a component from being downloaded and parsed in older browsers, it's as simple as loading the source with a `type="module"` attribute attached.
 
@@ -52,7 +52,7 @@ In other situations, graceful degradation may look entirely different. Or, it mi
 
 ### 2. It shouldn't take long to learn.
 
-One of the big reasons there's value in first shooting bullets is their low cost, and *time* is a costly resource. As such, any new technology you choose to try in this frame of mind shouldn't require a lot of amount of time to become competent in using it at a level that allows you to effectively evaluate it.
+One of the big reasons there's value in first shooting bullets is their low cost, and _time_ is a costly resource. As such, any new technology you choose to try in this frame of mind shouldn't require a lot of amount of time to become competent in using it at a level that allows you to effectively evaluate it.
 
 Building a web component was a good choice because while the high-level API is new, it's written in JavaScript, and has parallels to the lifecycle of a component from mainstream UI libraries (React, for example). Since our team had at least a good baseline understanding of that world, there wasn't a huge risk of us slowing down any of our primary work, while still allowing us to evaluate its usefulness.
 
@@ -80,7 +80,7 @@ The outcome of this process might've been far different if we were dealing with 
 
 ## Risk It Up Front
 
-As exciting as the notion of "shooting bullets, then cannonballs" can be, the only reason it's even worth thinking about is the fact that you're gonna fail — not always, but often enough to get familiar with the feeling. That's why, as Marty Cagan also emphasizes in his book *[INSPIRED](https://svpg.com/inspired-how-to-create-products-customers-love/),* it's so important to tackle risks *up front*, rather than after you've invested a significant amount of time and resources trying to make something stick.
+As exciting as the notion of "shooting bullets, then cannonballs" can be, the only reason it's even worth thinking about is the fact that you're gonna fail — not always, but often enough to get familiar with the feeling. That's why, as Marty Cagan also emphasizes in his book _[INSPIRED](https://svpg.com/inspired-how-to-create-products-customers-love/),_ it's so important to tackle risks _up front_, rather than after you've invested a significant amount of time and resources trying to make something stick.
 
 This is important to keep in mind as you vet new technologies too. More than you'd like, you're gonna delve into a new tool that turns out to be a total flop, resulting in you scrapping everything and switching to something else, or maybe rethinking the problem altogether. That's not fun, but it's a prerequisite to landing something whose trial paid off in more ways than expected.
 

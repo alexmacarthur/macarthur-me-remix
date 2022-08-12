@@ -1,6 +1,6 @@
 ---
 title: Build Your Own WordPress Plugin Update Server with a Serverless Function
-ogImage: 'https://images.pexels.com/photos/5332291/pexels-photo-5332291.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+ogImage: "https://images.pexels.com/photos/5332291/pexels-photo-5332291.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
 ---
 
 A while ago, I wrote a premium WordPress plugin for creating typewriter effects with [TypeIt](https://typeitjs.com/) via shortcode or Gutenblock. I was ill-prepared for the trickiness of managing plugin updates for such a plugin. Since a premium plugin is monetized, it can't live inside the WordPress Plugin Repository like free options can, and asking paying customers to manually upload the a ZIP file for each new release is a clunky, less-than-ideal option.
@@ -51,7 +51,7 @@ export default (req, res) => {
 
   return res.json({
     version: "0.0.0",
-    package: `http://localhost:3000/plugins/${plugin}/0.0.0.zip`
+    package: `http://localhost:3000/plugins/${plugin}/0.0.0.zip`,
   });
 };
 ```
@@ -173,7 +173,7 @@ And just like that, we have our own custom plugin update server ready in place. 
 
 ## Configure a WordPress Plugin to Use Update Server
 
-WordPress uses an `update_plugins` transient to keep track of which plugins have been checked for updates recently, and which are due for another check. We can hook into & filter the value of that transient using the [`site_transient_update_plugins` filter](<https://github.com/WordPress/wordpress-develop/blob/97790af164b20a72640b3497af4c5a3986d8cf32/src/wp-includes/option.php#L1957>). By doing this, we'll be able seize control of where WordPress looks to see if an update is ready.
+WordPress uses an `update_plugins` transient to keep track of which plugins have been checked for updates recently, and which are due for another check. We can hook into & filter the value of that transient using the [`site_transient_update_plugins` filter](https://github.com/WordPress/wordpress-develop/blob/97790af164b20a72640b3497af4c5a3986d8cf32/src/wp-includes/option.php#L1957). By doing this, we'll be able seize control of where WordPress looks to see if an update is ready.
 
 But _before_ we start to stub out that filter, let's write a simple function for fetching fresh plugin data via `GET` request to our endpoint. With the following, we're making that request, accounting for a possible error, and returning the raw JSON.
 
@@ -369,8 +369,8 @@ Now, if you were to refresh your WP admin a few times, you'll notice that things
 
 Everything you're reading here was put into practice with one of my own plugins. If you'd like to take a glace at that code (with some various adjustments to suite my specific needs), check out the repositories below:
 
-* [TypeIt WordPress plugin](https://github.com/alexmacarthur/wp-typeit)
-* [serverless function](https://github.com/alexmacarthur/wp-plugin-update-lambda)
+- [TypeIt WordPress plugin](https://github.com/alexmacarthur/wp-typeit)
+- [serverless function](https://github.com/alexmacarthur/wp-plugin-update-lambda)
 
 ## Any Gotchas?
 

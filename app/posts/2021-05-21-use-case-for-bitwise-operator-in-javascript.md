@@ -1,5 +1,5 @@
 ---
-title: 'The Time I (Sorta) Had a Real Use Case for a Bitwise Operator in Client-Side JavaScript'
+title: "The Time I (Sorta) Had a Real Use Case for a Bitwise Operator in Client-Side JavaScript"
 ogImage: >-
   https://images.unsplash.com/photo-1569338270981-4159a7818c13?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=100
 ---
@@ -134,7 +134,7 @@ But on my byte-shaving crusade, that made my gut twist a bit (lol). If it's a bi
 The "exlusive or" operator evaluates to `1` if only _one_ of the operands is `1`. This makes it a great low-level "switch," since it'll flip values whenever one of the operand changes, like the index of a two-item array being looped over.
 
 ```js
-const items = ['first', 'second'];
+const items = ["first", "second"];
 
 // Loop #1: 'first' is the current item.
 let index = 0;

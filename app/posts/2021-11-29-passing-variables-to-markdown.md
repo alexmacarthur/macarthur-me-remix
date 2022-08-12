@@ -3,7 +3,7 @@ title: Passing Variables to Markdown Files in Gatsby
 ogImage: "https://images.pexels.com/photos/952594/pexels-photo-952594.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1200"
 ---
 
-All of the documentation and a few miscellaneous text blobs you see on [typeitjs.com](http://typeitjs.com) are sourced from Markdown files built using Gatsby's [gatsby-transformer-remark](https://www.gatsbyjs.com/plugins/gatsby-transformer-remark/) plugin. Sprinkled throughout the content are several references to the current published version of the library (ex: `v8.0.7`). 
+All of the documentation and a few miscellaneous text blobs you see on [typeitjs.com](http://typeitjs.com) are sourced from Markdown files built using Gatsby's [gatsby-transformer-remark](https://www.gatsbyjs.com/plugins/gatsby-transformer-remark/) plugin. Sprinkled throughout the content are several references to the current published version of the library (ex: `v8.0.7`).
 
 When a new version is published, it'd be an error-prone pain to change each of these references manually. Instead, I've set up a programmatic solution, allowing me to drop in fixed variable directly into a Markdown file as needed, and then swap that out for the actual value. So, something like this...
 
@@ -23,18 +23,19 @@ The root of the solutions is creating a means of accepting a piece of content, p
 
 ```js
 const variables = {
-    TYPEIT_VERSION: 'v8.0.7', 
-    TYPEIT_BUNDLE_SIZE: '3.6kb'
+  TYPEIT_VERSION: "v8.0.7",
+  TYPEIT_BUNDLE_SIZE: "3.6kb",
 };
 
-const processVariables = (content) => content.replace(/@{(\S+)}/g, (match, variableName) => {
-    if(variables[variableName]) return variables[variableName];
-    
+const processVariables = (content) =>
+  content.replace(/@{(\S+)}/g, (match, variableName) => {
+    if (variables[variableName]) return variables[variableName];
+
     throw `Variable does not have value: ${variableName}`;
-});
+  });
 ```
 
-As that function accepts content, we run a regular expression against it, which will match any set of characters that contained by "@{" and "}" that does *not* have whitespace in it. Then, for each match we find, we check for the respective value in `variables`. If it's there, return the value. If it's not throw an error, since we probably don't want to ship content that contains ugly, invalid variable names. 
+As that function accepts content, we run a regular expression against it, which will match any set of characters that contained by "@{" and "}" that does _not_ have whitespace in it. Then, for each match we find, we check for the respective value in `variables`. If it's there, return the value. If it's not throw an error, since we probably don't want to ship content that contains ugly, invalid variable names.
 
 Applying it to a few example strings yields the following results:
 
@@ -53,7 +54,7 @@ With that piece in place, we're ready to integrate it into the Markdown handling
 
 ## The Quick & Dirty Implementation
 
-If you've gotta cut some corners and just need to get some content on the screen, the (arguably) quickest way to implement our new function is by filtering the processed HTML from your Markdown files before rendering it with React: 
+If you've gotta cut some corners and just need to get some content on the screen, the (arguably) quickest way to implement our new function is by filtering the processed HTML from your Markdown files before rendering it with React:
 
 ```jsx
 import { processVariables } from './some/file.js
@@ -65,7 +66,7 @@ const MyPage = (props) => {
     return (
         <>
             <h1>My Page</h1>
-            
+
             <div dangerouslySetInnerHTML={{
                 __html: processVariables(html, { typeItVersion }),
             }}
@@ -75,15 +76,15 @@ const MyPage = (props) => {
 };
 ```
 
-However, there's a slight cost with this approach. Gatsby will server-render the HTML with the processed variables, and will then hydrate the page with the same JS that was initially used the process the content. As a result, you're technically sending more code to the client than needed (negligible impact, but still). Ideally, the variable replacement would exclusively happen on build, and strictly pass the processed content to the client. 
+However, there's a slight cost with this approach. Gatsby will server-render the HTML with the processed variables, and will then hydrate the page with the same JS that was initially used the process the content. As a result, you're technically sending more code to the client than needed (negligible impact, but still). Ideally, the variable replacement would exclusively happen on build, and strictly pass the processed content to the client.
 
 Thankfully, there's a better and not-that-much-more-time-consuming way.
 
 ## Create a Tiny Remark **Transformer Plugin**
 
-Gatsby has a blessed means of building plugins to safely integrate with `gatsby-transformer-remark`, and they provide some solid documentation on [getting started](https://www.gatsbyjs.com/tutorial/remark-plugin-tutorial/). For our case, we don't need much. 
+Gatsby has a blessed means of building plugins to safely integrate with `gatsby-transformer-remark`, and they provide some solid documentation on [getting started](https://www.gatsbyjs.com/tutorial/remark-plugin-tutorial/). For our case, we don't need much.
 
-First, create a new `plugins/gatsby-remark-process-variables` directory where the plugin will live, and initialize an npm project with an `index.js` file. 
+First, create a new `plugins/gatsby-remark-process-variables` directory where the plugin will live, and initialize an npm project with an `index.js` file.
 
 ```jsx
 mkdir -p plugins/gatsby-remark-process-variables
@@ -92,37 +93,35 @@ npm init --yes
 touch index.js
 ```
 
-Then, load our newly created plugin in the `gatsby-config.js` file: 
+Then, load our newly created plugin in the `gatsby-config.js` file:
 
 ```jsx
 // ... other stuff
-{ 
-	plugins: [
-        {
-        resolve: `gatsby-transformer-remark`,
-            options: {
-                plugins: [
-                    require.resolve(`./plugins/gatsby-remark-process-variables`),
-                ],
-            },
-        }
-    ]
+{
+  plugins: [
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [require.resolve(`./plugins/gatsby-remark-process-variables`)],
+      },
+    },
+  ];
 }
 ```
 
-And paste in some simple boilerplate for the plugin: 
+And paste in some simple boilerplate for the plugin:
 
 ```jsx
 // plugins/gatsby-remark-process-variables/index.js
 
 module.exports = ({ markdownAST }) => {
-	return markdownAST;
-}
+  return markdownAST;
+};
 ```
 
-That `markdownAST` refers to the [Markdown Abstract Syntax Tree](https://github.com/syntax-tree/mdast) that we'll be processing. If you're unfamiliar, it's a data specification used to represent content (in this case, Markdown) via JavaScript object. The AST can contain several nested layers of nodes, so instead of writing our own recursive code to crawl through that three, let's use one that handles that for us. 
+That `markdownAST` refers to the [Markdown Abstract Syntax Tree](https://github.com/syntax-tree/mdast) that we'll be processing. If you're unfamiliar, it's a data specification used to represent content (in this case, Markdown) via JavaScript object. The AST can contain several nested layers of nodes, so instead of writing our own recursive code to crawl through that three, let's use one that handles that for us.
 
-Install it with `npm install unist-util-map@^2`. That version constraint important, since the latest version of the package is ESM-only, and we're bound to end up with errors during the Gatsby build. This won't be a problem forever, but it's a hassle now. 
+Install it with `npm install unist-util-map@^2`. That version constraint important, since the latest version of the package is ESM-only, and we're bound to end up with errors during the Gatsby build. This won't be a problem forever, but it's a hassle now.
 
 After doing so, we're ready to apply our `processVariables` function to each node in the tree.
 
@@ -130,7 +129,7 @@ After doing so, we're ready to apply our `processVariables` function to each nod
 // plugins/gatsby-remark-process-variables/index.js
 
 + const map = require('unist-util-map');
-+ const processVariables = require('./some/file.js') 
++ const processVariables = require('./some/file.js')
 
 module.exports = ({ markdownAST }) => {
 -	return markdownAST;
@@ -144,7 +143,7 @@ module.exports = ({ markdownAST }) => {
 }
 ```
 
-With that in place, running and/or building our Gatsby site will result in each Markdown-embedded variable being replaced with the correct value. No more error-prone search & replace, and not a lick of extra clien-side code. 
+With that in place, running and/or building our Gatsby site will result in each Markdown-embedded variable being replaced with the correct value. No more error-prone search & replace, and not a lick of extra clien-side code.
 
 ## See It Live
 
