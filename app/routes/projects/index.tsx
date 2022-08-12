@@ -7,17 +7,43 @@ import Star from "~/components/Star";
 import Title from "~/components/Title";
 import GitHubService from "~/services/github.server";
 
+interface SpecialProject {
+            name: string,
+          subheading: string,
+          description: string,
+          link: string
+}
+
 export const loader = async ({params}) => {
   const ghService = new GitHubService();
 
+  console.log('RIH!!!')
+  console.log(await ghService.getRIHRepos())
+
   return json({
-    repos: await ghService.getProjectReposData()
+    repos: await ghService.getProjectReposData(),
+    specialProjects: [
+        {
+          name: "TypeIt",
+          subheading:
+            "The most versatile animated typing utility on the planet.",
+          description:
+            'The most versatile JavaScript library for creating typewriter effects. It started back in 2015 as a means of learning to write better JavaScript. Since then, it\'s gone through several evolutions is now one of my favorite "small" projects to maintain.',
+          link: "https://typeitjs.com",
+        },
+        {
+          name: "JamComments",
+          subheading: "A stupid-simple comment service for the Jamstack.",
+          description:
+            "A stupid-simple comment service built for static site generators like Gatsby, Eleventy, and NextJS. It was built out of dissatisfaction with other solutions that require you to load a bloated, invasive third-party script in order to render comments client-side.",
+          link: "https://jamcomments.com",
+        },
+      ] as SpecialProject[],
   })
 }
 
 export default () => {
-  const { repos } = useLoaderData();
-  const specialProjects = [];
+  const { repos, specialProjects } = useLoaderData();
 
   return (
     <PageLayout>

@@ -54,6 +54,7 @@ class GitHubService {
     });
 
     let commitData = (await Promise.allSettled(commitPromises)) as unknown as any[];
+
     console.log("Got commit data...");
 
     return commitData
@@ -136,7 +137,34 @@ class GitHubService {
       .map((repo) => {
         return {
           html_url: repo.html_url,
-          description: repo.description,
+          description: repo.description.trim(),
+          name: repo.name,
+          stargazers_count: repo.stargazers_count,
+        };
+      })
+  }
+
+  async getRIHRepos(): Promise<ProjectRepo[]> {
+    const repoSlugs = [
+      'RamseyInHouse/steppp',
+      'RamseyInHouse/feedback-component'
+    ];
+
+    const [, repos] = await this.client.getAsync("/orgs/ramseyinhouse/repos", {
+      per_page: 100,
+      type: "public",
+    });
+
+    const myRepos = repos.filter(r => {
+      return repoSlugs.some(slug => {
+        return new RegExp(slug, "i").test(r.full_name)
+      });
+    })
+
+    return myRepos.map((repo) => {
+        return {
+          html_url: repo.html_url,
+          description: repo.description.trim(),
           name: repo.name,
           stargazers_count: repo.stargazers_count,
         };
