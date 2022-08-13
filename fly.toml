@@ -1,7 +1,6 @@
-# fly.toml file generated for macarthur-me-remix on 2022-08-12T22:47:28-05:00
+# fly.toml file generated for macarthur-me-remix on 2022-08-13T11:50:55-05:00
 
 app = "macarthur-me-remix"
-
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
@@ -18,7 +17,6 @@ processes = []
   processes = ["app"]
   protocol = "tcp"
   script_checks = []
-
   [services.concurrency]
     hard_limit = 25
     soft_limit = 20

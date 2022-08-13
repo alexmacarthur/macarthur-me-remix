@@ -32,6 +32,7 @@ module.exports = {
     /^bail*/,
     /^mdx-bundler*/,
     /^ccount*/,
+    /^estree-util-is-identifier-name*/,
   ],
   mdx: async (filename) => {
     const [remarkPlugins, rehypePlugins] = await getMarkdownPlugins();

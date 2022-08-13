@@ -10,7 +10,7 @@
     "dev:css": "npm run generate:css -- --watch",
     "dev:remix": "cross-env NODE_ENV=development binode -- @remix-run/dev:remix dev",
     "format": "prettier --write .",
-    "generate:css": "tailwindcss -w -i ./app/styles/app.css -o ./app/styles/style.css --postcss",
+    "generate:css": "tailwindcss -i ./app/styles/app.css -o ./app/styles/style.css --postcss",
     "start": "remix-serve build",
     "typecheck": "tsc -b"
   },
@@ -76,6 +76,6 @@
     "vite-tsconfig-paths": "^3.5.0"
   },
   "engines": {
-    "node": ">=17"
+    "node": ">=16"
   }
 }
