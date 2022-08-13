@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 interface CopyProps {
   markup?: string;
-  children?: ReactNode[];
+  children?: ReactNode[] | ReactNode;
 }
 
 export default ({ markup = undefined, children = undefined }: CopyProps) => {
