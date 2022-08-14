@@ -6,6 +6,7 @@ import PageLayout from "../../components/PageLayout";
 import CMS from "../../services/cms.server";
 import { getMDXComponent } from "mdx-bundler/client";
 import { useMemo } from "react";
+import { getBaseLoaderHeaders } from "~/utils";
 
 export const loader = async ({ params, request }) => {
   const { slug } = params;
@@ -14,6 +15,8 @@ export const loader = async ({ params, request }) => {
 
   return json({ slug, code, post, url: request.url });
 };
+
+export const headers = getBaseLoaderHeaders;
 
 export default () => {
   const data = useLoaderData();

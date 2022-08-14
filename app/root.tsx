@@ -15,6 +15,13 @@ export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: styles }];
 };
 
+export const headers = () => {
+  return {
+    "X-Test-Header": "hello!",
+    "Cache-Control": "max-age=300, s-maxage=3600"
+  }
+}
+
 export const meta: MetaFunction = () => ({
   title: TITLE,
   description: DESCRIPTION,
