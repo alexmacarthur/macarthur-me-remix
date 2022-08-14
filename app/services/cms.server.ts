@@ -1,11 +1,14 @@
 import NotionService from "./notion.server";
 import chunk from "lodash.chunk";
 import { POSTS_PER_PAGE } from "~/constants";
+import AnalyticsService from "./analytics/index.server";
 class CMS {
-  provider;
+  provider: NotionService;
+  analyticsService;
 
   constructor() {
     this.provider = new NotionService();
+    this.analyticsService = new AnalyticsService();
   }
 
   async getPosts(pageNumber: number = 2): Promise<{
@@ -13,7 +16,7 @@ class CMS {
     hasMore: boolean;
     hasPrevious: boolean;
   }> {
-    let allPosts = [];
+    let allPosts: BlogPost[] = [];
     let nextCursor;
     let hasMore = false;
 
@@ -36,16 +39,25 @@ class CMS {
 
     let chunks = chunk(allPosts, POSTS_PER_PAGE);
     let chunkIndex = pageNumber - 1;
+    let posts = await Promise.all((chunks[chunkIndex] ?? chunks.flat()).map(async (p) => {
+      p.views = await this.analyticsService.getTotalPostViews(p.slug);
+
+      return p;
+    }));
 
     return {
-      posts: chunks[chunkIndex] ?? chunks.flat(),
+      posts,
       hasMore,
       hasPrevious: pageNumber > 1,
     };
   }
 
-  getPost(slug: string) {
-    return this.provider.getSingleBlogPost(slug);
+  async getPost(slug: string) {
+    const post = await this.provider.getSingleBlogPost(slug);
+
+    post.post.views = await this.analyticsService.getTotalPostViews(post.post.slug);
+
+    return post;
   }
 }
 

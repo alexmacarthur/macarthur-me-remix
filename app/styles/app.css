@@ -81,3 +81,21 @@ h5 {
 .remark-highlight * {
   font-family: Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;
 }
+
+svg {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.icon {
+  path {
+    @apply transition-all;
+    fill: theme('colors.gray.800')
+  }
+
+  &:hover {
+    path {
+      fill: theme('colors.purple.500')
+    }
+  }
+}

@@ -20,15 +20,15 @@ class AnalyticsService {
     params.set('metrics', 'pageviews');
 
     const url = this.contructStatusEndpoint(params);
-  
+
     return await (async () => {
       try {
         const data = await this.getPlausibleData(url);
-  
+
         return Number(data.results.pageviews.value);
       } catch(e) {
         this.log(e);
-  
+
         return 0;
       }
     })() + Number(this.gaData.totalPageViewsForSite);
@@ -46,7 +46,7 @@ class AnalyticsService {
 
   getGaPostViews(slug: string): number {
     const rawValue = this.gaData.postViewCounts[slug];
-    
+
     if(!rawValue) return 0;
 
     return Number(this.gaData.postViewCounts[slug]);

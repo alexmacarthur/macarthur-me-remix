@@ -35,6 +35,8 @@ const Nav = ({ isAbsolute = false }) => {
     return location.pathname === "/";
   });
 
+  console.log(location.pathname);
+
   useEffect(() => {
     setShouldHideLogo(location.pathname === "/");
   }, [requestPath]);

@@ -21,6 +21,7 @@ export default () => {
   const data = useLoaderData();
 
   const { code, post, slug } = data;
+  console.log(post.views);
 
   const { openGraphImage, title, date, lastUpdated } = post;
 
@@ -33,7 +34,7 @@ export default () => {
           isPost={true}
           // subTitle={subTitle}
           lastUpdated={lastUpdated}
-          // views={0}
+          views={post.views}
         >
           {title}
         </Title>

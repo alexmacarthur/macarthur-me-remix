@@ -1,10 +1,38 @@
 // import { Link } from "@remix-run/react";
-import Nav from "~/components/Nav";
+import { json } from "@remix-run/node";
+import { Link, useLoaderData } from "@remix-run/react";
+import Button from "~/components/Button";
+import DateFormatter from "~/components/DateFormatter";
+import PageLayout from "~/components/PageLayout";
+import SocialLinks from "~/components/SocialLinks";
+import ViewCount from "~/components/ViewCount";
+import CMS from "~/services/cms.server";
 import Logo from "../components/Logo";
 
+export const loader = async () => {
+const featuredPosts = await Promise.all([
+  // "when-dom-updates-appear-to-be-asynchronous",
+  "use-web-workers-for-your-event-listeners",
+  "use-web-workers-for-your-event-listeners",
+  "use-web-workers-for-your-event-listeners",
+  // "when-a-weakmap-came-in-handy",
+].map(slug => CMS.getPost(slug)));
+
+return json({
+  featuredPosts: featuredPosts.map( post => {
+    const { title, views, date, slug} = post.post;
+
+    return { title, views, date, slug};
+  })
+});
+}
+
 export default function Index() {
+  const { featuredPosts } = useLoaderData();
+
   return (
-    <main className="flex w-screen justify-center p-4 md:p-6">
+    <PageLayout>
+    <main className="flex justify-center p-4 md:p-6">
       <div className="text-white">
         <div className="mb-4 flex max-w-5xl flex-col justify-center pt-12 pb-8 lg:pt-20 lg:pb-10">
           <h1 className="text-4xl font-semibold md:text-6xl lg:text-8xl">
@@ -14,9 +42,9 @@ export default function Index() {
             A web developer who's prone to solving problems with JavaScript,
             PHP, and Ruby.
           </span>
-          <div className="mt-4 mb-20">{/* <SocialLinks /> */}</div>
+          <div className="mt-4 mb-20"><SocialLinks /></div>
         </div>
-        {/*
+
         <div className="mb-10 max-w-5xl">
           <h2 className="mb-6 text-2xl font-bold">Featured Blog Posts</h2>
 
@@ -25,6 +53,8 @@ export default function Index() {
               const { title, views, date, slug } = post;
               const postPath = `/posts/${slug}`;
 
+              console.log(postPath);
+
               return (
                 <li
                   className="flex h-full flex-col rounded-md border-4 border-gray-800 p-4 hover:border-purple-500 md:p-8"
@@ -32,8 +62,8 @@ export default function Index() {
                 >
                   <div className="mb-8">
                     <h3 className="mb-2 text-xl font-semibold">
-                      <Link href={postPath}>
-                        <a>{title}</a>
+                      <Link to={postPath}>
+                        {title}
                       </Link>
                     </h3>
                     <DateFormatter date={date} />
@@ -43,7 +73,7 @@ export default function Index() {
                     <Button
                       naked={true}
                       small={true}
-                      href={postPath}
+                      to={postPath}
                       internal={true}
                     >
                       Read It
@@ -60,15 +90,16 @@ export default function Index() {
             <Button
               naked={true}
               small={true}
-              href="/posts"
+              to="/posts"
               internal={true}
               inheritColor={true}
             >
               View All
             </Button>
           </div>
-        </div> */}
+        </div>
       </div>
     </main>
+    </PageLayout>
   );
 }
