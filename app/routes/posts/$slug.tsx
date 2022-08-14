@@ -6,7 +6,8 @@ import PageLayout from "../../components/PageLayout";
 import CMS from "../../services/cms.server";
 import { getMDXComponent } from "mdx-bundler/client";
 import { useMemo } from "react";
-import { getBaseLoaderHeaders } from "~/utils";
+import Component from "../about";
+import Title from "~/components/Title";
 
 export const loader = async ({ params, request }) => {
   const { slug } = params;
@@ -16,41 +17,30 @@ export const loader = async ({ params, request }) => {
   return json({ slug, code, post, url: request.url });
 };
 
-export const headers = getBaseLoaderHeaders;
-
 export default () => {
   const data = useLoaderData();
 
   const { code, post, slug } = data;
 
-  const { openGraphImage } = post;
+  const { openGraphImage, title, date, lastUpdated } = post;
 
   const MarkupComponent = useMemo(() => getMDXComponent(code), [code]);
 
   return (
     <PageLayout>
-      here: {openGraphImage}
-      page: {slug}
-      <>
-        {/* <Title
+        <Title
           date={date}
-          isPost={false}
-          subTitle={subTitle}
+          isPost={true}
+          // subTitle={subTitle}
           lastUpdated={lastUpdated}
-          views={0}
+          // views={0}
         >
           {title}
         </Title>
 
-        <div
-          className="post-content prose md:prose-lg mx-auto max-w-none"
-          dangerouslySetInnerHTML={{ __html: content }}
-        ></div> */}
-
-        <MarkupComponent />
-
-        {/* <Copy markup={markup} /> */}
-      </>
+        <Copy>
+          <MarkupComponent />
+        </Copy>
     </PageLayout>
   );
 };

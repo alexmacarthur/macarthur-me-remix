@@ -1238,7 +1238,7 @@ video {
 }
 
 .prose :where(h2, h3, h4, h5):not(:where([class~="not-prose"] *)) {
-  color: #6b7280;
+  color: #111827;
   font-size: 1.5rem;
   font-size: [object Object];
   font-weight: 800;
@@ -2049,6 +2049,10 @@ h5 {
 
 .nav input:checked ~ .nav-menu-wrapper .nav-menu-label .menu-bar-3 {
   transform: translate3d(0, -1rem, 0) rotate(45deg);
+}
+
+.remark-highlight * {
+  font-family: Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;
 }
 
 .hover\:border-gray-200:hover {

@@ -12,15 +12,15 @@ import { DESCRIPTION, TITLE } from "./constants";
 import styles from "./styles/style.css";
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: styles }];
+  return [
+    { rel: "stylesheet", href: styles },
+    { rel: "apple-touch-icon", sizes: "180x180", href: "/favicon/apple-touch-icon.png" },
+    { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon/favicon-32x32.png" },
+    { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon/favicon-16x16.png" },
+    { rel: "manifest", href: "/favicon/site.webmanifest" },
+    { rel: "shortcut icon", href: "/favicon/favicon.ico" }
+  ];
 };
-
-export const headers = () => {
-  return {
-    "X-Test-Header": "hello!",
-    "Cache-Control": "max-age=300, s-maxage=3600"
-  }
-}
 
 export const meta: MetaFunction = () => ({
   title: TITLE,

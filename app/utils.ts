@@ -4,14 +4,6 @@ import { SITE_URL } from "./constants";
 
 const DEFAULT_REDIRECT = "/";
 
-export function getBaseLoaderHeaders({ loaderHeaders }) {
-  return {
-    ...loaderHeaders,
-    "X-Hello": "Hi!",
-    "Cache-Control": "max-age=300, s-maxage=3600",
-  }
-}
-
 /**
  * This should be used any time the redirect path is user-provided
  * (Like the query string on our login/signup pages). This avoids

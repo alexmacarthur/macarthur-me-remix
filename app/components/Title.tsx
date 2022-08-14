@@ -27,7 +27,7 @@ const Title = ({
         {isPost && (
           <span className="mb-3 mr-4 block text-base">
             <Button
-              href="/posts"
+              to="/posts"
               internal={true}
               naked={true}
               pointLeft={true}

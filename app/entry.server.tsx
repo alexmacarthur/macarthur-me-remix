@@ -14,6 +14,9 @@ export default function handleRequest(
 
   responseHeaders.set("Content-Type", "text/html");
 
+  // 5 minutes, 1 hour, 4 hours
+  responseHeaders.set("Cache-Control", "public, max-age=300, s-maxage=3600, stale-while-revalidate=14400");
+
   return new Response("<!DOCTYPE html>" + markup, {
     status: responseStatusCode,
     headers: responseHeaders,
