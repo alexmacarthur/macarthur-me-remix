@@ -39,11 +39,13 @@ class CMS {
 
     let chunks = chunk(allPosts, POSTS_PER_PAGE);
     let chunkIndex = pageNumber - 1;
-    let posts = await Promise.all((chunks[chunkIndex] ?? chunks.flat()).map(async (p) => {
-      p.views = await this.analyticsService.getTotalPostViews(p.slug);
+    let posts = await Promise.all(
+      (chunks[chunkIndex] ?? chunks.flat()).map(async (p) => {
+        p.views = await this.analyticsService.getTotalPostViews(p.slug);
 
-      return p;
-    }));
+        return p;
+      })
+    );
 
     return {
       posts,
@@ -55,7 +57,9 @@ class CMS {
   async getPost(slug: string) {
     const post = await this.provider.getSingleBlogPost(slug);
 
-    post.post.views = await this.analyticsService.getTotalPostViews(post.post.slug);
+    post.post.views = await this.analyticsService.getTotalPostViews(
+      post.post.slug
+    );
 
     return post;
   }

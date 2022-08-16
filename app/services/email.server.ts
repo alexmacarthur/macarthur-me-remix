@@ -14,8 +14,14 @@ class EmailService {
   }
 
   transport(options) {
+    const derivedOptions = {
+      to: process.env.EMAIL_ADDRESS,
+      from: process.env.EMAIL_ADDRESS,
+      ...options,
+    };
+
     return new Promise((resolve, reject) => {
-      this.transporter.sendMail(options, function (error, info) {
+      this.transporter.sendMail(derivedOptions, function (error, info) {
         if (error) {
           return reject(error);
         }
@@ -26,4 +32,4 @@ class EmailService {
   }
 }
 
-export default EmailService;
+export default new EmailService();

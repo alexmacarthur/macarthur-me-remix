@@ -17,7 +17,6 @@ export default () => {
 
       <ul className="space-y-10">
         {posts.map((post) => {
-
           console.log(post);
           const { externalUrl, externalHost } = post;
           const linkProps = {

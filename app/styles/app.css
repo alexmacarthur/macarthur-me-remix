@@ -79,7 +79,7 @@ h5 {
 }
 
 .remark-highlight * {
-  font-family: Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;
+  font-family: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
 }
 
 svg {
@@ -90,12 +90,29 @@ svg {
 .icon {
   path {
     @apply transition-all;
-    fill: theme('colors.gray.800')
+    fill: theme("colors.gray.800");
   }
 
   &:hover {
     path {
-      fill: theme('colors.purple.500')
+      fill: theme("colors.purple.500");
     }
+  }
+}
+
+form {
+  input,
+  textarea {
+    @apply w-full rounded-sm border border-gray-300 px-2 py-2 text-base;
+  }
+
+  label {
+    @apply mb-2 inline-block;
+  }
+
+  .password-wrapper {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
   }
 }

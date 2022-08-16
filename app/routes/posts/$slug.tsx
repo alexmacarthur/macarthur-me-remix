@@ -29,19 +29,19 @@ export default () => {
 
   return (
     <PageLayout>
-        <Title
-          date={date}
-          isPost={true}
-          // subTitle={subTitle}
-          lastUpdated={lastUpdated}
-          views={post.views}
-        >
-          {title}
-        </Title>
+      <Title
+        date={date}
+        isPost={true}
+        // subTitle={subTitle}
+        lastUpdated={lastUpdated}
+        views={post.views}
+      >
+        {title}
+      </Title>
 
-        <Copy>
-          <MarkupComponent />
-        </Copy>
+      <Copy>
+        <MarkupComponent />
+      </Copy>
     </PageLayout>
   );
 };

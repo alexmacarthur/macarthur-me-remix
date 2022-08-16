@@ -19,8 +19,11 @@ export const loader = async () => {
   const ghService = new GitHubService();
   const [rihRepos, myRepos] = await Promise.all([
     ghService.getRIHRepos(),
-    ghService.getProjectReposData()]);
-  const repos = [...rihRepos, ...myRepos].sort((a, b) => b.stargazers_count - a.stargazers_count);
+    ghService.getProjectReposData(),
+  ]);
+  const repos = [...rihRepos, ...myRepos].sort(
+    (a, b) => b.stargazers_count - a.stargazers_count
+  );
 
   return json({
     repos,
@@ -93,10 +96,7 @@ export default () => {
 
                   {link && (
                     <div className="mt-auto">
-                      <Button
-                        to={link}
-                        internal={link.startsWith("/")}
-                      >
+                      <Button to={link} internal={link.startsWith("/")}>
                         {project.prettyLink}
                       </Button>
                     </div>

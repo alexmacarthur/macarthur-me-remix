@@ -32,13 +32,17 @@ const Button = ({
   const iconMargin = pointLeft ? "mr-2" : "ml-2";
 
   const ButtonLink = forwardRef(() => {
-    if(!internal) {
+    if (!internal) {
       return (
-        <a className={defaultClasses + buttonColors + buttonPadding + classes} href={to} target="_blank">
+        <a
+          className={defaultClasses + buttonColors + buttonPadding + classes}
+          href={to}
+          target="_blank"
+        >
           {children}
           <ExternalIcon />
         </a>
-      )
+      );
     }
 
     return (
@@ -48,9 +52,9 @@ const Button = ({
         to={to}
       >
         {children}
-          <Arrow
-            className={`block ${iconMargin} ${iconDimensions} ${iconRotation}`}
-          />
+        <Arrow
+          className={`block ${iconMargin} ${iconDimensions} ${iconRotation}`}
+        />
       </Link>
     );
   });

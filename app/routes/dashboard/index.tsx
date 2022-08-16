@@ -1,4 +1,4 @@
-import { json } from "@remix-run/node"
+import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import Counter from "~/components/counter";
 import ExternalIcon from "~/components/IconExternal";
@@ -13,7 +13,7 @@ import SupabaseService from "~/services/supabase.server";
 import TwitterService from "~/services/twitter.server";
 import WordPressService from "~/services/wordpress.server";
 
-export const loader = async() => {
+export const loader = async () => {
   type State = {
     title: string;
     link?: string;
@@ -125,27 +125,32 @@ export const loader = async() => {
   }
 
   return json({
-      stats: stats.filter((s) => {
-        return !!s.value;
-      }),
-    });
-}
+    stats: stats.filter((s) => {
+      return !!s.value;
+    }),
+  });
+};
 
 export default () => {
   const { stats } = useLoaderData();
 
   return (
     <PageLayout narrow={true}>
-      <Title subTitle="The vanity metrics that mean the most to me.
-">Dashboard</Title>
+      <Title
+        subTitle="The vanity metrics that mean the most to me.
+"
+      >
+        Dashboard
+      </Title>
 
-      <div className="post-content mx-auto prose max-w-none md:prose-lg mb-12">
+      <div className="post-content prose mx-auto mb-12 max-w-none md:prose-lg">
         <p>
-          Most of these statistics are sourced from third-party APIs. I'm not some lunatic who'd do this manually.
+          Most of these statistics are sourced from third-party APIs. I'm not
+          some lunatic who'd do this manually.
         </p>
       </div>
 
-      <ul className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <ul className="grid grid-cols-1 gap-8 md:grid-cols-2">
         {stats.map((stat) => {
           return (
             <li key={stat.title}>
@@ -158,7 +163,7 @@ export default () => {
                   </a>
                 )}
               </div>
-              <span className="text-sm italic text-gray-500 block mb-3">
+              <span className="mb-3 block text-sm italic text-gray-500">
                 {stat.subTitle}
               </span>
               <Counter

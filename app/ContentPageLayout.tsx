@@ -1,5 +1,5 @@
 import { MetaFunction } from "@remix-run/node";
-import { FunctionComponent } from "react";
+import { FunctionComponent, ReactNode } from "react";
 import Title from "~/components/Title";
 import Copy from "./components/Copy";
 import PageLayout from "./components/PageLayout";
@@ -9,14 +9,14 @@ export default (
   attributes
 ): {
   metaFunction: MetaFunction;
-  Component: FunctionComponent;
+  Component: FunctionComponent<{ children?: ReactNode[] | ReactNode }>;
 } => {
   return {
     metaFunction: () => ({
       ...attributes.metaFunction,
       title: `${attributes.title} | Alex MacArthur`,
     }),
-    Component: () => {
+    Component: ({ children = null }) => {
       return (
         <PageLayout narrow={true}>
           <Title>{attributes.title}</Title>
@@ -24,6 +24,8 @@ export default (
           <Copy>
             <Content />
           </Copy>
+
+          {children}
         </PageLayout>
       );
     },
