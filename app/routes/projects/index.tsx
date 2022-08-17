@@ -16,7 +16,7 @@ interface SpecialProject {
 }
 
 export const loader = async () => {
-  const ghService = new GitHubService();
+  const ghService = GitHubService;
   const [rihRepos, myRepos] = await Promise.all([
     ghService.getRIHRepos(),
     ghService.getProjectReposData(),

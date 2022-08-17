@@ -3,7 +3,7 @@ import { ReactChild } from "react";
 export default function DateFormatter({
   date,
   className = "",
-  children = null,
+  children,
 }: {
   date: string | Date;
   className?: string;
@@ -20,7 +20,7 @@ export default function DateFormatter({
 
     return (
       <span className={`text-sm text-gray-500 ${className}`}>
-        {children}{" "}
+        {children && children}{" "}
         <time dateTime={dateObject.toISOString()}>{formattedDate}</time>
       </span>
     );

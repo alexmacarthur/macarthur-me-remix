@@ -1,6 +1,6 @@
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import Counter from "~/components/counter";
+import Counter from "~/components/Counter";
 import ExternalIcon from "~/components/IconExternal";
 import PageLayout from "~/components/PageLayout";
 import Title from "~/components/Title";
@@ -21,49 +21,40 @@ export const loader = async () => {
     value: any;
   };
 
-  const aService = new AnalyticsService();
-  const ghService = new GitHubService();
-  const supService = new SupabaseService();
-  const gsService = new GoogleSearchService();
-  const stravaService = new StravaService();
-  const npmService = new NpmService();
-  const wpService = new WordPressService();
-  const twitterService = new TwitterService();
-
   const stats: State[] = [
     {
       title: "Total GitHub Stars",
       link: "https://github.com/alexmacarthur",
       subTitle: "If you haven't starred my repos, get on that.",
-      value: ghService.getTotalsStars(),
+      value: GitHubService.getTotalsStars(),
     },
     {
       title: "Total GitHub Followers",
       link: "https://github.com/alexmacarthur",
       subTitle: "Do it yourself today, for free.",
-      value: ghService.getFollowerCount(),
+      value: GitHubService.getFollowerCount(),
     },
     {
       title: "Total Twitter Followers",
       link: "https://twitter.com/amacarthur",
       subTitle: "Go ahead, follow me.",
-      value: twitterService.getFollowerCount(),
+      value: TwitterService.getFollowerCount(),
     },
     {
       title: "Total Website Views",
       subTitle: "Since November, 2015.",
-      value: aService.getTotalViews(),
+      value: AnalyticsService.getTotalViews(),
     },
     {
       title: "Positive Feedback (👍) on Blog Posts",
       subTitle: "Scroll to the bottom of any post and do it yourself.",
-      value: supService.getPositiveFeedbackCount(),
+      value: SupabaseService.getPositiveFeedbackCount(),
     },
     {
       title: "Links in <em>JavaScript Weekly</em>",
       link: "https://www.google.com/search?q=site%3Ajavascriptweekly.com+%22alex+macarthur%22",
       subTitle: "Mostly just blog posts, but the occassional project too.",
-      value: gsService.getJsWeeklyTotalResults(),
+      value: GoogleSearchService.getJsWeeklyTotalResults(),
     },
     {
       title: "Articles Published on <em>CSS Tricks</em>",
@@ -75,19 +66,19 @@ export const loader = async () => {
       title: "Total Miles Run",
       link: "https://www.strava.com/athletes/27922666",
       subTitle: "As tracked by Strava since October, 2016.",
-      value: stravaService.getTotalRunMiles(),
+      value: StravaService.getTotalMilesRun(),
     },
     {
       title: "Total npm Downloads",
       link: "https://www.npmjs.com/~alexmacarthur",
       subTitle: "Mainly random open source JavaScript packages.",
-      value: npmService.getTotalDownloads(),
+      value: NpmService.getTotalDownloads(),
     },
     {
       title: "Total WordPress Plugin Downloads",
       link: "https://github.com/alexmacarthur",
       subTitle: "Not a huge focus anymore, but still worth bragging about.",
-      value: wpService.getPluginDownloadCount(),
+      value: WordPressService.getPluginDownloadCount(),
     },
     {
       title: "How Many Inches Tall I've Grown",

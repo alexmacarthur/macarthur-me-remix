@@ -66,7 +66,7 @@ class AnalyticsService {
 
       return Number(data.results.visitors.value);
     } catch (e) {
-      this.log(e.message);
+      this.log((e as Error).message);
       return 0;
     }
   }
@@ -97,4 +97,4 @@ class AnalyticsService {
   }
 }
 
-export default AnalyticsService;
+export default new AnalyticsService();

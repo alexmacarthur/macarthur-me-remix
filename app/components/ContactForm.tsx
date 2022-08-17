@@ -26,6 +26,14 @@ const ContactForm = ({ successful }: { successful: boolean }) => {
     if (successful) {
       onSubmitSuccess();
     }
+
+    if (successful === false) {
+      setMessage({
+        message:
+          "Something went wrong! Maybe try <a class='font-bold' target='_blank' href='https://twitter.com/amacarthur'>tweeting at me</a>.",
+        classes: "bg-red-200 text-red-700",
+      });
+    }
   }, [successful]);
 
   useEffect(() => {
@@ -57,7 +65,7 @@ const ContactForm = ({ successful }: { successful: boolean }) => {
 
     (
       getForm().querySelector('[name="completion_time"]') as HTMLInputElement
-    ).value = String(differenceInSeconds);
+    ).value = "";
 
     if (differenceInSeconds < 3) {
       onSubmitSuccess();
@@ -68,13 +76,12 @@ const ContactForm = ({ successful }: { successful: boolean }) => {
   };
 
   return (
-    <div className="mx-auto max-w-2xl">
+    <div className="mx-auto max-w-2xl pt-8">
       {!!message.message ? (
         <span
           className={`mb-10 block rounded-md px-3 py-2 text-center text-base md:text-xl ${message.classes}`}
-        >
-          {message.message}
-        </span>
+          dangerouslySetInnerHTML={{ __html: message.message }}
+        />
       ) : null}
 
       <Form
@@ -85,55 +92,73 @@ const ContactForm = ({ successful }: { successful: boolean }) => {
           flex: "1",
         }}
       >
-        <input type="hidden" name="completion_time" />
+        <div className="flex flex-col">
+          <input type="hidden" name="completion_time" />
 
-        <p className="password-wrapper mb-4">
-          <label className="block">
-            Password:
-            <br />
-            <input
-              type="text"
-              onFocus={setStartTime}
-              name="password"
-              tabIndex={-1}
-              autoComplete="off"
+          <p className="password-wrapper mb-4 block">
+            <label className="block">
+              Password:
+              <br />
+              <input
+                type="text"
+                onFocus={setStartTime}
+                name="password"
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </label>
+          </p>
+
+          <p className="mb-4 block">
+            <label className="block">
+              Your name:
+              <br />
+              <input required type="text" name="name" onFocus={setStartTime} />
+            </label>
+          </p>
+
+          <p className="mb-4 block">
+            <label className="block">
+              Your email:
+              <br />
+              <input
+                required
+                type="email"
+                name="email"
+                onFocus={setStartTime}
+              />
+            </label>
+          </p>
+
+          <p className="mb-4 block">
+            <label className="block">
+              Message:
+              <br />
+              <textarea
+                required
+                name="message"
+                rows={4}
+                onFocus={setStartTime}
+              />
+            </label>
+          </p>
+
+          <p className="mt-6 block">
+            <Button
+              render={({ classes }) => {
+                return (
+                  <button
+                    className={classes}
+                    type="submit"
+                    disabled={transition.state === "submitting"}
+                  >
+                    Send
+                  </button>
+                );
+              }}
             />
-          </label>
-        </p>
-
-        <p className="mb-4">
-          <label className="block">
-            Your name:
-            <br />
-            <input required type="text" name="name" onFocus={setStartTime} />
-          </label>
-        </p>
-
-        <p className="mb-4">
-          <label className="block">
-            Your email:
-            <br />
-            <input required type="email" name="email" onFocus={setStartTime} />
-          </label>
-        </p>
-
-        <p className="mb-4">
-          <label className="block">
-            Message:
-            <br />
-            <textarea required name="message" rows={4} onFocus={setStartTime} />
-          </label>
-        </p>
-
-        <p className="mt-6">
-          <button
-            type="submit"
-            className="button"
-            disabled={transition.state === "submitting"}
-          >
-            Send
-          </button>
-        </p>
+          </p>
+        </div>
       </Form>
     </div>
   );

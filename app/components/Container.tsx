@@ -9,7 +9,7 @@ type ContainerProps = {
 export default function Container({
   children,
   narrow = false,
-  classes = "px-0",
+  classes = "",
 }: ContainerProps) {
   return (
     <div

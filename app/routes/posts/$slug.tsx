@@ -6,7 +6,6 @@ import PageLayout from "../../components/PageLayout";
 import CMS from "../../services/cms.server";
 import { getMDXComponent } from "mdx-bundler/client";
 import { useMemo } from "react";
-import Component from "../about";
 import Title from "~/components/Title";
 
 export const loader = async ({ params, request }) => {
@@ -19,12 +18,8 @@ export const loader = async ({ params, request }) => {
 
 export default () => {
   const data = useLoaderData();
-
-  const { code, post, slug } = data;
-  console.log(post.views);
-
-  const { openGraphImage, title, date, lastUpdated } = post;
-
+  const { code, post } = data;
+  const { title, date, lastUpdated } = post;
   const MarkupComponent = useMemo(() => getMDXComponent(code), [code]);
 
   return (

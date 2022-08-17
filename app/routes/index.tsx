@@ -57,8 +57,6 @@ export default function Index() {
                 const { title, views, date, slug } = post;
                 const postPath = `/posts/${slug}`;
 
-                console.log(postPath);
-
                 return (
                   <li
                     className="flex h-full flex-col rounded-md border-4 border-gray-800 p-4 hover:border-purple-500 md:p-8"

@@ -8,7 +8,7 @@ class CMS {
 
   constructor() {
     this.provider = new NotionService();
-    this.analyticsService = new AnalyticsService();
+    this.analyticsService = AnalyticsService;
   }
 
   async getPosts(pageNumber: number = 2): Promise<{

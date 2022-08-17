@@ -59,7 +59,7 @@ const Logo = ({
     }
 
     let rafId: number = 0;
-    let startTime: number | null = null;
+    let startTime: number = 0;
     const startingAngle = getCurrentAngle();
     const range = selectRange(startingAngle);
     let destinationAngle: number = randomInRange(range[0], range[1]);

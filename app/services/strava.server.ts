@@ -6,10 +6,10 @@ class StravaService {
   db;
 
   constructor() {
-    this.db = new SupabaseService();
+    this.db = SupabaseService;
   }
 
-  async getTotalRunMiles(): Promise<number> {
+  async getTotalMilesRun(): Promise<number> {
     const stats = await this.getAthleteStats();
     const distanceInMeters = stats?.all_run_totals?.distance ?? 0;
 
@@ -90,4 +90,4 @@ class StravaService {
   }
 }
 
-export default StravaService;
+export default new StravaService();

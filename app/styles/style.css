@@ -105,7 +105,7 @@ pre[class*="language-"] {
   color: #f8f8f2;
   background: none;
   text-shadow: 0 1px rgba(0, 0, 0, 0.3);
-  font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   font-size: 1em;
   text-align: left;
   white-space: pre;
@@ -124,7 +124,7 @@ pre[class*="language-"] {
 
 pre[class*="language-"] {
   padding: 1em;
-  margin: 0.5em 0;
+  margin: .5em 0;
   overflow: auto;
   border-radius: 0.3em;
 }
@@ -137,8 +137,8 @@ pre[class*="language-"] {
 /* Inline code */
 
 :not(pre) > code[class*="language-"] {
-  padding: 0.1em;
-  border-radius: 0.3em;
+  padding: .1em;
+  border-radius: .3em;
   white-space: normal;
 }
 
@@ -154,7 +154,7 @@ pre[class*="language-"] {
 }
 
 .token.namespace {
-  opacity: 0.7;
+  opacity: .7;
 }
 
 .token.property,
@@ -239,7 +239,7 @@ pre[class*="language-"] {
 
 ::before,
 ::after {
-  --tw-content: "";
+  --tw-content: '';
 }
 
 /*
@@ -257,7 +257,7 @@ html {
   -moz-tab-size: 4;
   /* 3 */
   -o-tab-size: 4;
-  tab-size: 4;
+     tab-size: 4;
   /* 3 */
   font-family: Public Sans, sans-serif;
   /* 4 */
@@ -296,7 +296,7 @@ Add the correct text decoration in Chrome, Edge, and Safari.
 
 abbr:where([title]) {
   -webkit-text-decoration: underline dotted;
-  text-decoration: underline dotted;
+          text-decoration: underline dotted;
 }
 
 /*
@@ -340,8 +340,7 @@ code,
 kbd,
 samp,
 pre {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   /* 1 */
   font-size: 1em;
   /* 2 */
@@ -432,9 +431,9 @@ select {
 */
 
 button,
-[type="button"],
-[type="reset"],
-[type="submit"] {
+[type='button'],
+[type='reset'],
+[type='submit'] {
   -webkit-appearance: button;
   /* 1 */
   background-color: transparent;
@@ -481,7 +480,7 @@ Correct the cursor style of increment and decrement buttons in Safari.
 2. Correct the outline style in Safari.
 */
 
-[type="search"] {
+[type='search'] {
   -webkit-appearance: textfield;
   /* 1 */
   outline-offset: -2px;
@@ -566,8 +565,7 @@ textarea {
 2. Set the default placeholder color to the user's configured gray 400 color.
 */
 
-input::-moz-placeholder,
-textarea::-moz-placeholder {
+input::-moz-placeholder, textarea::-moz-placeholder {
   opacity: 1;
   /* 1 */
   color: #9ca3af;
@@ -629,9 +627,7 @@ video {
   height: auto;
 }
 
-*,
-::before,
-::after {
+*, ::before, ::after {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
   --tw-translate-x: 0;
@@ -641,16 +637,16 @@ video {
   --tw-skew-y: 0;
   --tw-scale-x: 1;
   --tw-scale-y: 1;
-  --tw-pan-x: ;
-  --tw-pan-y: ;
-  --tw-pinch-zoom: ;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
   --tw-scroll-snap-strictness: proximity;
-  --tw-ordinal: ;
-  --tw-slashed-zero: ;
-  --tw-numeric-figure: ;
-  --tw-numeric-spacing: ;
-  --tw-numeric-fraction: ;
-  --tw-ring-inset: ;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
   --tw-ring-offset-width: 0px;
   --tw-ring-offset-color: #fff;
   --tw-ring-color: rgb(59 130 246 / 0.5);
@@ -658,24 +654,24 @@ video {
   --tw-ring-shadow: 0 0 #0000;
   --tw-shadow: 0 0 #0000;
   --tw-shadow-colored: 0 0 #0000;
-  --tw-blur: ;
-  --tw-brightness: ;
-  --tw-contrast: ;
-  --tw-grayscale: ;
-  --tw-hue-rotate: ;
-  --tw-invert: ;
-  --tw-saturate: ;
-  --tw-sepia: ;
-  --tw-drop-shadow: ;
-  --tw-backdrop-blur: ;
-  --tw-backdrop-brightness: ;
-  --tw-backdrop-contrast: ;
-  --tw-backdrop-grayscale: ;
-  --tw-backdrop-hue-rotate: ;
-  --tw-backdrop-invert: ;
-  --tw-backdrop-opacity: ;
-  --tw-backdrop-saturate: ;
-  --tw-backdrop-sepia: ;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
 }
 
 ::-webkit-backdrop {
@@ -688,16 +684,16 @@ video {
   --tw-skew-y: 0;
   --tw-scale-x: 1;
   --tw-scale-y: 1;
-  --tw-pan-x: ;
-  --tw-pan-y: ;
-  --tw-pinch-zoom: ;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
   --tw-scroll-snap-strictness: proximity;
-  --tw-ordinal: ;
-  --tw-slashed-zero: ;
-  --tw-numeric-figure: ;
-  --tw-numeric-spacing: ;
-  --tw-numeric-fraction: ;
-  --tw-ring-inset: ;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
   --tw-ring-offset-width: 0px;
   --tw-ring-offset-color: #fff;
   --tw-ring-color: rgb(59 130 246 / 0.5);
@@ -705,24 +701,24 @@ video {
   --tw-ring-shadow: 0 0 #0000;
   --tw-shadow: 0 0 #0000;
   --tw-shadow-colored: 0 0 #0000;
-  --tw-blur: ;
-  --tw-brightness: ;
-  --tw-contrast: ;
-  --tw-grayscale: ;
-  --tw-hue-rotate: ;
-  --tw-invert: ;
-  --tw-saturate: ;
-  --tw-sepia: ;
-  --tw-drop-shadow: ;
-  --tw-backdrop-blur: ;
-  --tw-backdrop-brightness: ;
-  --tw-backdrop-contrast: ;
-  --tw-backdrop-grayscale: ;
-  --tw-backdrop-hue-rotate: ;
-  --tw-backdrop-invert: ;
-  --tw-backdrop-opacity: ;
-  --tw-backdrop-saturate: ;
-  --tw-backdrop-sepia: ;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
 }
 
 ::backdrop {
@@ -735,16 +731,16 @@ video {
   --tw-skew-y: 0;
   --tw-scale-x: 1;
   --tw-scale-y: 1;
-  --tw-pan-x: ;
-  --tw-pan-y: ;
-  --tw-pinch-zoom: ;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
   --tw-scroll-snap-strictness: proximity;
-  --tw-ordinal: ;
-  --tw-slashed-zero: ;
-  --tw-numeric-figure: ;
-  --tw-numeric-spacing: ;
-  --tw-numeric-fraction: ;
-  --tw-ring-inset: ;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
   --tw-ring-offset-width: 0px;
   --tw-ring-offset-color: #fff;
   --tw-ring-color: rgb(59 130 246 / 0.5);
@@ -752,24 +748,24 @@ video {
   --tw-ring-shadow: 0 0 #0000;
   --tw-shadow: 0 0 #0000;
   --tw-shadow-colored: 0 0 #0000;
-  --tw-blur: ;
-  --tw-brightness: ;
-  --tw-contrast: ;
-  --tw-grayscale: ;
-  --tw-hue-rotate: ;
-  --tw-invert: ;
-  --tw-saturate: ;
-  --tw-sepia: ;
-  --tw-drop-shadow: ;
-  --tw-backdrop-blur: ;
-  --tw-backdrop-brightness: ;
-  --tw-backdrop-contrast: ;
-  --tw-backdrop-grayscale: ;
-  --tw-backdrop-hue-rotate: ;
-  --tw-backdrop-invert: ;
-  --tw-backdrop-opacity: ;
-  --tw-backdrop-saturate: ;
-  --tw-backdrop-sepia: ;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
 }
 
 .prose {
@@ -886,14 +882,11 @@ video {
   padding-left: 1em;
 }
 
-.prose
-  :where(blockquote p:first-of-type):not(:where([class~="not-prose"]
-      *))::before {
+.prose :where(blockquote p:first-of-type):not(:where([class~="not-prose"] *))::before {
   content: open-quote;
 }
 
-.prose
-  :where(blockquote p:last-of-type):not(:where([class~="not-prose"] *))::after {
+.prose :where(blockquote p:last-of-type):not(:where([class~="not-prose"] *))::after {
   content: close-quote;
 }
 
@@ -975,9 +968,9 @@ video {
 .prose :where(code):not(:where([class~="not-prose"] *)) {
   color: #374151;
   font-weight: inherit;
-  font-size: 0.9em !important;
+  font-size: .9em !important;
   padding: 0.25rem;
-  font-family: "Public Sans", sans-serif;
+  font-family: 'Public Sans', sans-serif;
   background: #e5e7eb;
 }
 
@@ -1172,23 +1165,19 @@ video {
   margin-bottom: 0.75em;
 }
 
-.prose
-  :where(.prose > ul > li > *:first-child):not(:where([class~="not-prose"] *)) {
+.prose :where(.prose > ul > li > *:first-child):not(:where([class~="not-prose"] *)) {
   margin-top: 1.25em;
 }
 
-.prose
-  :where(.prose > ul > li > *:last-child):not(:where([class~="not-prose"] *)) {
+.prose :where(.prose > ul > li > *:last-child):not(:where([class~="not-prose"] *)) {
   margin-bottom: 1.25em;
 }
 
-.prose
-  :where(.prose > ol > li > *:first-child):not(:where([class~="not-prose"] *)) {
+.prose :where(.prose > ol > li > *:first-child):not(:where([class~="not-prose"] *)) {
   margin-top: 1.25em;
 }
 
-.prose
-  :where(.prose > ol > li > *:last-child):not(:where([class~="not-prose"] *)) {
+.prose :where(.prose > ol > li > *:last-child):not(:where([class~="not-prose"] *)) {
   margin-bottom: 1.25em;
 }
 
@@ -1228,15 +1217,11 @@ video {
   padding-left: 0.5714286em;
 }
 
-.prose
-  :where(tbody td:first-child, tfoot
-    td:first-child):not(:where([class~="not-prose"] *)) {
+.prose :where(tbody td:first-child, tfoot td:first-child):not(:where([class~="not-prose"] *)) {
   padding-left: 0;
 }
 
-.prose
-  :where(tbody td:last-child, tfoot
-    td:last-child):not(:where([class~="not-prose"] *)) {
+.prose :where(tbody td:last-child, tfoot td:last-child):not(:where([class~="not-prose"] *)) {
   padding-right: 0;
 }
 
@@ -1290,10 +1275,7 @@ video {
   color: white;
 }
 
-.prose
-  :where(:not(pre)
-    > code[class*="language-"], pre[class*="language-"]):not(:where([class~="not-prose"]
-      *)) {
+.prose :where(:not(pre) > code[class*="language-"], pre[class*="language-"]):not(:where([class~="not-prose"] *)) {
   background: #1f2937 !important;
 }
 
@@ -1302,23 +1284,19 @@ video {
   margin-bottom: 0.5714286em;
 }
 
-.prose-sm
-  :where(.prose > ul > li > *:first-child):not(:where([class~="not-prose"] *)) {
+.prose-sm :where(.prose > ul > li > *:first-child):not(:where([class~="not-prose"] *)) {
   margin-top: 1.1428571em;
 }
 
-.prose-sm
-  :where(.prose > ul > li > *:last-child):not(:where([class~="not-prose"] *)) {
+.prose-sm :where(.prose > ul > li > *:last-child):not(:where([class~="not-prose"] *)) {
   margin-bottom: 1.1428571em;
 }
 
-.prose-sm
-  :where(.prose > ol > li > *:first-child):not(:where([class~="not-prose"] *)) {
+.prose-sm :where(.prose > ol > li > *:first-child):not(:where([class~="not-prose"] *)) {
   margin-top: 1.1428571em;
 }
 
-.prose-sm
-  :where(.prose > ol > li > *:last-child):not(:where([class~="not-prose"] *)) {
+.prose-sm :where(.prose > ol > li > *:last-child):not(:where([class~="not-prose"] *)) {
   margin-bottom: 1.1428571em;
 }
 
@@ -1335,23 +1313,19 @@ video {
   margin-bottom: 0.75em;
 }
 
-.prose-base
-  :where(.prose > ul > li > *:first-child):not(:where([class~="not-prose"] *)) {
+.prose-base :where(.prose > ul > li > *:first-child):not(:where([class~="not-prose"] *)) {
   margin-top: 1.25em;
 }
 
-.prose-base
-  :where(.prose > ul > li > *:last-child):not(:where([class~="not-prose"] *)) {
+.prose-base :where(.prose > ul > li > *:last-child):not(:where([class~="not-prose"] *)) {
   margin-bottom: 1.25em;
 }
 
-.prose-base
-  :where(.prose > ol > li > *:first-child):not(:where([class~="not-prose"] *)) {
+.prose-base :where(.prose > ol > li > *:first-child):not(:where([class~="not-prose"] *)) {
   margin-top: 1.25em;
 }
 
-.prose-base
-  :where(.prose > ol > li > *:last-child):not(:where([class~="not-prose"] *)) {
+.prose-base :where(.prose > ol > li > *:last-child):not(:where([class~="not-prose"] *)) {
   margin-bottom: 1.25em;
 }
 
@@ -1368,23 +1342,19 @@ video {
   margin-bottom: 0.8888889em;
 }
 
-.prose-lg
-  :where(.prose > ul > li > *:first-child):not(:where([class~="not-prose"] *)) {
+.prose-lg :where(.prose > ul > li > *:first-child):not(:where([class~="not-prose"] *)) {
   margin-top: 1.3333333em;
 }
 
-.prose-lg
-  :where(.prose > ul > li > *:last-child):not(:where([class~="not-prose"] *)) {
+.prose-lg :where(.prose > ul > li > *:last-child):not(:where([class~="not-prose"] *)) {
   margin-bottom: 1.3333333em;
 }
 
-.prose-lg
-  :where(.prose > ol > li > *:first-child):not(:where([class~="not-prose"] *)) {
+.prose-lg :where(.prose > ol > li > *:first-child):not(:where([class~="not-prose"] *)) {
   margin-top: 1.3333333em;
 }
 
-.prose-lg
-  :where(.prose > ol > li > *:last-child):not(:where([class~="not-prose"] *)) {
+.prose-lg :where(.prose > ol > li > *:last-child):not(:where([class~="not-prose"] *)) {
   margin-bottom: 1.3333333em;
 }
 
@@ -1401,23 +1371,19 @@ video {
   margin-bottom: 0.8em;
 }
 
-.prose-xl
-  :where(.prose > ul > li > *:first-child):not(:where([class~="not-prose"] *)) {
+.prose-xl :where(.prose > ul > li > *:first-child):not(:where([class~="not-prose"] *)) {
   margin-top: 1.2em;
 }
 
-.prose-xl
-  :where(.prose > ul > li > *:last-child):not(:where([class~="not-prose"] *)) {
+.prose-xl :where(.prose > ul > li > *:last-child):not(:where([class~="not-prose"] *)) {
   margin-bottom: 1.2em;
 }
 
-.prose-xl
-  :where(.prose > ol > li > *:first-child):not(:where([class~="not-prose"] *)) {
+.prose-xl :where(.prose > ol > li > *:first-child):not(:where([class~="not-prose"] *)) {
   margin-top: 1.2em;
 }
 
-.prose-xl
-  :where(.prose > ol > li > *:last-child):not(:where([class~="not-prose"] *)) {
+.prose-xl :where(.prose > ol > li > *:last-child):not(:where([class~="not-prose"] *)) {
   margin-bottom: 1.2em;
 }
 
@@ -1434,23 +1400,19 @@ video {
   margin-bottom: 0.8333333em;
 }
 
-.prose-2xl
-  :where(.prose > ul > li > *:first-child):not(:where([class~="not-prose"] *)) {
+.prose-2xl :where(.prose > ul > li > *:first-child):not(:where([class~="not-prose"] *)) {
   margin-top: 1.3333333em;
 }
 
-.prose-2xl
-  :where(.prose > ul > li > *:last-child):not(:where([class~="not-prose"] *)) {
+.prose-2xl :where(.prose > ul > li > *:last-child):not(:where([class~="not-prose"] *)) {
   margin-bottom: 1.3333333em;
 }
 
-.prose-2xl
-  :where(.prose > ol > li > *:first-child):not(:where([class~="not-prose"] *)) {
+.prose-2xl :where(.prose > ol > li > *:first-child):not(:where([class~="not-prose"] *)) {
   margin-top: 1.3333333em;
 }
 
-.prose-2xl
-  :where(.prose > ol > li > *:last-child):not(:where([class~="not-prose"] *)) {
+.prose-2xl :where(.prose > ol > li > *:last-child):not(:where([class~="not-prose"] *)) {
   margin-bottom: 1.3333333em;
 }
 
@@ -1659,10 +1621,6 @@ video {
   width: 100%;
 }
 
-.w-screen {
-  width: 100vw;
-}
-
 .w-20 {
   width: 5rem;
 }
@@ -1697,22 +1655,16 @@ video {
 
 .-translate-x-full {
   --tw-translate-x: -100%;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y))
-    rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
-    scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .rotate-180 {
   --tw-rotate: 180deg;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y))
-    rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
-    scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .transform {
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y))
-    rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
-    scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .cursor-pointer {
@@ -1862,6 +1814,11 @@ video {
   background-color: rgb(187 247 208 / var(--tw-bg-opacity));
 }
 
+.bg-red-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 202 202 / var(--tw-bg-opacity));
+}
+
 .bg-gray-200 {
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
@@ -1911,6 +1868,10 @@ video {
 .py-10 {
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;
+}
+
+.pt-8 {
+  padding-top: 2rem;
 }
 
 .pb-6 {
@@ -1976,12 +1937,12 @@ video {
   line-height: 2.25rem;
 }
 
-.font-extrabold {
-  font-weight: 800;
-}
-
 .font-bold {
   font-weight: 700;
+}
+
+.font-extrabold {
+  font-weight: 800;
 }
 
 .font-light {
@@ -2032,6 +1993,11 @@ video {
   color: rgb(21 128 61 / var(--tw-text-opacity));
 }
 
+.text-red-700 {
+  --tw-text-opacity: 1;
+  color: rgb(185 28 28 / var(--tw-text-opacity));
+}
+
 .text-gray-700 {
   --tw-text-opacity: 1;
   color: rgb(55 65 81 / var(--tw-text-opacity));
@@ -2056,9 +2022,7 @@ video {
 }
 
 .filter {
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast)
-    var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate)
-    var(--tw-sepia) var(--tw-drop-shadow);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
 .transition-all {
@@ -2068,15 +2032,9 @@ video {
 }
 
 .transition {
-  transition-property: color, background-color, border-color, fill, stroke,
-    opacity, box-shadow, transform, filter, -webkit-text-decoration-color,
-    -webkit-backdrop-filter;
-  transition-property: color, background-color, border-color,
-    text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
-    backdrop-filter;
-  transition-property: color, background-color, border-color,
-    text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
-    backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
+  transition-property: color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
@@ -2085,17 +2043,17 @@ video {
   --gradient-angle: -5deg;
 }
 
-p,
-span,
-li,
-ol,
-ul,
-i,
-blockquote,
-h1,
-h2,
-h3,
-h4,
+p, 
+span, 
+li, 
+ol, 
+ul, 
+i, 
+blockquote, 
+h1, 
+h2, 
+h3, 
+h4, 
 h5 {
   letter-spacing: -0.025em;
   --tw-text-opacity: 1;
@@ -2106,7 +2064,11 @@ h5 {
 .gradient-text {
   padding-bottom: 1rem;
   transition: background 0.15s ease-in-out;
-  background: linear-gradient(var(--gradient-angle), #6b7280 50%, #1f2937 50%);
+  background: linear-gradient(
+    var(--gradient-angle),
+    #6b7280 50%,
+    #1f2937 50%
+  );
   background-clip: text;
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
@@ -2133,9 +2095,7 @@ h5 {
 
 .nav input:checked ~ .nav-menu-wrapper .nav-menu-items ul {
   --tw-translate-x: 0px;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y))
-    rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
-    scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .nav input:checked ~ .nav-menu-wrapper .nav-menu-label .menu-bar {
@@ -2175,8 +2135,8 @@ svg {
   fill: #a855f7;
 }
 
-form input,
-form textarea {
+form input, 
+  form textarea {
   width: 100%;
   border-radius: 0.125rem;
   border-width: 1px;
@@ -2367,32 +2327,23 @@ form .password-wrapper {
     margin-bottom: 0.8888889em;
   }
 
-  .md\:prose-lg
-    :where(.prose > ul > li > *:first-child):not(:where([class~="not-prose"]
-        *)) {
+  .md\:prose-lg :where(.prose > ul > li > *:first-child):not(:where([class~="not-prose"] *)) {
     margin-top: 1.3333333em;
   }
 
-  .md\:prose-lg
-    :where(.prose > ul > li > *:last-child):not(:where([class~="not-prose"]
-        *)) {
+  .md\:prose-lg :where(.prose > ul > li > *:last-child):not(:where([class~="not-prose"] *)) {
     margin-bottom: 1.3333333em;
   }
 
-  .md\:prose-lg
-    :where(.prose > ol > li > *:first-child):not(:where([class~="not-prose"]
-        *)) {
+  .md\:prose-lg :where(.prose > ol > li > *:first-child):not(:where([class~="not-prose"] *)) {
     margin-top: 1.3333333em;
   }
 
-  .md\:prose-lg
-    :where(.prose > ol > li > *:last-child):not(:where([class~="not-prose"]
-        *)) {
+  .md\:prose-lg :where(.prose > ol > li > *:last-child):not(:where([class~="not-prose"] *)) {
     margin-bottom: 1.3333333em;
   }
 
-  .md\:prose-lg
-    :where(ul ul, ul ol, ol ul, ol ol):not(:where([class~="not-prose"] *)) {
+  .md\:prose-lg :where(ul ul, ul ol, ol ul, ol ol):not(:where([class~="not-prose"] *)) {
     margin-top: 0.8888889em;
     margin-bottom: 0.8888889em;
   }
@@ -2429,13 +2380,11 @@ form .password-wrapper {
     padding-left: 0.75em;
   }
 
-  .md\:prose-lg
-    :where(thead th:first-child):not(:where([class~="not-prose"] *)) {
+  .md\:prose-lg :where(thead th:first-child):not(:where([class~="not-prose"] *)) {
     padding-left: 0;
   }
 
-  .md\:prose-lg
-    :where(thead th:last-child):not(:where([class~="not-prose"] *)) {
+  .md\:prose-lg :where(thead th:last-child):not(:where([class~="not-prose"] *)) {
     padding-right: 0;
   }
 
@@ -2446,25 +2395,19 @@ form .password-wrapper {
     padding-left: 0.75em;
   }
 
-  .md\:prose-lg
-    :where(tbody td:first-child, tfoot
-      td:first-child):not(:where([class~="not-prose"] *)) {
+  .md\:prose-lg :where(tbody td:first-child, tfoot td:first-child):not(:where([class~="not-prose"] *)) {
     padding-left: 0;
   }
 
-  .md\:prose-lg
-    :where(tbody td:last-child, tfoot
-      td:last-child):not(:where([class~="not-prose"] *)) {
+  .md\:prose-lg :where(tbody td:last-child, tfoot td:last-child):not(:where([class~="not-prose"] *)) {
     padding-right: 0;
   }
 
-  .md\:prose-lg
-    :where(.prose > :first-child):not(:where([class~="not-prose"] *)) {
+  .md\:prose-lg :where(.prose > :first-child):not(:where([class~="not-prose"] *)) {
     margin-top: 0;
   }
 
-  .md\:prose-lg
-    :where(.prose > :last-child):not(:where([class~="not-prose"] *)) {
+  .md\:prose-lg :where(.prose > :last-child):not(:where([class~="not-prose"] *)) {
     margin-bottom: 0;
   }
 
@@ -2549,9 +2492,7 @@ form .password-wrapper {
 
   .lg\:translate-x-0 {
     --tw-translate-x: 0px;
-    transform: translate(var(--tw-translate-x), var(--tw-translate-y))
-      rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
-      scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   }
 
   .lg\:flex-row {

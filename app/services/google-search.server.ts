@@ -10,11 +10,11 @@ class GoogleSearchService {
   async getJsWeeklyTotalResults(): Promise<number> {
     const results = await this.search(
       "alex%20macarthur",
-      process.env.GOOGLE_CUSTOM_SEARCH_JSWEEKLY_CX
+      process.env.GOOGLE_CUSTOM_SEARCH_JSWEEKLY_CX as string
     );
 
     return Number(results.searchInformation.totalResults);
   }
 }
 
-export default GoogleSearchService;
+export default new GoogleSearchService();

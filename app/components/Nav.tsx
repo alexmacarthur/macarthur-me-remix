@@ -35,8 +35,6 @@ const Nav = ({ isAbsolute = false }) => {
     return location.pathname === "/";
   });
 
-  console.log(location.pathname);
-
   useEffect(() => {
     setShouldHideLogo(location.pathname === "/");
   }, [requestPath]);
@@ -83,7 +81,6 @@ const Nav = ({ isAbsolute = false }) => {
           left-0
           flex
           h-screen
-          w-screen
           flex-col
           justify-center
           bg-gray-700

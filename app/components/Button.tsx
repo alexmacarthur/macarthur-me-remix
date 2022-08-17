@@ -1,7 +1,19 @@
 import { Link } from "@remix-run/react";
-import { forwardRef } from "react";
+import { ReactElement, ReactNode } from "react";
 import Arrow from "./IconArrow";
 import ExternalIcon from "./IconExternal";
+
+interface ButtonProps {
+  children?: ReactNode | ReactNode[];
+  to?: string;
+  small?: boolean;
+  classes?: string;
+  pointLeft?: boolean;
+  naked?: boolean;
+  internal?: boolean;
+  inheritColor?: boolean;
+  render?: (args: any) => ReactNode;
+}
 
 const Button = ({
   children,
@@ -12,11 +24,12 @@ const Button = ({
   naked = false,
   internal = false,
   inheritColor = false,
-  ...otherProps
-}) => {
+  render,
+}: ButtonProps): JSX.Element => {
   const defaultClasses = `transition-all inline-flex items-center cursor-pointer ${
     small ? "text-base" : ""
   } ${pointLeft ? "flex-row-reverse" : ""} `;
+
   let buttonColors = naked
     ? "text-purple-400 hover:text-purple-500 "
     : "text-white bg-purple-400 hover:text-white hover:bg-purple-500 ";
@@ -31,35 +44,39 @@ const Button = ({
   const iconRotation = pointLeft ? "transform rotate-180" : "";
   const iconMargin = pointLeft ? "mr-2" : "ml-2";
 
-  const ButtonLink = forwardRef(() => {
-    if (!internal) {
-      return (
-        <a
-          className={defaultClasses + buttonColors + buttonPadding + classes}
-          href={to}
-          target="_blank"
-        >
-          {children}
-          <ExternalIcon />
-        </a>
-      );
-    }
-
-    return (
-      <Link
-        {...otherProps}
-        className={defaultClasses + buttonColors + buttonPadding + classes}
-        to={to}
-      >
-        {children}
+  const TheElement = (internal ? Link : "a") as any;
+  const IconElement = internal
+    ? () => (
         <Arrow
           className={`block ${iconMargin} ${iconDimensions} ${iconRotation}`}
         />
-      </Link>
-    );
-  });
+      )
+    : (ExternalIcon as any);
 
-  return <ButtonLink />;
+  const conditionalProps = internal
+    ? {
+        to,
+      }
+    : {
+        href: to,
+        target: "_blank",
+      };
+
+  const props = {
+    className: defaultClasses + buttonColors + buttonPadding + classes,
+    ...conditionalProps,
+  };
+
+  if (render) {
+    return render({ classes: props.className }) as ReactElement;
+  }
+
+  return (
+    <TheElement {...props}>
+      {children}
+      <IconElement />
+    </TheElement>
+  );
 };
 
 export default Button;
