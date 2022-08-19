@@ -6,7 +6,7 @@ type TitleProps = {
   children: React.ReactNode;
   date?: string | Date;
   isPost?: boolean;
-  subTitle?: string;
+  subtitle?: string;
   lastUpdated?: string;
   secondaryMeta?: Function;
   views?: string;
@@ -16,7 +16,7 @@ const Title = ({
   children,
   date,
   isPost,
-  subTitle,
+  subtitle,
   lastUpdated,
   secondaryMeta,
   views,
@@ -44,9 +44,9 @@ const Title = ({
           {children}
         </h1>
 
-        {subTitle && (
+        {subtitle && (
           <h2 className="mb-2 text-xl font-light italic text-gray-500">
-            {subTitle}
+            {subtitle}
           </h2>
         )}
       </div>

@@ -39,5 +39,5 @@ export async function processMarkdown(rawMarkdown: string): Promise<{
 export function stripMarkdown(markdown: string) {
   const result = remark().use(strip).processSync(markdown);
 
-  return result.toString();
+  return result.toString().replace(/[\r\n]+/gm, " ");
 }

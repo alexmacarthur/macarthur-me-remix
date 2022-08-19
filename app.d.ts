@@ -2,13 +2,14 @@ interface BlogPost {
   id: string;
   title: string;
   date: string;
+  description: string;
   lastUpdated?: string;
   externalUrl?: string;
   externalHost?: string;
   slug: string;
   excerpt: string;
   views: string;
-  markdown: string;
+  markdown?: string;
   openGraphImage?: string;
 }
 

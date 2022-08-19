@@ -1,6 +1,8 @@
 import { Client } from "@notionhq/client";
 import { NotionToMarkdown } from "notion-to-md";
 import { POSTS_PER_PAGE } from "~/constants";
+import { stripMarkdown } from "~/markdown.server";
+import { generateExcerpt } from "~/utils";
 
 class NotionService {
   client: Client;
@@ -15,7 +17,7 @@ class NotionService {
     post: BlogPost;
     markdown: string;
   }> {
-    let post, markdown;
+    let post;
 
     const database = process.env.NOTION_DATABASE_ID ?? "";
 
@@ -123,6 +125,10 @@ class NotionService {
         property: page.properties["External URL"],
         type: "rich_text",
       },
+      subtitle: {
+        property: page.properties["Subtitle"],
+        type: "rich_text",
+      },
       slug: {
         property: page.properties.Slug,
         type: "rich_text",
@@ -159,11 +165,14 @@ class NotionService {
 
     await Promise.all(promises);
 
+    const markdown = await this.getMarkdown(page.id);
+
     return {
       id: page.id,
       excerpt: "",
-      markdown: await this.getMarkdown(page.id),
+      markdown,
       views: "",
+      description: generateExcerpt(markdown),
       openGraphImage: cover,
       ...postProperties,
     };

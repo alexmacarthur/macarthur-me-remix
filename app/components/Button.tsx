@@ -56,6 +56,7 @@ const Button = ({
   const conditionalProps = internal
     ? {
         to,
+        prefetch: "intent",
       }
     : {
         href: to,

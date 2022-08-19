@@ -54,7 +54,7 @@ export default () => {
                 </div>
 
                 <small className="mb-2 block text-gray-500">
-                  {post.excerpt}
+                  {post.description}
                 </small>
 
                 <Button

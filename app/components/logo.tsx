@@ -114,7 +114,7 @@ const Logo = ({
   );
 
   const constructedLogo = asLink ? (
-    <Link to="/" className="outline-none">
+    <Link to="/" prefetch="intent" className="outline-none">
       {styledChildren}
     </Link>
   ) : (

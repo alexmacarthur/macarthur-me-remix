@@ -1,20 +1,9 @@
 import { json, TypedResponse } from "@remix-run/node";
-import { stripMarkdown } from "~/markdown.server";
 import CMS from "../services/cms.server";
 
 export interface PaginatedLoaderProps extends PaginationProps {
   posts: BlogPost[];
 }
-
-const generateExcerpt = (content: string, wordCount = 50) => {
-  const strippedContent = stripMarkdown(content)
-    .replace(/\s\s+/g, " ")
-    .replace(/\r?\n|\r/g, "")
-    .replace(/\S+\.(gif|png|jpe?g)/g, ""); // Remove images.
-  const words = strippedContent.split(" ");
-
-  return words.slice(0, wordCount).join(" ") + "...";
-};
 
 export default async ({
   params,
@@ -28,7 +17,8 @@ export default async ({
         post.externalHost = new URL(post.externalUrl).host;
       }
 
-      post.excerpt = generateExcerpt(post.markdown);
+      // We do not want to send the entire post body to the client.
+      delete post.markdown;
 
       return post;
     }),

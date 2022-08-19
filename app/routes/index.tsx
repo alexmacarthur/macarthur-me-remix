@@ -64,7 +64,9 @@ export default function Index() {
                   >
                     <div className="mb-8">
                       <h3 className="mb-2 text-xl font-semibold">
-                        <Link to={postPath}>{title}</Link>
+                        <Link to={postPath} prefetch="intent">
+                          {title}
+                        </Link>
                       </h3>
                       <DateFormatter date={date} />
                     </div>

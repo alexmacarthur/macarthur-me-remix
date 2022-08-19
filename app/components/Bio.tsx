@@ -2,8 +2,8 @@ import Image from "../components/Image";
 
 const Bio = () => {
   return (
-    <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6 mt-16">
-      <div className="flex-none w-20 md:w-24 flex items-center justify-center md:justify-start">
+    <div className="mt-16 flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-6">
+      <div className="flex w-20 flex-none items-center justify-center md:w-24 md:justify-start">
         <Image
           src="/avatar.jpg"
           alt="my face"

@@ -17,7 +17,7 @@ export const loader = async () => {
   type State = {
     title: string;
     link?: string;
-    subTitle: string;
+    subtitle: string;
     value: any;
   };
 
@@ -25,69 +25,69 @@ export const loader = async () => {
     {
       title: "Total GitHub Stars",
       link: "https://github.com/alexmacarthur",
-      subTitle: "If you haven't starred my repos, get on that.",
+      subtitle: "If you haven't starred my repos, get on that.",
       value: GitHubService.getTotalsStars(),
     },
     {
       title: "Total GitHub Followers",
       link: "https://github.com/alexmacarthur",
-      subTitle: "Do it yourself today, for free.",
+      subtitle: "Do it yourself today, for free.",
       value: GitHubService.getFollowerCount(),
     },
     {
       title: "Total Twitter Followers",
       link: "https://twitter.com/amacarthur",
-      subTitle: "Go ahead, follow me.",
+      subtitle: "Go ahead, follow me.",
       value: TwitterService.getFollowerCount(),
     },
     {
       title: "Total Website Views",
-      subTitle: "Since November, 2015.",
+      subtitle: "Since November, 2015.",
       value: AnalyticsService.getTotalViews(),
     },
     {
       title: "Positive Feedback (👍) on Blog Posts",
-      subTitle: "Scroll to the bottom of any post and do it yourself.",
+      subtitle: "Scroll to the bottom of any post and do it yourself.",
       value: SupabaseService.getPositiveFeedbackCount(),
     },
     {
       title: "Links in <em>JavaScript Weekly</em>",
       link: "https://www.google.com/search?q=site%3Ajavascriptweekly.com+%22alex+macarthur%22",
-      subTitle: "Mostly just blog posts, but the occassional project too.",
+      subtitle: "Mostly just blog posts, but the occassional project too.",
       value: GoogleSearchService.getJsWeeklyTotalResults(),
     },
     {
       title: "Articles Published on <em>CSS Tricks</em>",
       link: "https://css-tricks.com/author/alexmacarthur",
-      subTitle: "A fun privilege.",
+      subtitle: "A fun privilege.",
       value: Promise.resolve(3),
     },
     {
       title: "Total Miles Run",
       link: "https://www.strava.com/athletes/27922666",
-      subTitle: "As tracked by Strava since October, 2016.",
+      subtitle: "As tracked by Strava since October, 2016.",
       value: StravaService.getTotalMilesRun(),
     },
     {
       title: "Total npm Downloads",
       link: "https://www.npmjs.com/~alexmacarthur",
-      subTitle: "Mainly random open source JavaScript packages.",
+      subtitle: "Mainly random open source JavaScript packages.",
       value: NpmService.getTotalDownloads(),
     },
     {
       title: "Total WordPress Plugin Downloads",
       link: "https://github.com/alexmacarthur",
-      subTitle: "Not a huge focus anymore, but still worth bragging about.",
+      subtitle: "Not a huge focus anymore, but still worth bragging about.",
       value: WordPressService.getPluginDownloadCount(),
     },
     {
       title: "How Many Inches Tall I've Grown",
-      subTitle: "Expecting a growth spurt any day now.",
+      subtitle: "Expecting a growth spurt any day now.",
       value: Promise.resolve(68),
     },
     {
       title: "Enneagram Number",
-      subTitle: "Probs obvious given that I have a personal dashboard.",
+      subtitle: "Probs obvious given that I have a personal dashboard.",
       value: Promise.resolve(3),
     },
   ];
@@ -128,7 +128,7 @@ export default () => {
   return (
     <PageLayout narrow={true}>
       <Title
-        subTitle="The vanity metrics that mean the most to me.
+        subtitle="The vanity metrics that mean the most to me.
 "
       >
         Dashboard
@@ -155,7 +155,7 @@ export default () => {
                 )}
               </div>
               <span className="mb-3 block text-sm italic text-gray-500">
-                {stat.subTitle}
+                {stat.subtitle}
               </span>
               <Counter
                 value={stat.value}

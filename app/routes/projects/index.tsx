@@ -53,7 +53,7 @@ export default () => {
 
   return (
     <PageLayout>
-      <Title subTitle="Code I Write on the Side">Projects</Title>
+      <Title subtitle="Code I Write on the Side">Projects</Title>
 
       <div className="mb-12">
         <h2 className="mb-6 text-4xl font-semibold">Some Special Ones</h2>

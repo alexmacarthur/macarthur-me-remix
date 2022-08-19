@@ -7,11 +7,9 @@ const supabaseClient = SupabaseService.getClient();
 export const action = async ({ request }) => {
   const data = await request.json();
 
-  console.log(data);
-
   const { slug, value } = data;
 
-  if(!slug || !value) {
+  if (!slug || !value) {
     return json({ data });
   }
 

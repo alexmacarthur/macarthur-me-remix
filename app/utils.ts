@@ -1,8 +1,19 @@
 import { useMatches } from "@remix-run/react";
 import { useMemo } from "react";
 import { SITE_URL } from "./constants";
+import { stripMarkdown } from "./markdown.server";
 
 const DEFAULT_REDIRECT = "/";
+
+export function generateExcerpt(content: string, wordCount = 50) {
+  const strippedContent = stripMarkdown(content)
+    .replace(/\s\s+/g, " ")
+    .replace(/\r?\n|\r/g, "")
+    .replace(/\S+\.(gif|png|jpe?g)/g, ""); // Remove images.
+  const words = strippedContent.split(" ");
+
+  return words.slice(0, wordCount).join(" ") + "...";
+}
 
 /**
  * This should be used any time the redirect path is user-provided
@@ -67,7 +78,7 @@ export const prefersReducedMotion = () => {
 export function createObserver(imageElement, callback: () => any) {
   const options = {
     rootMargin: "100px",
-    threshold: .1,
+    threshold: 0.1,
   };
 
   const observer = new IntersectionObserver((entries, observer) => {
@@ -81,7 +92,7 @@ export function createObserver(imageElement, callback: () => any) {
 
   return {
     observe: () => observer.observe(imageElement),
-    kill: () => observer.unobserve(imageElement)
+    kill: () => observer.unobserve(imageElement),
   };
 }
 

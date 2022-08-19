@@ -120,6 +120,7 @@ const Nav = ({ isAbsolute = false }) => {
                 >
                   <Link
                     to={item.link}
+                    prefetch="intent"
                     className="border-b-4 border-transparent py-2 hover:border-gray-200"
                   >
                     {item.name}
