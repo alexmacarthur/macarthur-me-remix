@@ -5,8 +5,10 @@ import { processMarkdown } from "~/markdown.server";
 import PageLayout from "../../components/PageLayout";
 import CMS from "../../services/cms.server";
 import { getMDXComponent } from "mdx-bundler/client";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import Title from "~/components/Title";
+import Feedback from "~/components/Feedback";
+import Bio from "~/components/Bio";
 
 export const loader = async ({ params, request }) => {
   const { slug } = params;
@@ -18,12 +20,14 @@ export const loader = async ({ params, request }) => {
 
 export default () => {
   const data = useLoaderData();
-  const { code, post } = data;
+  const { code, post, slug } = data;
   const { title, date, lastUpdated } = post;
   const MarkupComponent = useMemo(() => getMDXComponent(code), [code]);
 
+  useEffect(() => require("@ramseyinhouse/feedback-component"), []);
+
   return (
-    <PageLayout>
+    <PageLayout narrow={true}>
       <Title
         date={date}
         isPost={true}
@@ -37,6 +41,12 @@ export default () => {
       <Copy>
         <MarkupComponent />
       </Copy>
+
+      <div className="max-w-xl mx-auto">
+        <Feedback slug={slug} />
+        <Bio />
+      </div>
+
     </PageLayout>
   );
 };

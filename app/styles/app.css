@@ -116,3 +116,16 @@ form {
     opacity: 0;
   }
 }
+
+.divider {
+  @apply border-0 bg-gray-300 w-full max-w-xl mx-auto;
+  height: 1px;
+
+  &.divider--wide {
+    @apply max-w-5xl;
+  }
+}
+
+.token.parameter {
+  @apply text-white;
+}
