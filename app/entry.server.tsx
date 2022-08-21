@@ -12,6 +12,8 @@ export default function handleRequest(
     <RemixServer context={remixContext} url={request.url} />
   );
 
+    // perform redirects here!
+
   responseHeaders.set("Content-Type", "text/html");
 
   // 5 minutes, 1 year.

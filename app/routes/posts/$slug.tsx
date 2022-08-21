@@ -1,4 +1,4 @@
-import { json, MetaFunction } from "@remix-run/node"; // or "@remix-run/cloudflare"
+import { json, MetaFunction, redirect } from "@remix-run/node"; // or "@remix-run/cloudflare"
 import { useLoaderData } from "@remix-run/react";
 import Copy from "~/components/Copy";
 import { processMarkdown } from "~/markdown.server";
@@ -21,6 +21,12 @@ export const loader = async ({ params, request }) => {
 
   const { slug } = params;
   const { post, markdown } = await CMS.getPost(slug);
+
+  // It's an external post, and will never have a dedicated post page here.
+  if(post.externalUrl) {
+    return redirect(post.externalUrl);
+  }
+
   const { code } = await processMarkdown(markdown);
   const scriptsToLoad = vendorScripts
     .filter(({ pattern }) => pattern.test(markdown))
