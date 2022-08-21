@@ -90,6 +90,7 @@ const Nav = ({ isAbsolute = false }) => {
           lg:visible
           lg:relative
           lg:top-auto
+          w-full
           lg:block
           lg:h-auto
           lg:w-auto

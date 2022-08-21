@@ -2113,6 +2113,10 @@ h5 {
   background-color: rgb(168 85 247 / var(--tw-bg-opacity));
 }
 
+.nav input:checked ~ .nav-menu-wrapper {
+  position: fixed;
+}
+
 .nav input:checked ~ .nav-menu-wrapper .nav-menu-items {
   visibility: visible;
   opacity: 1;

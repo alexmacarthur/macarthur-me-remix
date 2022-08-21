@@ -12,11 +12,9 @@ import Logo from "../components/Logo";
 export const loader = async () => {
   const featuredPosts = await Promise.all(
     [
-      // "when-dom-updates-appear-to-be-asynchronous",
+      "when-dom-updates-appear-to-be-asynchronous",
       "use-web-workers-for-your-event-listeners",
-      "use-web-workers-for-your-event-listeners",
-      "use-web-workers-for-your-event-listeners",
-      // "when-a-weakmap-came-in-handy",
+      "when-a-weakmap-came-in-handy",
     ].map((slug) => CMS.getPost(slug))
   );
 

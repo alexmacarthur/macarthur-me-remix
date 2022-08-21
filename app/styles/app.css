@@ -52,27 +52,31 @@ h5 {
 
 .nav input {
   &:checked {
-    & ~ .nav-menu-wrapper .nav-menu-items {
-      @apply visible opacity-100;
+    & ~ .nav-menu-wrapper {
+      position: fixed;
 
-      ul {
-        @apply translate-x-0;
-      }
-    }
+      .nav-menu-items {
+        @apply visible opacity-100;
 
-    & ~ .nav-menu-wrapper .nav-menu-label .menu-bar {
-      @apply bg-white;
-
-      &-1 {
-        transform: translate3d(0, 1rem, 0) rotate(-45deg);
+        ul {
+          @apply translate-x-0;
+        }
       }
 
-      &-2 {
-        opacity: 0;
-      }
+      .nav-menu-label .menu-bar {
+        @apply bg-white;
 
-      &-3 {
-        transform: translate3d(0, -1rem, 0) rotate(45deg);
+        &-1 {
+          transform: translate3d(0, 1rem, 0) rotate(-45deg);
+        }
+
+        &-2 {
+          opacity: 0;
+        }
+
+        &-3 {
+          transform: translate3d(0, -1rem, 0) rotate(45deg);
+        }
       }
     }
   }
