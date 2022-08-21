@@ -49,6 +49,17 @@ export default function App() {
       <head>
         <Meta />
         <Links />
+        <script
+          defer
+          data-domain="macarthur.me"
+          src="/js/numbers.js"
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "window.plausible = window.plausible || function() {(window.plausible.q = window.plausible.q || []).push(arguments)}",
+          }}
+        ></script>
       </head>
       <body className="h-full">
         <Outlet />
