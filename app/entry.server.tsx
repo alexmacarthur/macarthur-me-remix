@@ -23,10 +23,10 @@ export default function handleRequest(
 
   responseHeaders.set("Content-Type", "text/html");
 
-  // 5 minutes, 1 year.
+  // 1 hour, 6 months.
   responseHeaders.set(
     "Cache-Control",
-    "public, max-age=300, stale-while-revalidate=31556952"
+    "public, max-age=3600, s-maxage=3600, stale-while-revalidate=15780000"
   );
 
   return new Response("<!DOCTYPE html>" + markup, {

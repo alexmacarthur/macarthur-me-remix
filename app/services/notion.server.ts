@@ -1,8 +1,15 @@
 import { Client } from "@notionhq/client";
 import { NotionToMarkdown } from "notion-to-md";
 import { POSTS_PER_PAGE } from "~/constants";
-import { stripMarkdown } from "~/markdown.server";
+import { extractUrl, stripMarkdown } from "~/markdown.server";
 import { generateExcerpt } from "~/utils";
+import StaticAssetService from "./staticAsset.server";
+
+interface MdBlock {
+  type: string;
+  parent: string;
+  children: MdBlock[];
+}
 
 class NotionService {
   client: Client;
@@ -52,9 +59,41 @@ class NotionService {
   }
 
   async getMarkdown(pageId: string) {
-    const mdBlocks = await this.n2m.pageToMarkdown(pageId);
+    let mdBlocks = (await this.n2m.pageToMarkdown(
+      pageId
+    )) as unknown as MdBlock[];
 
-    return this.n2m.toMarkdownString(mdBlocks);
+    mdBlocks = await this.uploadImages(mdBlocks);
+
+    return this.n2m.toMarkdownString(mdBlocks as any);
+  }
+
+  async uploadImages(mdBlocks: MdBlock[]): Promise<MdBlock[]> {
+    let uploadPromises: Promise<any>[] = [];
+    let updatedBlocks = mdBlocks.map((block) => {
+      if (block.type === "image") {
+        let url = extractUrl(block.parent);
+
+        if (!url) return block;
+
+        let key = this.extractKey(url);
+
+        // if (process.env.NODE_ENV === "production") {
+        uploadPromises.push(StaticAssetService.put(url, key));
+
+        block.parent = block.parent.replace(
+          /!\[(.*?)\]\((.*)\)/,
+          `![$1](${process.env.SITE_URL}/proxied-image/${key})`
+        );
+        // }
+      }
+
+      return block;
+    });
+
+    await Promise.all(uploadPromises);
+
+    return updatedBlocks;
   }
 
   async getPublishedBlogPosts(start_cursor?: string): Promise<{
@@ -92,6 +131,15 @@ class NotionService {
       nextCursor: next_cursor,
       hasMore: has_more,
     };
+  }
+
+  private extractKey(imageUrl: string): string {
+    const url = new URL(imageUrl);
+    const parts = url.pathname.split("/");
+
+    // The unique ID in the URL of a Notion image URL, right before the file name.
+    // Example: a68eaeba-1926-4e41-83db-bc2ea878bc8f
+    return parts[parts.length - 2];
   }
 
   private async pageToPostTransformer(page: any): Promise<BlogPost> {

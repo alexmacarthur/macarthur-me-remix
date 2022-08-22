@@ -41,3 +41,7 @@ export function stripMarkdown(markdown: string) {
 
   return result.toString().replace(/[\r\n]+/gm, " ");
 }
+
+export function extractUrl(markdown: string): string | undefined {
+  return markdown.match(/!\[.*?\]\((.*)\)/)?.[1];
+}

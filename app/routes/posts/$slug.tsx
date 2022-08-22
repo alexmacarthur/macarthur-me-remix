@@ -11,6 +11,8 @@ import Title from "~/components/Title";
 import Feedback from "~/components/Feedback";
 import Bio from "~/components/Bio";
 import { MY_NAME, SITE_URL } from "~/constants";
+import CommentsService from "~/services/comments.server";
+import { JamComments } from "@jam-comments/next";
 
 export const loader = async ({ params, request }) => {
   const vendorScripts = [
@@ -28,12 +30,23 @@ export const loader = async ({ params, request }) => {
     return redirect(post.externalUrl);
   }
 
+  const comments = await CommentsService.byPath(slug);
+
   const { code } = await processMarkdown(markdown);
   const scriptsToLoad = vendorScripts
     .filter(({ pattern }) => pattern.test(markdown))
     .map((s) => s.src);
 
-  return json({ slug, code, post, url: request.url, scriptsToLoad });
+  return json({
+    comments,
+    jamCommentsDomain: process.env.JAM_COMMENTS_DOMAIN,
+    jamCommentsApiKey: process.env.JAM_COMMENTS_API_KEY,
+    slug,
+    code,
+    post,
+    url: request.url,
+    scriptsToLoad,
+  });
 };
 
 export const handle = {
@@ -93,7 +106,15 @@ export const meta: MetaFunction = ({ data }) => {
 
 export default () => {
   const data = useLoaderData();
-  const { code, post, slug, scriptsToLoad } = data;
+  const {
+    code,
+    post,
+    slug,
+    scriptsToLoad,
+    comments,
+    jamCommentsDomain,
+    jamCommentsApiKey,
+  } = data;
   const { title, date, lastUpdated } = post;
   const MarkupComponent = useMemo(() => getMDXComponent(code), [code]);
 
@@ -124,6 +145,12 @@ export default () => {
       <Copy>
         <MarkupComponent />
       </Copy>
+
+      <JamComments
+        comments={comments}
+        domain={jamCommentsDomain}
+        apiKey={jamCommentsApiKey}
+      />
 
       <div className="mx-auto max-w-xl">
         <Feedback slug={slug} />
