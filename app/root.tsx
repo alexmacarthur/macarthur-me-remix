@@ -7,9 +7,29 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import { DESCRIPTION, TITLE } from "./constants";
+import { StructuredData } from "remix-utils";
+import {
+  DESCRIPTION,
+  OG_IMAGE,
+  SITE_URL,
+  TITLE,
+  TWITTER_HANDLE,
+} from "./constants";
 
 import styles from "./styles/style.css";
+
+export const handle = {
+  structuredData() {
+    let schema = {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      url: SITE_URL,
+      name: TITLE,
+    };
+
+    return schema;
+  },
+};
 
 export const links: LinksFunction = () => {
   return [
@@ -36,12 +56,22 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export const meta: MetaFunction = () => ({
-  title: TITLE,
-  description: DESCRIPTION,
-  charset: "utf-8",
-  viewport: "width=device-width,initial-scale=1",
-});
+export const meta: MetaFunction = () => {
+  return {
+    title: TITLE,
+    description: DESCRIPTION,
+    charset: "utf-8",
+    viewport: "width=device-width,initial-scale=1",
+    "og:title": TITLE,
+    "twitter:card": "summary_large_image",
+    "og:description": DESCRIPTION,
+    "og:image": OG_IMAGE,
+    "twitter:image": OG_IMAGE,
+    "twitter:creator": TWITTER_HANDLE,
+    "twitter:description": DESCRIPTION,
+    "og:type": "website",
+  };
+};
 
 export default function App() {
   return (
@@ -49,11 +79,8 @@ export default function App() {
       <head>
         <Meta />
         <Links />
-        <script
-          defer
-          data-domain="macarthur.me"
-          src="/js/numbers.js"
-        ></script>
+        <StructuredData />
+        <script defer data-domain="macarthur.me" src="/js/numbers.js"></script>
         <script
           dangerouslySetInnerHTML={{
             __html:

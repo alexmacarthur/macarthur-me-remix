@@ -81,6 +81,7 @@ const Nav = ({ isAbsolute = false }) => {
           left-0
           flex
           h-screen
+          w-full
           flex-col
           justify-center
           bg-gray-700
@@ -90,7 +91,6 @@ const Nav = ({ isAbsolute = false }) => {
           lg:visible
           lg:relative
           lg:top-auto
-          w-full
           lg:block
           lg:h-auto
           lg:w-auto

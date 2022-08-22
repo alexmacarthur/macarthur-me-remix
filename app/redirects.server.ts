@@ -1,8 +1,8 @@
 interface Redirect {
-  source: string,
-  destination: string,
-  status: number
-};
+  source: string;
+  destination: string;
+  status: number;
+}
 
 const REDIRECTS: Redirect[] = [
   {
@@ -54,5 +54,5 @@ const REDIRECTS: Redirect[] = [
 export function findRedirect(request: Request): Redirect | undefined {
   const path = new URL(request.url).pathname;
 
-  return REDIRECTS.find(r => r.source === path);
+  return REDIRECTS.find((r) => r.source === path);
 }

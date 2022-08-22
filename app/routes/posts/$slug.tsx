@@ -1,4 +1,5 @@
-import { json, MetaFunction, redirect } from "@remix-run/node"; // or "@remix-run/cloudflare"
+import type { WithContext, BlogPosting } from "schema-dts";
+import { json, MetaFunction, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import Copy from "~/components/Copy";
 import { processMarkdown } from "~/markdown.server";
@@ -9,7 +10,7 @@ import { useEffect, useMemo } from "react";
 import Title from "~/components/Title";
 import Feedback from "~/components/Feedback";
 import Bio from "~/components/Bio";
-import { TWITTER_HANDLE } from "~/constants";
+import { MY_NAME, SITE_URL } from "~/constants";
 
 export const loader = async ({ params, request }) => {
   const vendorScripts = [
@@ -23,7 +24,7 @@ export const loader = async ({ params, request }) => {
   const { post, markdown } = await CMS.getPost(slug);
 
   // It's an external post, and will never have a dedicated post page here.
-  if(post.externalUrl) {
+  if (post.externalUrl) {
     return redirect(post.externalUrl);
   }
 
@@ -35,20 +36,58 @@ export const loader = async ({ params, request }) => {
   return json({ slug, code, post, url: request.url, scriptsToLoad });
 };
 
+export const handle = {
+  structuredData(data) {
+    const { post, url } = data;
+
+    try {
+      let postSchema: WithContext<BlogPosting> = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        datePublished: new Date(post.date).toISOString(),
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": url,
+        },
+        headline: post.title,
+        isFamilyFriendly: true,
+        description: post.description,
+        image: post.openGraphImage,
+        author: {
+          "@type": "Person",
+          name: MY_NAME,
+          url: SITE_URL,
+        },
+      };
+
+      if (post.subtitle) {
+        postSchema.alternativeHeadline = post.subtitle;
+      }
+
+      if (post.lastUpdate) {
+        postSchema.dateModified = new Date(post.lastUpdate).toISOString();
+      }
+
+      return postSchema;
+    } catch (e: unknown) {
+      console.error(e);
+      return [];
+    }
+  },
+};
+
 export const meta: MetaFunction = ({ data }) => {
   const title = `${data.post.title} | Alex MacArthur`;
   const image = data.post.openGraphImage || null;
   return {
     title,
-    "og:title": title,
     description: data.post.description,
-    "twitter:card": "summary_large_image",
+    "og:title": title,
     "twitter:description": data.post.description,
     "og:description": data.post.description,
     "og:image": image,
     "twitter:image": image,
     "og:type": "article",
-    "twitter:creator": TWITTER_HANDLE,
   };
 };
 
@@ -61,7 +100,7 @@ export default () => {
   useEffect(() => {
     require("@ramseyinhouse/feedback-component");
 
-    scriptsToLoad.forEach((s) => {
+    scriptsToLoad.forEach((s: string) => {
       const script = document.createElement("script");
       script.async = true;
       script.src = s;

@@ -11,7 +11,7 @@ export default function handleRequest(
 ) {
   const redirectObj = findRedirect(request);
 
-  if(redirectObj) {
+  if (redirectObj) {
     const { destination, status } = redirectObj;
 
     return redirect(destination, status);
