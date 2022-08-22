@@ -1,6 +1,7 @@
-import type { EntryContext } from "@remix-run/node";
+import { EntryContext, redirect } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { renderToString } from "react-dom/server";
+import { findRedirect } from "./redirects.server";
 
 export default function handleRequest(
   request: Request,
@@ -8,11 +9,17 @@ export default function handleRequest(
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
+  const redirectObj = findRedirect(request);
+
+  if(redirectObj) {
+    const { destination, status } = redirectObj;
+
+    return redirect(destination, status);
+  }
+
   const markup = renderToString(
     <RemixServer context={remixContext} url={request.url} />
   );
-
-    // perform redirects here!
 
   responseHeaders.set("Content-Type", "text/html");
 
