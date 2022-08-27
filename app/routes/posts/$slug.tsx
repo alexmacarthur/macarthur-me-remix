@@ -57,7 +57,7 @@ export const handle = {
       let postSchema: WithContext<BlogPosting> = {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        datePublished: new Date(post.date).toISOString(),
+        // datePublished: new Date(post.date).toISOString(),
         mainEntityOfPage: {
           "@type": "WebPage",
           "@id": url,
@@ -78,7 +78,7 @@ export const handle = {
       }
 
       if (post.lastUpdate) {
-        postSchema.dateModified = new Date(post.lastUpdate).toISOString();
+        // postSchema.dateModified = new Date(post.lastUpdate).toISOString();
       }
 
       return postSchema;
