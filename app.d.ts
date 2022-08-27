@@ -2,8 +2,10 @@ interface BlogPost {
   id: string;
   title: string;
   date: string;
+  prettyDate: string;
   description: string;
   lastUpdated?: string;
+  prettyLastUpdated?: string;
   externalUrl?: string;
   externalHost?: string;
   slug: string;

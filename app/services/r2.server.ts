@@ -36,7 +36,7 @@ class R2Service {
         Bucket: BUCKET_NAME,
         Key: key,
         Body: Buffer.from(blob),
-        ContentType: res.headers.get("Content-Type") as string
+        ContentType: res.headers.get("Content-Type") as string,
       })
       .promise();
   }

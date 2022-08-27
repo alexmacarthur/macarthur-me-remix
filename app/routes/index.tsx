@@ -20,9 +20,9 @@ export const loader = async () => {
 
   return json({
     featuredPosts: featuredPosts.map((post) => {
-      const { title, views, date, slug } = post.post;
+      const { title, views, date, slug, prettyDate } = post.post;
 
-      return { title, views, date, slug };
+      return { title, views, date, prettyDate, slug };
     }),
   });
 };
@@ -52,7 +52,7 @@ export default function Index() {
 
             <ul className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {featuredPosts.map((post) => {
-                const { title, views, date, slug } = post;
+                const { title, views, date, slug, prettyDate } = post;
                 const postPath = `/posts/${slug}`;
 
                 return (
@@ -66,7 +66,7 @@ export default function Index() {
                           {title}
                         </Link>
                       </h3>
-                      <DateFormatter date={date} />
+                      <DateFormatter prettyDate={prettyDate} date={date} />
                     </div>
 
                     <div className="mt-auto flex items-center justify-between">

@@ -78,14 +78,14 @@ class NotionService {
 
         let key = this.extractKey(url);
 
-        // if (process.env.NODE_ENV === "production") {
-        uploadPromises.push(StaticAssetService.put(url, key));
+        if (process.env.NODE_ENV === "production") {
+          uploadPromises.push(StaticAssetService.put(url, key));
 
-        block.parent = block.parent.replace(
-          /!\[(.*?)\]\((.*)\)/,
-          `![$1](${process.env.SITE_URL}/proxied-image/${key})`
-        );
-        // }
+          block.parent = block.parent.replace(
+            /!\[(.*?)\]\((.*)\)/,
+            `![$1](${process.env.SITE_URL}/proxied-image/${key})`
+          );
+        }
       }
 
       return block;
@@ -183,13 +183,7 @@ class NotionService {
       },
     };
 
-    const postProperties = {
-      title: "",
-      date: "",
-      lastUpdate: "",
-      externalUr: "",
-      slug: "",
-    };
+    const postProperties = {} as any;
 
     const promises = Object.entries(properties).map(async ([name, value]) => {
       const { property, type } = value;
@@ -201,7 +195,10 @@ class NotionService {
         });
 
         if (response.type === "date") {
-          postProperties[name] = response.date?.start;
+          let dateValue = response.date?.start;
+          postProperties[name] = dateValue
+            ? new Date(`${dateValue}T00:00:00.000-05:00`).toISOString()
+            : undefined;
           return resolve(properties[name]);
         }
 
@@ -222,8 +219,21 @@ class NotionService {
       views: "",
       description: generateExcerpt(markdown),
       openGraphImage: cover,
+      prettyDate: this.prettifyDate(postProperties.date),
+      prettyLastUpdated: this.prettifyDate(postProperties.lastUpdated),
       ...postProperties,
-    };
+    } as BlogPost;
+  }
+
+  private prettifyDate(dateString: string): string {
+    const date = new Date(dateString);
+
+    return date.toLocaleString("en-US", {
+      month: "long",
+      day: "2-digit",
+      year: "numeric",
+      timeZone: "UTC",
+    });
   }
 }
 

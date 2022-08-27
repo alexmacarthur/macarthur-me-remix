@@ -57,7 +57,7 @@ export const handle = {
       let postSchema: WithContext<BlogPosting> = {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        // datePublished: new Date(post.date).toISOString(),
+        datePublished: post.date,
         mainEntityOfPage: {
           "@type": "WebPage",
           "@id": url,
@@ -77,8 +77,8 @@ export const handle = {
         postSchema.alternativeHeadline = post.subtitle;
       }
 
-      if (post.lastUpdate) {
-        // postSchema.dateModified = new Date(post.lastUpdate).toISOString();
+      if (post.lastUpdated) {
+        postSchema.dateModified = post.lastUpdated;
       }
 
       return postSchema;
@@ -115,7 +115,7 @@ export default () => {
     jamCommentsDomain,
     jamCommentsApiKey,
   } = data;
-  const { title, date, lastUpdated } = post;
+  const { title, date, lastUpdated, prettyDate } = post;
   const MarkupComponent = useMemo(() => getMDXComponent(code), [code]);
 
   useEffect(() => {
@@ -134,6 +134,7 @@ export default () => {
     <PageLayout narrow={true}>
       <Title
         date={date}
+        prettyDate={prettyDate}
         isPost={true}
         subtitle={post.subtitle}
         lastUpdated={lastUpdated}
